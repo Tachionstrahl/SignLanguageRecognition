@@ -1,0 +1,1 @@
+python build_gpu.py --input_data_path=/home/datagroup/Videos/SL/input/ --output_data_path=/home/datagroup/Videos/SL/output/
