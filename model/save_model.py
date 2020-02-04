@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from __future__ import absolute_import, division, print_function, unicode_literals
 from keras.preprocessing import sequence
 from keras.datasets import imdb
@@ -65,10 +66,10 @@ def load_data(dirname):
 
 def simple_rnn():
     model = Sequential()
-    model.add(SimpleRNN(units=64, input_shape=(260, 42)))
+    model.add(SimpleRNN(units=64, input_shape=(168, 1)))
     model.add(Dense(64, activation="softmax")) #softmax, linear 어떤걸 기준으로 하지
     model.add(Dense(128, activation="linear")) #softmax, linear 어떤걸 기준으로 하지
-    model.add(Dense(21))
+    model.add(Dense(4))
     model.compile(loss='binary_crossentropy',optimizer='adam', metrics=['accuracy'])
     return model
     
@@ -113,6 +114,7 @@ def main(dirname):
     
         print('Training stage')
         print('==============')
+        print(partial_train_data)
         history=model.fit(partial_train_data,partial_train_targets,epochs=3,batch_size=32)
         score, acc = model.evaluate(val_data,val_targets,batch_size=256,verbose=0)
         print('Test performance: accuracy={0}, loss={1}'.format(acc, score))
@@ -123,4 +125,4 @@ def main(dirname):
     #print('Test performance: accuracy={0}, loss={1}'.format(acc, score))
     
 if __name__=='__main__':
-    main("/Users/anna/SLR/seperate/traininput/")
+    main("/home/datagroup/Videos/SL/output/")

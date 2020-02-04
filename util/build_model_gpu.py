@@ -83,10 +83,10 @@ def load_label():
 def main(input_data_path,output_data_path):
 	comp='bazel build -c opt --copt -DMESA_EGL_NO_X11_HEADERS \
     mediapipe/examples/desktop/multi_hand_tracking:multi_hand_tracking_gpu'
-    #명령어 컴파일
+    #Compilation
 	cmd='GLOG_logtostderr=1 bazel-bin/mediapipe/examples/desktop/multi_hand_tracking/multi_hand_tracking_gpu \
     --calculator_graph_config_file=mediapipe/graphs/hand_tracking/multi_hand_tracking_mobile.pbtxt'
-    #미디어 파이프 명령어 저장
+    #Saving media pipe commands
     listfile=os.listdir(input_data_path)
     output_dir=""
     filel=[]
@@ -95,7 +95,7 @@ def main(input_data_path,output_data_path):
             continue
         word=file+'/'
         fullfilename=os.listdir(input_data_path+word)
-        # 하위디렉토리의 모든 비디오들의 이름을 저장
+        # Store the names of all the videos in the subdirectory
         if not(os.path.isdir(output_data_path+"_"+word)):
             os.mkdir(output_data_path+"_"+word)
         if not(os.path.isdir(output_data_path+word)):

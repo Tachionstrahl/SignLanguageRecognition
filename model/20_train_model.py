@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from __future__ import absolute_import, division, print_function, unicode_literals
 from keras.preprocessing import sequence
 from keras.datasets import imdb
@@ -82,7 +83,7 @@ def load_data(dirname):
     encoded=t.texts_to_sequences(Y)
     one_hot=to_categorical(encoded)
     '''
-    text="Apple Bird Blue Cents Child Cow Drink Green Hello Like Metoo No Orange Pig Sorry Thankyou Where Who Yes You"
+    text="Computer Hallo Welt Deutschland"
     t = Tokenizer()
     t.fit_on_texts([text])
     encoded=t.texts_to_sequences([Y])[0]
@@ -133,7 +134,7 @@ def build_model():
                    input_shape=(100, 42)))  # returns a sequence of vectors of dimension 32
     model.add(layers.LSTM(32, return_sequences=True))  # returns a sequence of vectors of dimension 32
     model.add(layers.LSTM(32))  # return a single vector of dimension 32
-    model.add(layers.Dense(21, activation='softmax'))
+    model.add(layers.Dense(5, activation='softmax'))
     model.compile(loss='categorical_crossentropy',
                   optimizer='rmsprop',
                   metrics=['accuracy'])
@@ -164,10 +165,10 @@ def main(dirname):
     history=model.fit(x_train,y_train,epochs=100,batch_size=32,validation_data=(x_test,y_test))
     score, acc = model.evaluate(x_test,y_test,batch_size=32,verbose=0)
     print('Test performance: accuracy={0}, loss={1}'.format(acc, score))
-    model.save('simpleRNN.h5')
+    model.save('simpleRNN2.h5')
 
         #score, acc = model.evaluate(x_test,y_test,batch_size=32)
         #print('Test performance: accuracy={0}, loss={1}'.format(acc, score))
     
 if __name__=='__main__':
-    main("/Users/jongwook/Desktop/traindata/")
+    main("/home/datagroup/Videos/SL/output/")

@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from __future__ import absolute_import, division, print_function, unicode_literals
 from keras.preprocessing import sequence
 from keras.datasets import imdb
@@ -63,7 +64,7 @@ def load_data(dirname):
     #t = Tokenizer()
     #t.fit_on_texts(Y)
     #encoded=t.texts_to_sequences(Y)
-    text="Apple Bird Blue Cents Child Cow Drink Green Hello Like Metoo No Orange Pig Sorry Thankyou Where Who Yes You"
+    text="Computer Hallo Welt Deutschland"
 
     t = Tokenizer()
     t.fit_on_texts([text])
@@ -85,8 +86,7 @@ def load_data(dirname):
 def load_label():
     label = {}
     count = 1
-    listfile=['Apple','Bird','Blue','Cents','Child','Cow','Drink','Green','Hello','Like','Metoo','No',
-              'Orange','Pig','Sorry','Thankyou','Where','Who','Yes','You']
+    listfile=['Computer', 'Hallo', 'Welt', 'Deutschland']
     for l in listfile:
         if "_" in l:
             continue
@@ -96,8 +96,8 @@ def load_label():
 
 
 
-x_test,y_test=load_data("/Users/jongwook/Desktop/testdata/")
-new_model = tf.keras.models.load_model('simpleRNN.h5')
+x_test,y_test=load_data("/home/datagroup/Videos/SL/output/")
+new_model = tf.keras.models.load_model('simpleRNN2.h5')
 new_model.summary()
 
 labels=load_label()

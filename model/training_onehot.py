@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*- 
 from __future__ import absolute_import, division, print_function, unicode_literals
 from keras.preprocessing import sequence
 from keras.datasets import imdb
@@ -65,7 +66,8 @@ def load_data(dirname):
     encoded=t.texts_to_sequences(Y)
     one_hot=to_categorical(encoded)
     '''
-    text="Apple Bird Sorry"
+    text="Computer Deutschland Hallo Welt"
+    print(text)
     t = Tokenizer()
     t.fit_on_texts([text])
     print(t.word_index) 
@@ -116,7 +118,7 @@ def build_model():
                    input_shape=(100, 42)))  # returns a sequence of vectors of dimension 32
     model.add(layers.LSTM(32, return_sequences=True))  # returns a sequence of vectors of dimension 32
     model.add(layers.LSTM(32))  # return a single vector of dimension 32
-    model.add(layers.Dense(4, activation='softmax'))
+    model.add(layers.Dense(5, activation='softmax'))
     model.compile(loss='categorical_crossentropy',
                   optimizer='rmsprop',
                   metrics=['accuracy'])
@@ -153,4 +155,4 @@ def main(dirname):
         #print('Test performance: accuracy={0}, loss={1}'.format(acc, score))
     
 if __name__=='__main__':
-    main("/Users/jongwook/Desktop/test1/outputdata/")
+    main("/home/datagroup/Videos/SL/output/")
