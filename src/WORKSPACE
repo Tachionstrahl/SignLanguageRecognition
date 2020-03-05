@@ -1,12 +1,5 @@
 workspace(name = "src")
 
-# load("@bazel_tools//tools/build_defs/repo:git.bzl", "git_repository")
-# git_repository(
-#     name="mediapipe",
-#     remote="https://github.com/google/mediapipe.git",
-#     branch="master",
-#     init_submodules=1,
-# )
 local_repository(
     name="mediapipe",
     path="../mediapipe",
@@ -24,6 +17,7 @@ load("@bazel_skylib//lib:versions.bzl", "versions")
 versions.check(minimum_bazel_version = "0.24.1",
                maximum_bazel_version = "1.2.1")
 
+# ABSL cpp library lts_2019_08_08.
 # ABSL cpp library lts_2019_08_08.
 http_archive(
     name = "com_google_absl",

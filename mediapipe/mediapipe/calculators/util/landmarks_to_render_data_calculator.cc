@@ -1,5 +1,4 @@
 // Copyright 2019 The MediaPipe Authors.
-// Modifications copyright (C) 2020 <Argo/jongwook>
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -24,19 +23,6 @@
 #include "mediapipe/framework/port/ret_check.h"
 #include "mediapipe/util/color.pb.h"
 #include "mediapipe/util/render_data.pb.h"
-#include <iostream>
-#include <fstream>
-#include <string>
-#include <vector>
-using namespace std;
-extern string input_video_new; //input_path and output_path 
-extern string output_video_new;
-extern int size_argc;
-extern int condition_code;
-static int con_idx2;
-extern vector<pair<float,float>> posl;
-extern bool pcond;
-
 namespace mediapipe {
 
 namespace {
@@ -176,7 +162,6 @@ REGISTER_CALCULATOR(LandmarksToRenderDataCalculator);
   return ::mediapipe::OkStatus();
 }
 
-/*=============================================================*/
 ::mediapipe::Status LandmarksToRenderDataCalculator::Process(
     CalculatorContext* cc) {
   auto render_data = absl::make_unique<RenderData>();
@@ -227,59 +212,7 @@ REGISTER_CALCULATOR(LandmarksToRenderDataCalculator);
     }
     // Only change rendering if there are actually z values other than 0.
     visualize_depth &= ((z_max - z_min) > 1e-3);
-    
-    //get video name from input_file path
-    string str="";
-    if(size_argc==4){
-    	string video_fname="";
-    	bool isTrue=false;
-    	int slx;
-    	//locate the video file name in the input path
-    	for(slx=input_video_new.size()-1;input_video_new[slx]!='/';slx--){
-        	if(isTrue)
-            		video_fname=input_video_new[slx]+video_fname;
-        	if(input_video_new[slx]=='.') isTrue=true;
-    	}
-    	slx--;
-    	//get directory name that store text file from input_file path
-    	string dir_name="/";      
-   	for(;input_video_new[slx]!='/';slx--){
-        	dir_name=input_video_new[slx]+dir_name;
-    	}
-    	
-    	//parameter that store a part of output_file path
-    	string output_path_cp="";
-    	int j=0;
-    	for (;output_video_new[j]!='=';j++);
-    	j++;
-    	for(;output_video_new[j]!='_';j++){
-        	output_path_cp.push_back(output_video_new[j]);
-    	}
-    	//output file path 
-    	str=output_path_cp+dir_name+video_fname+".txt";
-      
-    	//output file open
-    	//ofstream out(str,std::ios_base::out | std::ios_base::app);
-    }
-
-    if(size_argc==4&&condition_code==1&&con_idx2==1){
-        ofstream slt(str,ios_base::out | ios_base::app);
-        for(int i=0;i<landmarks.landmark_size(); ++i){
-            slt<<0.0<<" ";
-            slt<<0.0<<" ";
-        }
-        slt.close();
-    }
-    //cout<<condition_code<<"\n";
-    if(condition_code==2){
-        con_idx2=0;
-    }
-    else if(condition_code==1){
-        con_idx2=1;
-    }
-
     for (int i = 0; i < landmarks.landmark_size(); ++i) {
-        
       const NormalizedLandmark& landmark = landmarks.landmark(i);
       auto* landmark_data_render =
           AddPointRenderData(options_, render_data.get());
@@ -291,26 +224,7 @@ REGISTER_CALCULATOR(LandmarksToRenderDataCalculator);
       landmark_data->set_normalized(true);
       landmark_data->set_x(landmark.x());
       landmark_data->set_y(landmark.y());
-
-      if(size_argc==4){
-        ofstream out(str,ios_base::out | ios_base::app);
-        if(pcond==false){
-            out<<0.5<<" ";
-            out<<0.5<<" ";
-        }
-        else if(pcond==true){
-            out<<static_cast<float>(landmark.x())-posl[i].first+0.5<<" ";
-            out<<static_cast<float>(landmark.y())-posl[i].second+0.5<<" ";
-        }
-        //out<<i<<" : ("<<posl[i].first<<" "<<posl[i].second<<") ";
-        out.close();
-      }
-      posl[i].first=static_cast<float>(landmark.x());
-      posl[i].second=static_cast<float>(landmark.y());
     }
-   
-    pcond=true;
-  
     if (visualize_depth) {
       AddConnectionsWithDepth<NormalizedLandmarkList>(
           landmarks, /*normalized=*/true, z_min, z_max, render_data.get());
@@ -319,7 +233,7 @@ REGISTER_CALCULATOR(LandmarksToRenderDataCalculator);
                                              render_data.get());
     }
   }
-  
+
   cc->Outputs()
       .Tag(kRenderDataTag)
       .Add(render_data.release(), cc->InputTimestamp());

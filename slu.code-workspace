@@ -1,10 +1,13 @@
 {
 	"folders": [
 		{
-			"path": "util"
+			"path": "."
 		},
 		{
-			"path": "."
+			"path": "mediapipe"
+		},
+		{
+			"path": "src"
 		}
 	],
 	"settings": {

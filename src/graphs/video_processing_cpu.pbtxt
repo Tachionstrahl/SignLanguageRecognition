@@ -1,0 +1,16 @@
+input_stream: "input_video"
+output_stream: "output_video"
+
+node {
+  calculator: "DetectionsDesktopCpuSubgraph"
+  input_stream: "input_video"
+  output_stream: "DETECTIONS:output_detections"
+  output_stream: "LANDMARKS:multi_hand_landmarks"
+  output_stream: "IMAGE:output_video"
+}
+
+node {
+  calculator: "DetectionsToCSVCalculator"
+  input_stream: "output_detections"
+  input_stream: "multi_hand_landmarks"
+}

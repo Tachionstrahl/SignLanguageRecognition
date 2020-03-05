@@ -1,9 +1,0 @@
-# Images coming into and out of the graph.
-input_stream: "input_stream"
-output_stream: "output_stream"
-
-node {
-   calculator: "DetectionsToCsvCalculator"
-   input_stream: "input_stream"
-   output_stream: "output_stream"
- }
