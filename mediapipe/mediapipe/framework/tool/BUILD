@@ -25,10 +25,11 @@ load(
 
 licenses(["notice"])  # Apache 2.0
 
-package(default_visibility = ["//visibility:private"])
+package(default_visibility = ["//visibility:public"])
 
 exports_files([
     "simple_subgraph_template.cc",
+    "mediapipe_graph.bzl"
 ])
 
 cc_library(
