@@ -18,7 +18,7 @@ load("//mediapipe/framework/port:build_config.bzl", "mediapipe_cc_proto_library"
 
 licenses(["notice"])  # Apache 2.0
 
-package(default_visibility = ["//visibility:private"])
+package(default_visibility = ["//visibility:public"])
 
 package_group(
     name = "mediapipe_internal",
@@ -31,6 +31,7 @@ package_group(
 exports_files([
     "transitive_protos.bzl",
     "encode_binary_proto.bzl",
+    "mediapipe_graph.bzl"
 ])
 
 proto_library(
