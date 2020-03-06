@@ -32,4 +32,4 @@
 *.app
 
 #Bazel outputs
-**/bazel-*/**
+**/bazel-*/
