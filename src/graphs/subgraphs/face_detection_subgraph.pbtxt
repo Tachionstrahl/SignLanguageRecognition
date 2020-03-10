@@ -8,8 +8,8 @@
 type: "FaceDetectionSubgraph"
 
 input_stream: "input_video"
-output_stream: "render_data_face"
-output_stream: "output_detections"
+output_stream: "RENDER_DATA:render_data_face"
+output_stream: "DETECTIONS:output_detections"
 
 # Transforms the input image on GPU to a 128x128 image. To scale the input
 # image, the scale_mode option is set to FIT to preserve the aspect ratio,
@@ -154,13 +154,6 @@ node {
     }
   }
 }
-#asdasd
-#node {
-# calculator: "AnnotationOverlayCalculator"
-# input_stream: "INPUT_FRAME_GPU:input_video"
-#  input_stream: "render_data"
-#  output_stream: "OUTPUT_FRAME_GPU:output_video"
-#}
 
 
 

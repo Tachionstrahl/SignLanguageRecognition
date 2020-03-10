@@ -4,7 +4,7 @@
     "version": "2.0.0",
     "tasks": [
         {
-            "label": "bazel build src//:video_processing_gpu",
+            "label": "bazel build video_processing_gpu",
             "type": "shell",
             "command": "bazel",
             "args": [
@@ -14,7 +14,7 @@
                 "--copt",
                 "-DMESA_EGL_NO_X11_HEADERS",
                 "--compilation_mode=dbg",
-                "src/app:files_to_csv_gpu"
+                "app:files_to_csv_gpu"
             ],
             "group": "build",
             "problemMatcher": [

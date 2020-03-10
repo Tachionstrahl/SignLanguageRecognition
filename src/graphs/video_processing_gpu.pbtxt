@@ -11,6 +11,6 @@ node {
 
 node {
   calculator: "DetectionsToCSVCalculator"
-  input_stream: "output_detections"
-  input_stream: "multi_hand_landmarks"
+  input_stream: "DETECTIONS:output_detections"
+  input_stream: "NORM_LANDMARKS:multi_hand_landmarks"
 }

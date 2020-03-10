@@ -8,16 +8,12 @@
             "name": "Launch video_processing_gpu",
             "type": "cppdbg",
             "request": "launch",
-            "program": "${workspaceFolder}/src/bazel-bin/app/files_to_csv_gpu",
+            "program": "${workspaceFolder}/bazel-bin/app/files_to_csv_gpu",
             "args": [
-                "--calculator_graph_config_file=${workspaceFolder}/src/graphs/video_processing_gpu.pbtxt"
+                "--calculator_graph_config_file=${workspaceFolder}/graphs/video_processing_gpu.pbtxt"
             ],
             "stopAtEntry": false,
-            "cwd": "${workspaceFolder}/src",
-            "symbolLoadInfo": {
-                "loadAll": true,
-                "exceptionList": ""
-            },
+            "cwd": "${workspaceFolder}",
             "environment": [],
             "externalConsole": false,
             "MIMode": "gdb",
@@ -28,7 +24,7 @@
                     "ignoreFailures": true
                 }
             ],
-            //"preLaunchTask": "bazel build video_processing_gpu"
+            "preLaunchTask": "bazel build video_processing_gpu"
         } 
         
     ]

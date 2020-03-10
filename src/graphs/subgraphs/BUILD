@@ -29,11 +29,11 @@ mediapipe_simple_subgraph(
     graph = "detections_gpu.pbtxt",
     register_as = "DetectionsGPUSubgraph",
     deps = [
+        ":hand_and_face_renderer_gpu",
         ":face_detection_subgraph",
-        "@mediapipe//mediapipe/examples/desktop:demo_run_graph_main",
-        "@mediapipe//mediapipe/graphs/hand_tracking:multi_hand_desktop_tflite_calculators",
-        "@mediapipe//mediapipe/graphs/face_detection:desktop_tflite_calculators",
-        "@mediapipe//mediapipe/calculators/core:merge_calculator",
+        #"@mediapipe//mediapipe/examples/desktop:demo_run_graph_main_gpu",
+        "@mediapipe//mediapipe/graphs/hand_tracking:multi_hand_mobile_calculators",
+        "@mediapipe//mediapipe/graphs/face_detection:mobile_calculators"
     ],
 )
 
@@ -56,4 +56,18 @@ mediapipe_simple_subgraph(
         "@mediapipe//mediapipe/gpu:gpu_buffer_to_image_frame_calculator",
         "@mediapipe//mediapipe/gpu:image_frame_to_gpu_buffer_calculator",
 	],
+)
+
+mediapipe_simple_subgraph(
+    name = "hand_and_face_renderer_gpu",
+    graph = "hand_and_face_renderer_gpu.pbtxt",
+    register_as = "HandAndFaceRendererSubgraph",
+    deps = [
+        "@mediapipe//mediapipe/calculators/core:begin_loop_calculator",
+        "@mediapipe//mediapipe/calculators/core:end_loop_calculator",
+        "@mediapipe//mediapipe/calculators/util:annotation_overlay_calculator",
+        "@mediapipe//mediapipe/calculators/util:detections_to_render_data_calculator",
+        "@mediapipe//mediapipe/calculators/util:landmarks_to_render_data_calculator",
+        "@mediapipe//mediapipe/calculators/util:rect_to_render_data_calculator",
+    ],
 )
