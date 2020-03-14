@@ -4,9 +4,6 @@
 			"path": "."
 		},
 		{
-			"path": "mediapipe"
-		},
-		{
 			"path": "src"
 		}
 	],
