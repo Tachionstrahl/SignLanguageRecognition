@@ -12,7 +12,7 @@ cc_binary(
 cc_binary(
     name = "files_to_csv_gpu",
     deps = [
-        ":demo_run_graph_main_gpu",
+        ":run_graph_main_gpu",
         "//graphs/subgraphs:detections_gpu",
         "//calculators:detections_to_csv_calculator"
     ],
@@ -23,8 +23,8 @@ cc_binary(
 # ex: sudo apt-get install mesa-common-dev libegl1-mesa-dev libgles2-mesa-dev
 # (or similar nvidia/amd equivalent)
 cc_library(
-    name = "demo_run_graph_main_gpu",
-    srcs = ["demo_run_graph_main_gpu.cc"],
+    name = "run_graph_main_gpu",
+    srcs = ["run_graph_main_gpu.cc"],
     deps = [
         "@mediapipe//mediapipe/framework:calculator_framework",
         "@mediapipe//mediapipe/framework/formats:image_frame",

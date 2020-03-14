@@ -15,6 +15,9 @@
 // An example of sending OpenCV webcam frames into a MediaPipe graph.
 // This example requires a linux computer and a GPU with EGL support drivers.
 #include <cstdlib>
+#include <sys/types.h>
+#include <dirent.h>
+#include <iostream>
 
 #include "mediapipe/framework/calculator_framework.h"
 #include "mediapipe/framework/formats/image_frame.h"
@@ -32,7 +35,7 @@
 
 constexpr char kInputStream[] = "input_video";
 constexpr char kOutputStream[] = "output_video";
-constexpr char kWindowName[] = "MediaPipe";
+constexpr char kWindowName[] = "MarceloPipe";
 
 DEFINE_string(
     calculator_graph_config_file, "",
@@ -178,9 +181,33 @@ DEFINE_string(output_video_path, "",
   return graph.WaitUntilDone();
 }
 
+void GetFiles(const std::string& name, std::vector<std::string>& v)
+{
+    DIR* dirp = opendir(name.c_str());
+    struct dirent * dp;
+    while ((dp = readdir(dirp)) != NULL) {
+        if (!(dp->d_name[0] == '.'))
+          v.push_back(name + "/" + dp->d_name);
+    }
+    closedir(dirp);
+}
+
 int main(int argc, char** argv) {
   google::InitGoogleLogging(argv[0]);
   gflags::ParseCommandLineFlags(&argc, &argv, true);
+
+  auto words = std::vector<std::string>();
+  GetFiles(FLAGS_input_video_path, words);
+
+  for (auto& w : words)
+  {
+    auto files = std::vector<std::string>();
+    GetFiles(w, files);
+
+    for (auto& f : files)
+      std::cout << "=> " << f << std::endl;
+  }
+
   ::mediapipe::Status run_status = RunMPPGraph();
   if (!run_status.ok()) {
     LOG(ERROR) << "Failed to run the graph: " << run_status.message();
