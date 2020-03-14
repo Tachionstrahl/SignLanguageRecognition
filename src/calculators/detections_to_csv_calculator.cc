@@ -42,12 +42,20 @@ public:
         std::vector<float> coordinates = {};
         const std::vector<Detection> &faceDetections =
             cc->Inputs().Tag(kFaceDetectionsTag).Get<std::vector<Detection>>();
+        if (!faceDetections.size()) {
+            return OkStatus();
+        }
         const Detection &face = faceDetections[0];
-        coordinates.push_back(face.location_data().relative_keypoints(0).x());
+        LocationData locationData = face.location_data();
+        int kpSize = locationData.relative_keypoints_size();
+        if (!kpSize) {
+            return OkStatus();
+        }
+        float faceX = face.location_data().relative_keypoints(0).x();
+        coordinates.push_back(faceX);
         coordinates.push_back(face.location_data().relative_keypoints(0).y());
         const std::vector<NormalizedLandmarkList> &multiHandLandmarks =
             cc->Inputs().Tag(kLandmarksTag).Get<std::vector<NormalizedLandmarkList>>();
-        RET_CHECK_LE(multiHandLandmarks.size(), 2) << "Too much hands";
         cout << "Anzahl Hände: " << multiHandLandmarks.size() << endl;
         for (NormalizedLandmarkList landmarks : multiHandLandmarks)
         {
@@ -57,15 +65,16 @@ public:
                 const NormalizedLandmark &landmark = landmarks.landmark(i);
                 coordinates.push_back(landmark.x());
                 coordinates.push_back(landmark.y());
-                cout << "X: " << landmark.x();
-                cout << "Y: " << landmark.y();
+                // cout << "X: " << landmark.x();
+                // cout << "Y: " << landmark.y();
             }
         }
 
-        if (coordinates.size() == 44)
+        if (coordinates.size() == 44 || coordinates.size() == 86)
         {
             for (int i = 0; i < coordinates.size(); i++)
             {
+                cout << "Schreibe... [" << i << "]";
                 csvFile << coordinates[i];
                 if (i < coordinates.size() - 1)
                 {
@@ -73,6 +82,8 @@ public:
                 }
             }
             csvFile << endl;
+        } else {
+            cout << "Koordinaten: " << coordinates.size();
         }
         coordinates.clear();
         return OkStatus();
@@ -80,6 +91,7 @@ public:
     Status Close(CalculatorContext *cc) final
     {
         csvFile.close();
+        return OkStatus();
     }
 };
 
