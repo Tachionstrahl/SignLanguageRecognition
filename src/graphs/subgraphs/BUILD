@@ -6,9 +6,9 @@ load(
 package(default_visibility = ["//visibility:public"])
 
 mediapipe_simple_subgraph(
-    name = "detections_desktop_cpu",
-    graph = "detections_desktop_cpu.pbtxt",
-    register_as = "DetectionsDesktopCpuSubgraph",
+    name = "detections_cpu",
+    graph = "detections_cpu.pbtxt",
+    register_as = "DetectionsCpuSubgraph",
     deps = [
         "@mediapipe//mediapipe/examples/desktop:demo_run_graph_main",
         "@mediapipe//mediapipe/graphs/hand_tracking:multi_hand_desktop_tflite_calculators",
@@ -31,7 +31,6 @@ mediapipe_simple_subgraph(
     deps = [
         ":hand_and_face_renderer_gpu",
         ":face_detection_subgraph",
-        #"@mediapipe//mediapipe/examples/desktop:demo_run_graph_main_gpu",
         "@mediapipe//mediapipe/graphs/hand_tracking:multi_hand_mobile_calculators",
         "@mediapipe//mediapipe/graphs/face_detection:mobile_calculators"
     ],

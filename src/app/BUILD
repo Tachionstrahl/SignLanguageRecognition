@@ -4,7 +4,7 @@ cc_binary(
     name = "files_to_csv_cpu",
     deps = [
         "@mediapipe//mediapipe/examples/desktop:demo_run_graph_main",
-        "//graphs/subgraphs:detections_desktop_cpu",
+        "//graphs/subgraphs:detections_cpu",
         "//calculators:detections_to_csv_calculator"
     ],
 )

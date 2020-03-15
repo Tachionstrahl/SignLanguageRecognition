@@ -1,4 +1,4 @@
-type: "DetectionsDesktopCpuSubgraph"
+type: "DetectionsCpuSubgraph"
 
 
 # Images coming into and out of the graph.
