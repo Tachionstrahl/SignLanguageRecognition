@@ -10,7 +10,9 @@
             "request": "launch",
             "program": "${workspaceFolder}/bazel-bin/app/files_to_csv_gpu",
             "args": [
-                "--calculator_graph_config_file=${workspaceFolder}/graphs/video_processing_gpu.pbtxt"
+                "--calculator_graph_config_file=${workspaceFolder}/graphs/video_processing_gpu.pbtxt",
+                "--input_video_path=/home/datagroup/Videos/SL/input",
+
             ],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",

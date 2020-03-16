@@ -19,6 +19,8 @@
 #include <dirent.h>
 #include <iostream>
 
+#include "boost/filesystem.hpp"
+namespace fs = boost::filesystem;
 #include "mediapipe/framework/calculator_framework.h"
 #include "mediapipe/framework/formats/image_frame.h"
 #include "mediapipe/framework/formats/image_frame_opencv.h"
@@ -183,6 +185,9 @@ DEFINE_string(output_video_path, "",
 
 void GetFiles(const std::string& name, std::vector<std::string>& v)
 {
+    fs::path p (name);
+    for (fs::directory_entry& x : fs::directory_iterator(p))
+          std::cout << "    " << x.path() << '\n';
     DIR* dirp = opendir(name.c_str());
     struct dirent * dp;
     while ((dp = readdir(dirp)) != NULL) {

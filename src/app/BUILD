@@ -26,6 +26,7 @@ cc_library(
     name = "run_graph_main_gpu",
     srcs = ["run_graph_main_gpu.cc"],
     deps = [
+        "@boost//:filesystem",
         "@mediapipe//mediapipe/framework:calculator_framework",
         "@mediapipe//mediapipe/framework/formats:image_frame",
         "@mediapipe//mediapipe/framework/formats:image_frame_opencv",

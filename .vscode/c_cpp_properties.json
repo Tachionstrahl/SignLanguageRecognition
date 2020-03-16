@@ -3,12 +3,13 @@
         {
             "name": "Linux",
             "includePath": [
-                "${workspaceFolder}/**"
+                "${workspaceFolder}/**",
+                "/home/datagroup/.cache/bazel/_bazel_datagroup/8e76adbb9fb9697143895a90fdf45a39/external/boost"
             ],
             "defines": [],
             "compilerPath": "/usr/bin/gcc",
             "cStandard": "c11",
-            "cppStandard": "c++17",
+            "cppStandard": "c++14",
             "intelliSenseMode": "clang-x64"
         }
     ],
