@@ -1,10 +1,7 @@
 # SignLanguageRecognition
- Dies ist unser eigenes modifiziertes Projekt.
- Dies enthält grundlegend die Skripte von rabBit64 (Korean Project) und ebenfalls einen kompletten Stand von MediaPipe.
- 
-
-## Zielsetzung 1
-MediaPipe zu nutzen, um die aufgenommenen Training-Videos in Zahlenkolonnen zu wandeln.
+Video processing using MediaPipe for different approaches.
+## Detections to CSV
+For extracting multi hand and face detections and saving them to a CSV file, we implemented the `DetectionsToCSVCalculator`.
 
 
 ## Zielsetzung 2
