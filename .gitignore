@@ -33,3 +33,5 @@
 
 #Bazel outputs
 **/bazel-*/
+
+input/

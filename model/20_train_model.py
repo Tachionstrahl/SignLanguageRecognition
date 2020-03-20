@@ -44,13 +44,13 @@ def load_data(dirname):
                 #print(len(numbers[0]))
                 for i in range(len(numbers),12600):
                     numbers.extend([0.000]) #300 frame 고정
-            row=42*8#앞의 8프레임 제거
+            row=42*8#Remove the previous 8 frames
             landmark_frame=[]
-            for i in range(0,100):#뒤의 142프레임제거==> 총 150프레임으로 고정
+            for i in range(0,100):#Remove 142 frames at the back ==> Fixed at a total of 150 frames
                 landmark_frame.extend(numbers[row:row+42])
                 row += 42
             landmark_frame=np.array(landmark_frame)
-            landmark_frame=list(landmark_frame.reshape(-1,42))#2차원으로 변환(260*42)
+            landmark_frame=list(landmark_frame.reshape(-1,42))#Convert to 2D (260 * 42)
             if (k%3==2):
                 XT.append(np.array(landmark_frame))
                 YT.append(wordname)
