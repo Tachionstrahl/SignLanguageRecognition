@@ -12,7 +12,7 @@ node {
 
 node {
   calculator: "DetectionsToCSVCalculator"
-  input_side_packet: "CSV_OUTPUT_FILE_PATH: output_file"
+  input_side_packet: "CSV_OUTPUT_FILE_PATH:output_file"
   input_stream: "DETECTIONS:output_detections"
   input_stream: "NORM_LANDMARKS:multi_hand_landmarks"
 }

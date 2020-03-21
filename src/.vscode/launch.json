@@ -12,7 +12,7 @@
             "args": [
                 "--calculator_graph_config_file=${workspaceFolder}/graphs/video_processing_gpu.pbtxt",
                 "--input_video_path=/home/datagroup/Videos/SL/input",
-
+                "--output_video_path=/home/datagroup/Videos/SL/output"
             ],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",

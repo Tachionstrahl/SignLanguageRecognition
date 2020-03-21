@@ -20,7 +20,7 @@
 #include <iostream>
 
 #include "boost/filesystem.hpp"
-namespace fs = boost::filesystem;
+
 #include "mediapipe/framework/calculator_framework.h"
 #include "mediapipe/framework/formats/image_frame.h"
 #include "mediapipe/framework/formats/image_frame_opencv.h"
@@ -35,8 +35,10 @@ namespace fs = boost::filesystem;
 #include "mediapipe/gpu/gpu_buffer.h"
 #include "mediapipe/gpu/gpu_shared_data_internal.h"
 
+namespace fs = boost::filesystem;
 constexpr char kInputStream[] = "input_video";
 constexpr char kOutputStream[] = "output_video";
+constexpr char kCSVFilepathStream[] = "output_file";
 constexpr char kWindowName[] = "MarceloPipe";
 
 DEFINE_string(
@@ -49,7 +51,7 @@ DEFINE_string(output_video_path, "",
               "Full path of where to save result (.mp4 only). "
               "If not provided, show result in a window.");
 
-::mediapipe::Status RunMPPGraph() {
+::mediapipe::Status RunMPPGraph(const std::string &csvPath, const std::string &mp4OutputPath, const std::string &mp4InputPath) {
   std::string calculator_graph_config_contents;
   MP_RETURN_IF_ERROR(mediapipe::file::GetContents(
       FLAGS_calculator_graph_config_file, &calculator_graph_config_contents));
@@ -71,9 +73,9 @@ DEFINE_string(output_video_path, "",
 
   LOG(INFO) << "Initialize the camera or load the video.";
   cv::VideoCapture capture;
-  const bool load_video = !FLAGS_input_video_path.empty();
+  const bool load_video = !mp4InputPath.empty();
   if (load_video) {
-    capture.open(FLAGS_input_video_path);
+    capture.open(mp4InputPath);
   } else {
     capture.open(0);
   }
@@ -89,11 +91,13 @@ DEFINE_string(output_video_path, "",
     capture.set(cv::CAP_PROP_FPS, 30);
 #endif
   }
-
   LOG(INFO) << "Start running the calculator graph.";
   ASSIGN_OR_RETURN(mediapipe::OutputStreamPoller poller,
                    graph.AddOutputStreamPoller(kOutputStream));
-  MP_RETURN_IF_ERROR(graph.StartRun({}));
+  auto csv_path_packet =  mediapipe::MakePacket<std::string>(csvPath);
+  std::map<std::string, mediapipe::Packet> side_packets;
+  side_packets[kCSVFilepathStream] = csv_path_packet;
+  MP_RETURN_IF_ERROR(graph.StartRun(side_packets));
 
   LOG(INFO) << "Start grabbing and processing frames.";
   bool grab_frames = true;
@@ -163,7 +167,7 @@ DEFINE_string(output_video_path, "",
     if (save_video) {
       if (!writer.isOpened()) {
         LOG(INFO) << "Prepare video writer.";
-        writer.open(FLAGS_output_video_path,
+        writer.open(mp4OutputPath,
                     mediapipe::fourcc('a', 'v', 'c', '1'),  // .mp4
                     capture.get(cv::CAP_PROP_FPS), output_frame_mat.size());
         RET_CHECK(writer.isOpened());
@@ -183,42 +187,54 @@ DEFINE_string(output_video_path, "",
   return graph.WaitUntilDone();
 }
 
-void GetFiles(const std::string& name, std::vector<std::string>& v)
-{
-    fs::path p (name);
-    for (fs::directory_entry& x : fs::directory_iterator(p))
-          std::cout << "    " << x.path() << '\n';
-    DIR* dirp = opendir(name.c_str());
-    struct dirent * dp;
-    while ((dp = readdir(dirp)) != NULL) {
-        if (!(dp->d_name[0] == '.'))
-          v.push_back(name + "/" + dp->d_name);
-    }
-    closedir(dirp);
+::mediapipe::Status CheckInputPath(fs::path &inputPath) {
+  RET_CHECK(fs::exists(inputPath)) << "Provided input directory does not exist";
+  RET_CHECK(fs::is_directory(inputPath)) << "Provided input path is not a directory";
+  return mediapipe::OkStatus();
 }
+
 
 int main(int argc, char** argv) {
   google::InitGoogleLogging(argv[0]);
   gflags::ParseCommandLineFlags(&argc, &argv, true);
 
-  auto words = std::vector<std::string>();
-  GetFiles(FLAGS_input_video_path, words);
+  if (!FLAGS_input_video_path.empty() && !FLAGS_output_video_path.empty())
+    {
+        fs::path inputPath(FLAGS_input_video_path);
+        mediapipe::Status path_status = CheckInputPath(inputPath);
+        if (!CheckInputPath(inputPath).ok()) {
+          return EXIT_FAILURE;
+        }
 
-  for (auto& w : words)
-  {
-    auto files = std::vector<std::string>();
-    GetFiles(w, files);
+        fs::path outputRootDirectory(FLAGS_output_video_path);
+        for (fs::directory_entry &entry : fs::recursive_directory_iterator(inputPath))
+        {
+            fs::path inputFilepath = entry.path();
+            auto file_ext = fs::extension(inputFilepath);
+            if (fs::is_regular_file(inputFilepath) && file_ext == ".mp4")
+            {
+                auto parentDirectory = inputFilepath.parent_path().filename();
+                auto outputFileName = inputFilepath.filename();
+                auto outputMp4FilePath = outputRootDirectory / "mp4" / parentDirectory / outputFileName;
+                outputFileName.replace_extension(".csv");
+                fs::path outputCsvFilePath = outputRootDirectory / "csv" / parentDirectory / outputFileName;
+                fs::create_directories(outputCsvFilePath.parent_path());
+                fs::create_directories(outputMp4FilePath.parent_path());
+                std::cout << outputMp4FilePath << std::endl;
+                std::cout << outputCsvFilePath << std::endl;
+                ::mediapipe::Status run_status = RunMPPGraph(outputCsvFilePath.string(), outputMp4FilePath.string(), inputFilepath.string());
+                if (!run_status.ok()) {
+                  LOG(ERROR) << "Failed to run the graph: " << run_status.message();
+                  return EXIT_FAILURE;
+                } else {
+                  LOG(INFO) << "Success!";
+                }
 
-    for (auto& f : files)
-      std::cout << "=> " << f << std::endl;
-  }
+            }
+        }
+    }
 
-  ::mediapipe::Status run_status = RunMPPGraph();
-  if (!run_status.ok()) {
-    LOG(ERROR) << "Failed to run the graph: " << run_status.message();
-    return EXIT_FAILURE;
-  } else {
-    LOG(INFO) << "Success!";
-  }
+  
+  
   return EXIT_SUCCESS;
 }
