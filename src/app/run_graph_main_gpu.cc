@@ -195,6 +195,7 @@ DEFINE_string(output_video_path, "",
 
 
 int main(int argc, char** argv) {
+  std::cout << "Started program.";
   google::InitGoogleLogging(argv[0]);
   gflags::ParseCommandLineFlags(&argc, &argv, true);
 
@@ -202,7 +203,8 @@ int main(int argc, char** argv) {
     {
         fs::path inputPath(FLAGS_input_video_path);
         mediapipe::Status path_status = CheckInputPath(inputPath);
-        if (!CheckInputPath(inputPath).ok()) {
+        if (!path_status.ok()) {
+          LOG(ERROR) << "Input path not valid: " << path_status.message();
           return EXIT_FAILURE;
         }
 

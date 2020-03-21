@@ -17,7 +17,7 @@
 `GLOG_logtostderr=1 bazel-bin/app/files_to_csv_gpu --calculator_graph_config_file=graphs/video_processing_gpu.pbtxt`
 #### Options
 Processing Videos in a given directory requires two arguments:
-1. The input root directory containing subdirectories with .mp4 files. `--input_video_path=/home/Videos/SL/input`
+1. The input root directory containing subdirectories with .mp4 files. `--input_video_path=/home/datagroup/Videos/SL/input`
    Example for a structure: 
    ```
    input
@@ -29,4 +29,4 @@ Processing Videos in a given directory requires two arguments:
     -- word_three
         -- file_four.mp4
    ```
-2. The ouput root directory. Can be empty. `--output_video_path="/home/Videos/SL/input`
+2. The ouput root directory. Can be empty. `--output_video_path=/home/datagroup/Videos/SL/output`

@@ -20,7 +20,6 @@ public:
     std::fstream csvFile;
     static Status GetContract(CalculatorContract *cc)
     {
-        puts("GetContract called.");
         RET_CHECK(cc->Inputs().HasTag(kLandmarksTag)) << "No input has the label " << kLandmarksTag << ".";
         RET_CHECK(cc->Inputs().HasTag(kFaceDetectionsTag)) << "No input has the label " << kFaceDetectionsTag << ".";
         cc->Inputs().Tag(kLandmarksTag).Set<std::vector<NormalizedLandmarkList>>();
@@ -31,7 +30,6 @@ public:
 
     Status Open(CalculatorContext *cc) final
     {
-        puts("Open called.");
         if (csvFile.is_open()) {
             csvFile.flush();
             csvFile.close();
@@ -45,8 +43,6 @@ public:
 
     Status Process(CalculatorContext *cc) final
     {
-        puts("Process called");
-
         std::vector<float> coordinates = {};
         const std::vector<Detection> &faceDetections =
             cc->Inputs().Tag(kFaceDetectionsTag).Get<std::vector<Detection>>();
@@ -66,17 +62,13 @@ public:
         coordinates.push_back(face.location_data().relative_keypoints(0).y());
         const std::vector<NormalizedLandmarkList> &multiHandLandmarks =
             cc->Inputs().Tag(kLandmarksTag).Get<std::vector<NormalizedLandmarkList>>();
-        cout << "Anzahl Hände: " << multiHandLandmarks.size() << endl;
         for (NormalizedLandmarkList landmarks : multiHandLandmarks)
         {
-            cout << "Landmark size: " << landmarks.landmark_size() << endl;
             for (int i = 0; i < landmarks.landmark_size(); ++i)
             {
                 const NormalizedLandmark &landmark = landmarks.landmark(i);
                 coordinates.push_back(landmark.x());
                 coordinates.push_back(landmark.y());
-                // cout << "X: " << landmark.x();
-                // cout << "Y: " << landmark.y();
             }
         }
 
@@ -84,7 +76,6 @@ public:
         {
             for (int i = 0; i < coordinates.size(); i++)
             {
-                cout << "Schreibe... [" << i << "]";
                 csvFile << coordinates[i];
                 if (i < coordinates.size() - 1)
                 {
@@ -92,10 +83,6 @@ public:
                 }
             }
             csvFile << endl;
-        }
-        else
-        {
-            cout << "Koordinaten: " << coordinates.size();
         }
         coordinates.clear();
         return OkStatus();
