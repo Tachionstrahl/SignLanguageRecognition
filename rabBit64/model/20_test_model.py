@@ -96,7 +96,7 @@ def load_label():
 
 
 
-x_test,y_test=load_data("/home/datagroup/Videos/SL/output/")
+x_test,y_test=load_data("/home/datagroup/Videos/SL/output/old/")
 new_model = tf.keras.models.load_model('simpleRNN2.h5')
 new_model.summary()
 
