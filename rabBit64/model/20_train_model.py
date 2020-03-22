@@ -41,14 +41,16 @@ def load_data(dirname):
             #print(textname)
             with open(textname, mode = 'r') as t:
                 numbers = [float(num) for num in t.read().split()]
-                #print(len(numbers[0]))
+                print(len(numbers))
                 for i in range(len(numbers),12600):
-                    numbers.extend([0.000]) #300 frame 고정
+                    numbers.extend([0.000]) #300 frame fixing
+                print(len(numbers))
             row=42*8#Remove the previous 8 frames
             landmark_frame=[]
             for i in range(0,100):#Remove 142 frames at the back ==> Fixed at a total of 150 frames
                 landmark_frame.extend(numbers[row:row+42])
                 row += 42
+            print(len(landmark_frame))
             landmark_frame=np.array(landmark_frame)
             landmark_frame=list(landmark_frame.reshape(-1,42))#Convert to 2D (260 * 42)
             if (k%3==2):
@@ -171,4 +173,4 @@ def main(dirname):
         #print('Test performance: accuracy={0}, loss={1}'.format(acc, score))
     
 if __name__=='__main__':
-    main("/home/datagroup/Videos/SL/output/")
+    main("/home/datagroup/Videos/SL/output/old/")

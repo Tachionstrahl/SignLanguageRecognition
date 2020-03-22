@@ -5,6 +5,13 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "name": "Python: Aktuelle Datei",
+            "type": "python",
+            "request": "launch",
+            "program": "${file}",
+            "console": "integratedTerminal"
+        },
+        {
             "name": "Launch video_processing_gpu",
             "type": "cppdbg",
             "request": "launch",
@@ -30,7 +37,6 @@
                 }
             ],
             //"preLaunchTask": "bazel build video_processing_gpu"
-        } 
-        
+        }
     ]
 }
