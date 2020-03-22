@@ -29,4 +29,8 @@ Processing Videos in a given directory requires two arguments:
     -- word_three
         -- file_four.mp4
    ```
+<<<<<<< HEAD
 2. The ouput root directory. Can be empty. `--output_video_path=/home/datagroup/Videos/SL/output`
+=======
+2. The ouput root directory. Can be empty. `--output_video_path="/home/Videos/SL/output`
+>>>>>>> master
