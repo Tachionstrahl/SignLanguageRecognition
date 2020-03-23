@@ -31,7 +31,15 @@
 *.out
 *.app
 
-#Bazel outputs
+# Bazel outputs
 **/bazel-*/
 
-input/
+# Jupyter notebook
+**/.ipynb_checkpoints/
+
+# VS Code
+**/.vscode/*
+*.code-workspace
+
+# Python
+**/__pycache__/

@@ -35,7 +35,7 @@ def bidirectional_lstm():
 def build_model():
     model = Sequential()
     model.add(layers.LSTM(64, return_sequences=True,
-                   input_shape=(100, 42)))  # returns a sequence of vectors of dimension 32
+                   input_shape=(100, 86)))  # returns a sequence of vectors of dimension 32
     model.add(layers.LSTM(32, return_sequences=True))  # returns a sequence of vectors of dimension 32
     model.add(layers.LSTM(32))  # return a single vector of dimension 32
     model.add(layers.Dense(5, activation='softmax'))
