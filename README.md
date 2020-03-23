@@ -1,14 +1,19 @@
 # SignLanguageRecognition
+
 Video processing using MediaPipe for different approaches.
-## Detections to CSV
+Includes also RNN model lab.
+
+## 1. Detections to CSV
+
 For extracting multi hand and face detections and saving them to a CSV file, we implemented the `DetectionsToCSVCalculator`.
 
+## 2. Building RNN Model
 
-## Zielsetzung 2
-Für MediaPipe einen eigenen Graphen entwickeln, um aus Live-Bild mit dem trainierten RNN einen Prototypen für eine Prediction App zu bauen.
+The CSV files are used to train a deep learning model.
+Therefore we use jupyter notebooks to simply write and comment a script.
+Check out the folder `lab`.
 
+## 3. Live prediction
 
-# Anleitung
-
-## 1. Videos aufnehmen
-## To be continued...
+The trained model is used for predicting live video stream.
+`To be continued`
