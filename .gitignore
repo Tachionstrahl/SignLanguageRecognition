@@ -42,4 +42,4 @@
 *.code-workspace
 
 # Python
-**/__pycache__/
+**/__pycache__
