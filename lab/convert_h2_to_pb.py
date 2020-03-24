@@ -8,7 +8,7 @@ import tensorflow as tf
 from keras.models import load_model
 model = load_model('LSTM.h5')
 
-model_builder = tf.saved_model.builder.SavedModelBuilder("exported_model2")
+model_builder = tf.saved_model.builder.SavedModelBuilder("exported_model")
 
 inputs = {
     'input': tf.saved_model.utils.build_tensor_info(model.input)
