@@ -14,3 +14,16 @@ cc_library(
     ],
     alwayslink = 1,
 )
+
+cc_library(
+    name = "text_to_render_data_calculator",
+    srcs = ["text_to_render_data_calculator.cc"],
+    visibility = ["//visibility:public"],
+    deps = [
+        "@mediapipe//mediapipe/framework:calculator_framework",
+        "@mediapipe//mediapipe/framework/port:status",
+        "@mediapipe//mediapipe/util:color_cc_proto",
+        "@mediapipe//mediapipe/util:render_data_cc_proto",
+    ],
+    alwayslink = 1,
+)

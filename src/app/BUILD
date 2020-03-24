@@ -18,6 +18,15 @@ cc_binary(
     ],
 )
 
+cc_binary(
+    name = "prediction_gpu",
+    deps = [
+        "@mediapipe//mediapipe/examples/desktop:demo_run_graph_main_gpu",
+        "@mediapipe//mediapipe/calculators/util:annotation_overlay_calculator",
+        "//calculators:text_to_render_data_calculator"
+    ]
+)
+
 # Linux only.
 # Must have a GPU with EGL support:
 # ex: sudo apt-get install mesa-common-dev libegl1-mesa-dev libgles2-mesa-dev
