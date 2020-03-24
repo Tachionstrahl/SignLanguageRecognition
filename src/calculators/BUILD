@@ -27,3 +27,19 @@ cc_library(
     ],
     alwayslink = 1,
 )
+
+cc_library(
+    name = "sign_language_prediction_calculator",
+    srcs = ["sign_language_prediction_calculator.cc"],
+    visibility = [
+        "//visibility:public",
+    ],
+    deps = [
+        "@mediapipe//mediapipe/framework:calculator_framework",
+        "@mediapipe//mediapipe/framework/port:ret_check",
+        "@mediapipe//mediapipe/framework/port:status",
+        "@mediapipe//mediapipe/framework/formats:landmark_cc_proto",
+        "@mediapipe//mediapipe/framework/formats:detection_cc_proto"
+    ],
+    alwayslink = 1,
+)

@@ -3,8 +3,24 @@ input_stream: "input_video"
 output_stream: "output_video"
 
 node {
+  calculator: "DetectionsGPUSubgraph"
+  input_stream: "input_video"
+  output_stream: "DETECTIONS:output_detections"
+  output_stream: "LANDMARKS:multi_hand_landmarks"
+  output_stream: "prerendered_video"
+}
+
+node {
+  calculator: "SignLanguagePredictionCalculator"
+  input_stream: "DETECTIONS:output_detections"
+  input_stream: "NORM_LANDMARKS:multi_hand_landmarks"
+  output_stream: "TEXT:predicted_text"
+}
+
+
+node {
    calculator: "TextToRenderDataCalculator"
-   input_stream: "input_video"
+   input_stream: "predicted_text"
    output_stream: "render_data"
 }
 

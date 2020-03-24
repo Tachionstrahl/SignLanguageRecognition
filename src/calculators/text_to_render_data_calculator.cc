@@ -23,16 +23,14 @@ class TextToRenderDataCalculator : public CalculatorBase {
 };
 
 ::mediapipe::Status TextToRenderDataCalculator::GetContract(CalculatorContract* cc) {
-  cc->Inputs().Index(0).SetAny();
+  cc->Inputs().Index(0).Set<std::string>();
   cc->Outputs().Index(0).Set<mediapipe::RenderData>();
   return ::mediapipe::OkStatus();
 }
 
 ::mediapipe::Status TextToRenderDataCalculator::Process(CalculatorContext* cc) {
   // As an example, please see also mediapipe/calculators/util/labels_to_render_data_calculator.cc
-  //const std::string& text_content = cc->Inputs().Index(0).Get<std::string>();
-  // For Debug purposes:
-  const std::string& text_content = "Test";
+  const std::string& text_content = cc->Inputs().Index(0).Get<std::string>();
   RenderData render_data;
   auto* text_annotation = render_data.add_render_annotations();
   text_annotation->set_thickness(2);
@@ -54,4 +52,4 @@ class TextToRenderDataCalculator : public CalculatorBase {
 
 REGISTER_CALCULATOR(TextToRenderDataCalculator);
 
-}  // namespace mediapipe
+}  // namespace signlang
