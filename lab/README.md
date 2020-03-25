@@ -10,7 +10,7 @@
 This is a notebook for loading the csv files in the subfolder [data](lab/data) and training a model.
 The output should be `.h5` files within this folder.
 
-### [Data Analysis.ipynb](lab/Data Analysis.ipynb)
+### [Data Analysis.ipynb](lab/Data%20Analysis.ipynb)
 This is a notebook for analysing and visualizing hand and face detection data from the csv files in the subfolder [data](lab/data).
 
 
