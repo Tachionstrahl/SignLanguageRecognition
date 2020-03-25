@@ -6,21 +6,21 @@
 
 [Jupyter](https://jupyter.org/install) is required for working with jupyter notebooks.
 
-### [Train.ipynb](lab/Train.ipynb)
-This is a notebook for loading the csv files in the subfolder [data](lab/data) and training a model.
+### [Train.ipynb](Train.ipynb)
+This is a notebook for loading the csv files in the subfolder [data](data) and training a model.
 The output should be `.h5` files within this folder.
 
-### [Data Analysis.ipynb](lab/Data%20Analysis.ipynb)
-This is a notebook for analysing and visualizing hand and face detection data from the csv files in the subfolder [data](lab/data).
+### [Data Analysis.ipynb](Data%20Analysis.ipynb)
+This is a notebook for analysing and visualizing hand and face detection data from the csv files in the subfolder [data](data).
 
 
 ## Subfolders
 
-### [data](lab/data)
+### [data](data)
 
 Contains csv files in subdirectories. Each subdirectory has the name of a sign (ref. german sign language).
 Every row in a csv file translates to a frame of its equivalent video file, where minimum a face and one hand is detected by MediaPipe.
 
-### [assets](lab/assets)
+### [assets](assets)
 
 Contains graphics that are included in notebooks.
