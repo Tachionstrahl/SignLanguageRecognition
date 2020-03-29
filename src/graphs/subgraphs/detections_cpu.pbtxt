@@ -1,42 +1,17 @@
-type: "DetectionsCpuSubgraph"
-
+# MediaPipe graph that performs multi-hand tracking on desktop with TensorFlow
+# Lite on CPU.
+# Used in the example in
+# mediapipie/examples/desktop/hand_tracking:multi_hand_tracking_cpu.
 
 # Images coming into and out of the graph.
 input_stream: "input_video"
-output_stream: "DETECTIONS:output_detections"
-output_stream: "LANDMARKS:multi_hand_landmarks"
-output_stream: "IMAGE:output_video"
-
-node {
-   calculator: "MergeCalculator"
-   input_stream: "detections"
-   input_stream: "multi_hand_rects"
-   output_stream: "merged_for_limiter"
-}
-
-# Throttles the images flowing downstream for flow control. It passes through
-# the very first incoming image unaltered, and waits for
-# TfLiteTensorsToDetectionsCalculator downstream in the graph to finish
-# generating the correspondinag detections before it passes through another
-# image. All images that come in while waiting are dropped, limiting the number
-# of in-flight images between this calculator and
-# TfLiteTensorsToDetectionsCalculator to 1. This prevents the nodes in between
-# from queuing up incoming images and data excessively, which leads to increased
-# latency and memory usage, unwanted in real-time mobile applications. It also
-# eliminates unnecessarily computation, e.g., a transformed image produced by
-# ImageTransformationCalculator may get dropped downstream if the subsequent
-# TfLiteConverterCalculator or TfLiteInferenceCalculator is still busy
-# processing previous inputs.
-node {
-  calculator: "FlowLimiterCalculator"
-  input_stream: "input_video"
-  input_stream: "FINISHED:merged_for_limiter"
-  input_stream_info: {
-    tag_index: "FINISHED"
-    back_edge: true
-  }
-  output_stream: "throttled_input_video"
-}
+output_stream: "output_detections"
+output_stream: "multi_hand_landmarks"
+output_stream: "detection_render_data"
+output_stream: "multi_hand_rects_render_data"
+output_stream: "multi_palm_rects_render_data"
+output_stream: "render_data"
+output_stream: "multi_hand_landmarks_render_data"
 
 # Determines if an input vector of NormalizedRect has a size greater than or
 # equal to the provided min_size.
@@ -60,7 +35,7 @@ node {
 # detection in MultiHandDetectionSubgraph.
 node {
   calculator: "GateCalculator"
-  input_stream: "throttled_input_video"
+  input_stream: "input_video"
   input_stream: "DISALLOW:prev_has_enough_hands"
   output_stream: "multi_hand_detection_input_video"
   node_options: {
@@ -82,7 +57,7 @@ node {
 # multi_hand_landmark.pbtxt).
 node {
   calculator: "MultiHandLandmarkSubgraph"
-  input_stream: "IMAGE:throttled_input_video"
+  input_stream: "IMAGE:input_video"
   input_stream: "NORM_RECTS:multi_hand_rects"
   output_stream: "LANDMARKS:multi_hand_landmarks"
   output_stream: "NORM_RECTS:multi_hand_rects_from_landmarks"
@@ -96,7 +71,7 @@ node {
 # feedback loop.
 node {
   calculator: "PreviousLoopbackCalculator"
-  input_stream: "MAIN:throttled_input_video"
+  input_stream: "MAIN:input_video"
   input_stream: "LOOP:multi_hand_rects_from_landmarks"
   input_stream_info: {
     tag_index: "LOOP"
@@ -121,22 +96,45 @@ node {
   }
 }
 
-# Subgraph that renders annotations and overlays them on top of the input
-# images (see multi_hand_renderer_cpu.pbtxt).
 node {
-  calculator: "MultiHandRendererSubgraph"
-  input_stream: "IMAGE:input_video"
-  input_stream: "DETECTIONS:multi_palm_detections"
+  calculator: "MultiHandDetectionsToRenderDataSubgraph"
+  # A vector of NormalizedLandmarks, one for each hand.
   input_stream: "LANDMARKS:multi_hand_landmarks"
+  # A vector of NormalizedRect, one for each hand.
   input_stream: "NORM_RECTS:0:multi_palm_rects"
+  # A vector of NormalizedRect, one for each hand.
   input_stream: "NORM_RECTS:1:multi_hand_rects"
-  output_stream: "IMAGE:output_video"
+  # A vector of Detection, one for each hand.
+  input_stream: "DETECTIONS:multi_palm_detections"
+  output_stream: "detection_render_data"
+  output_stream: "multi_hand_rects_render_data"
+  output_stream: "multi_palm_rects_render_data"
+  output_stream: "multi_hand_landmarks_render_data"
 }
 
-
-###
-### FACE DETECTION 
-###
+# Throttles the images flowing downstream for flow control. It passes through
+# the very first incoming image unaltered, and waits for
+# TfLiteTensorsToDetectionsCalculator downstream in the graph to finish
+# generating the corresponding detections before it passes through another
+# image. All images that come in while waiting are dropped, limiting the number
+# of in-flight images between this calculator and
+# TfLiteTensorsToDetectionsCalculator to 1. This prevents the nodes in between
+# from queuing up incoming images and data excessively, which leads to increased
+# latency and memory usage, unwanted in real-time mobile applications. It also
+# eliminates unnecessarily computation, e.g., a transformed image produced by
+# ImageTransformationCalculator may get dropped downstream if the subsequent
+# TfLiteConverterCalculator or TfLiteInferenceCalculator is still busy
+# processing previous inputs.
+node {
+  calculator: "FlowLimiterCalculator"
+  input_stream: "input_video"
+  input_stream: "FINISHED:detections"
+  input_stream_info: {
+    tag_index: "FINISHED"
+    back_edge: true
+  }
+  output_stream: "throttled_input_video"
+}
 
 # Transforms the input image on CPU to a 128x128 image. To scale the input
 # image, the scale_mode option is set to FIT to preserve the aspect ratio,
@@ -267,4 +265,17 @@ node {
   input_stream: "DETECTIONS:labeled_detections"
   input_stream: "LETTERBOX_PADDING:letterbox_padding"
   output_stream: "DETECTIONS:output_detections"
+}
+
+# Converts the detections to drawing primitives for annotation overlay.
+node {
+  calculator: "DetectionsToRenderDataCalculator"
+  input_stream: "DETECTIONS:output_detections"
+  output_stream: "RENDER_DATA:render_data"
+  node_options: {
+    [type.googleapis.com/mediapipe.DetectionsToRenderDataCalculatorOptions] {
+      thickness: 4.0
+      color { r: 255 g: 0 b: 0 }
+    }
+  }
 }

@@ -1,54 +1,70 @@
 # Command list
 
-### Information
+## Information
 
 - Follow the installation guide of MediaPipe first.
 - All commands are relative to this folder. (`src/`)
 
+## Files to CSV on `CPU` (Currently not working!)
 
-## Files to CSV on CPU (Currently not working!)
-
-### Build the source files
+Build the source files
 
 `bazel build -c opt --define MEDIAPIPE_DISABLE_GPU=1 app:files_to_csv_cpu`
 
-### Run the application
+Run the application
 
 `GLOG_logtostderr=1 bazel-bin/app/files_to_csv_cpu --calculator_graph_config_file=graphs/video_processing_cpu.pbtxt`
 
-## Files to CSV on GPU
+## Files to CSV on `GPU`
 
-### Build the source files
+Build the source files
 
 `bazel build -c opt --copt -DMESA_EGL_NO_X11_HEADERS app:files_to_csv_gpu`
 
-### Run the application
+Run the application
 
 `GLOG_logtostderr=1 bazel-bin/app/files_to_csv_gpu --calculator_graph_config_file=graphs/video_processing_gpu.pbtxt`
 
-#### Options
+### Options
 
 Processing Videos in a given directory requires two arguments:
-1. The input root directory containing subdirectories with .mp4 files. `--input_video_path=/home/datagroup/Videos/SL/input`
-   Example for a structure: 
-   ```
-   input
-    -- word_one
-        -- file_one.mp4
-        -- file_two.mp4
-    -- word_two
-        -- file_three.mp4
-    -- word_three
-        -- file_four.mp4
-   ```
-2. The ouput root directory. Can be empty. `--output_video_path=/home/datagroup/Videos/SL/output`
 
-## Sign Language Prediction
+1. The input root directory containing subdirectories with .mp4 files. 
 
-### Build the source files
+   `--input_video_path=/home/datagroup/Videos/SL/input`
+
+   Example for a structure:
+
+    ```none
+    input
+        -- word_one
+            -- file_one.mp4
+            -- file_two.mp4
+        -- word_two
+            -- file_three.mp4
+        -- word_three
+            -- file_four.mp4
+    ```
+
+2. The ouput root directory. Can be empty.
+   `--output_video_path=/home/datagroup/Videos/SL/output`
+
+## Sign Language Prediction (`GPU`)
+
+Build the source files
 
 `bazel build -c opt --copt -DMESA_EGL_NO_X11_HEADERS app:prediction_gpu`
 
-### Run the application
+Run the application
 
 `GLOG_logtostderr=1 bazel-bin/app/prediction_gpu --calculator_graph_config_file=graphs/sign_lang_prediction_gpu.pbtxt`
+
+## Sign Language Prediction (`CPU`)
+
+Build the source files
+
+`bazel build -c opt --copt -DMESA_EGL_NO_X11_HEADERS app:prediction_cpu`
+
+Run the application
+
+`GLOG_logtostderr=1 bazel-bin/app/prediction_cpu --calculator_graph_config_file=graphs/sign_lang_prediction_cpu.pbtxt`
