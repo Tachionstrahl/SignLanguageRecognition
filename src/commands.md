@@ -63,7 +63,7 @@ Run the application
 
 Build the source files
 
-`bazel build -c opt --copt -DMESA_EGL_NO_X11_HEADERS app:prediction_cpu`
+`bazel build -c opt --define MEDIAPIPE_DISABLE_GPU=1 app:prediction_cpu`
 
 Run the application
 
