@@ -10,7 +10,7 @@ Therefore we use [MediaPipe](https://github.com/google/mediapipe), a framework f
 1. Clone the repository.
 2. Follow the instructions to [install MediaPipe](https://github.com/google/mediapipe/blob/master/mediapipe/docs/install.md).
 3. To work with our `jupyter notebooks`, we recommend to install [Anaconda](https://www.anaconda.com/).
-4. Install `TensorFlow 2.0` with `conda`, see https://anaconda.org/anaconda/tensorflow-gpu
+4. Install `TensorFlow 2.0` with `conda`, see <https://anaconda.org/anaconda/tensorflow-gpu>
 
 ## Workflow
 
@@ -31,5 +31,5 @@ Check out the folder `lab`.
 ## 3. Live prediction
 
 The trained model is used for predicting live video stream.
-Therefore another `MediaPipe` pipeline was build. 
+Therefore another `MediaPipe` pipeline was build.
 `To be continued`
