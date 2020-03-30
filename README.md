@@ -22,14 +22,14 @@ For training we need many videos for each sign, we want to predict. Those exampl
 
 For extracting multi hand and face detections for each frame of the videos and saving them, we built a pipeline with `MediaPipe`, e.g. have a look at the `DetectionsToCSVCalculator`, we implemented. It simply writes out the detections made by `MediaPipe` to CSV files.
 
-## 2. Training deep learning model
+### 3. Training deep learning model
 
 The CSV files are used to train a deep learning model with `Keras`, a high level API for `TensorFlow`.
 Therefore we use jupyter notebooks to simply write and comment scripts.
 Check out the folder `lab`.
 
-## 3. Live prediction
+### 4. Live prediction
 
 The trained model is used for predicting live video stream.
 Therefore another `MediaPipe` pipeline was build.
-`To be continued`
+***To be continued***
