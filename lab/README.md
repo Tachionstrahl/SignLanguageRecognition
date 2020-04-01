@@ -7,12 +7,13 @@
 [Jupyter](https://jupyter.org/install) is required for working with jupyter notebooks.
 
 ### [Train.ipynb](Train.ipynb)
+
 This is a notebook for loading the csv files in the subfolder [data](data) and training a model.
 The output should be `.h5` files within this folder.
 
 ### [Data Analysis.ipynb](Data%20Analysis.ipynb)
-This is a notebook for analysing and visualizing hand and face detection data from the csv files in the subfolder [data](data).
 
+This is a notebook for analysing and visualizing hand and face detection data from the csv files in the subfolder [data](data).
 
 ## Subfolders
 

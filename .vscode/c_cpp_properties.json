@@ -3,8 +3,7 @@
         {
             "name": "Linux",
             "includePath": [
-                "${workspaceFolder}/**",
-                "/home/datagroup/.cache/bazel/_bazel_datagroup/8e76adbb9fb9697143895a90fdf45a39/external/boost"
+                "${workspaceFolder}/**"
             ],
             "defines": [],
             "compilerPath": "/usr/bin/gcc",
