@@ -13,7 +13,6 @@ node {
   output_stream: "throttled_input_video"
 }
 
-
 node {
   calculator: "DetectionsGPUSubgraph"
   input_stream: "throttled_input_video"

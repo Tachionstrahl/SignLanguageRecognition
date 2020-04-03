@@ -5,7 +5,7 @@
 - Follow the installation guide of MediaPipe first.
 - All commands are relative to this folder. (`src/`)
 
-## Files to CSV on `CPU` (Currently not working!)
+## Files to CSV on `CPU`
 
 Build the source files
 
@@ -14,6 +14,8 @@ Build the source files
 Run the application
 
 `GLOG_logtostderr=1 bazel-bin/app/files_to_csv_cpu --calculator_graph_config_file=graphs/video_processing_cpu.pbtxt`
+
+See options below.
 
 ## Files to CSV on `GPU`
 

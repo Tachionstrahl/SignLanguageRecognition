@@ -112,36 +112,12 @@ node {
   output_stream: "multi_hand_landmarks_render_data"
 }
 
-# Throttles the images flowing downstream for flow control. It passes through
-# the very first incoming image unaltered, and waits for
-# TfLiteTensorsToDetectionsCalculator downstream in the graph to finish
-# generating the corresponding detections before it passes through another
-# image. All images that come in while waiting are dropped, limiting the number
-# of in-flight images between this calculator and
-# TfLiteTensorsToDetectionsCalculator to 1. This prevents the nodes in between
-# from queuing up incoming images and data excessively, which leads to increased
-# latency and memory usage, unwanted in real-time mobile applications. It also
-# eliminates unnecessarily computation, e.g., a transformed image produced by
-# ImageTransformationCalculator may get dropped downstream if the subsequent
-# TfLiteConverterCalculator or TfLiteInferenceCalculator is still busy
-# processing previous inputs.
-node {
-  calculator: "FlowLimiterCalculator"
-  input_stream: "input_video"
-  input_stream: "FINISHED:detections"
-  input_stream_info: {
-    tag_index: "FINISHED"
-    back_edge: true
-  }
-  output_stream: "throttled_input_video"
-}
-
 # Transforms the input image on CPU to a 128x128 image. To scale the input
 # image, the scale_mode option is set to FIT to preserve the aspect ratio,
 # resulting in potential letterboxing in the transformed image.
 node: {
   calculator: "ImageTransformationCalculator"
-  input_stream: "IMAGE:throttled_input_video"
+  input_stream: "IMAGE:input_video"
   output_stream: "IMAGE:transformed_input_video_cpu"
   output_stream: "LETTERBOX_PADDING:letterbox_padding"
   node_options: {
