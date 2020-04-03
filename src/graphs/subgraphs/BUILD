@@ -10,7 +10,7 @@ mediapipe_simple_subgraph(
     graph = "detections_cpu.pbtxt",
     register_as = "DetectionsCPUSubgraph",
     deps = [
-        ":multi_hand_detections_to_render_data_cpu",
+        ":multi_hand_detections_to_render_data",
         "@mediapipe//mediapipe/graphs/hand_tracking:multi_hand_desktop_tflite_calculators",
         "@mediapipe//mediapipe/graphs/face_detection:desktop_tflite_calculators",
         "@mediapipe//mediapipe/calculators/core:begin_loop_calculator",
@@ -50,8 +50,7 @@ mediapipe_simple_subgraph(
     graph = "detections_gpu.pbtxt",
     register_as = "DetectionsGPUSubgraph",
     deps = [
-        ":hand_and_face_renderer_gpu",
-        ":face_detection_subgraph",
+        ":multi_hand_detections_to_render_data",
         "@mediapipe//mediapipe/graphs/hand_tracking:multi_hand_mobile_calculators",
         "@mediapipe//mediapipe/graphs/face_detection:mobile_calculators"
     ],
