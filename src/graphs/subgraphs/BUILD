@@ -32,8 +32,8 @@ mediapipe_simple_subgraph(
 )
 
 mediapipe_simple_subgraph(
-    name = "multi_hand_detections_to_render_data_cpu",
-    graph = "multi_hand_detections_to_render_data_subgraph_cpu.pbtxt",
+    name = "multi_hand_detections_to_render_data",
+    graph = "multi_hand_detections_to_render_data_subgraph.pbtxt",
     register_as = "MultiHandDetectionsToRenderDataSubgraph",
     deps = [
         "@mediapipe//mediapipe/calculators/core:begin_loop_calculator",
