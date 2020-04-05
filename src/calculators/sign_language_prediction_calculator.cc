@@ -58,7 +58,7 @@ class SignLanguagePredictionCalculator : public CalculatorBase
     AddMultiHandDetectionsTo(coordinates, cc);
 
     if (coordinates.size() != 44 && coordinates.size() != 86) {
-        LOG(WARNING) << "Expected coordinates to have a size of 44 or 86. Actual size: " << coordinates.size();
+        //LOG(WARNING) << "Expected coordinates to have a size of 44 or 86. Actual size: " << coordinates.size();
         // return mediapipe::OkStatus();
     }
 

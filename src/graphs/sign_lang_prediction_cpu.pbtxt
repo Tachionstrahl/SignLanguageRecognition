@@ -3,8 +3,19 @@ input_stream: "input_video"
 output_stream: "output_video"
 
 node {
-  calculator: "DetectionsCPUSubgraph"
+  calculator: "FlowLimiterCalculator"
   input_stream: "input_video"
+  input_stream: "FINISHED:multi_hand_landmarks"
+  input_stream_info: {
+    tag_index: "FINISHED"
+    back_edge: true
+  }
+  output_stream: "throttled_input_video"
+}
+
+node {
+  calculator: "DetectionsCPUSubgraph"
+  input_stream: "throttled_input_video"
   output_stream: "output_detections"
   output_stream: "multi_hand_landmarks"
   output_stream: "detection_render_data"

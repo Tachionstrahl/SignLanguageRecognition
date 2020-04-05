@@ -3,11 +3,26 @@ input_stream: "input_video"
 output_stream: "output_video"
 
 node {
-  calculator: "DetectionsGPUSubgraph"
+  calculator: "FlowLimiterCalculator"
   input_stream: "input_video"
-  output_stream: "DETECTIONS:output_detections"
-  output_stream: "LANDMARKS:multi_hand_landmarks"
-  output_stream: "prerendered_video"
+  input_stream: "FINISHED:multi_hand_landmarks"
+  input_stream_info: {
+    tag_index: "FINISHED"
+    back_edge: true
+  }
+  output_stream: "throttled_input_video"
+}
+
+node {
+  calculator: "DetectionsGPUSubgraph"
+  input_stream: "throttled_input_video"
+  output_stream: "output_detections"
+  output_stream: "multi_hand_landmarks"
+  output_stream: "detection_render_data"
+  output_stream: "multi_hand_rects_render_data"
+  output_stream: "multi_palm_rects_render_data"
+  output_stream: "render_data"
+  output_stream: "multi_hand_landmarks_render_data"
 }
 
 node {
@@ -21,12 +36,17 @@ node {
 node {
    calculator: "TextToRenderDataCalculator"
    input_stream: "predicted_text"
-   output_stream: "render_data"
+   output_stream: "text_render_data"
 }
 
 node {
   calculator: "AnnotationOverlayCalculator"
-  input_stream: "IMAGE_GPU:input_video"
+  input_stream: "IMAGE_GPU:throttled_input_video"
+  input_stream: "detection_render_data"
+  input_stream: "multi_hand_rects_render_data"
+  input_stream: "multi_palm_rects_render_data"
   input_stream: "render_data"
+  input_stream: "text_render_data"
+  input_stream: "VECTOR:0:multi_hand_landmarks_render_data"
   output_stream: "IMAGE_GPU:output_video"
 }
