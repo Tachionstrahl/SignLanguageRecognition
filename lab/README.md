@@ -2,6 +2,8 @@
 
 ...and their meaning.
 
+TODO: Clean up
+
 ## Jupyter Notebooks
 
 [Jupyter](https://jupyter.org/install) is required for working with jupyter notebooks.
