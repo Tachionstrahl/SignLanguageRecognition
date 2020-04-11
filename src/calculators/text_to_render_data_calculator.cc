@@ -20,6 +20,11 @@ class TextToRenderDataCalculator : public CalculatorBase {
  public:
   static ::mediapipe::Status GetContract(CalculatorContract* cc);
   ::mediapipe::Status Process(CalculatorContext* cc) override;
+
+ private:
+  double video_height = 500.0;
+  double font_height = 30.0;
+  double text_margin = 10.0;
 };
 
 ::mediapipe::Status TextToRenderDataCalculator::GetContract(CalculatorContract* cc) {
@@ -30,8 +35,10 @@ class TextToRenderDataCalculator : public CalculatorBase {
 
 ::mediapipe::Status TextToRenderDataCalculator::Process(CalculatorContext* cc) {
   // As an example, please see also mediapipe/calculators/util/labels_to_render_data_calculator.cc
-  const std::string& text_content = cc->Inputs().Index(0).Get<std::string>();
+  auto& text_content = cc->Inputs().Index(0).Get<std::string>();
+
   RenderData render_data;
+
   auto* text_annotation = render_data.add_render_annotations();
   text_annotation->set_thickness(2);
   text_annotation->mutable_color()->set_r(255);
@@ -40,13 +47,15 @@ class TextToRenderDataCalculator : public CalculatorBase {
  
   auto* text = text_annotation->mutable_text();
   text->set_display_text(text_content);
-  text->set_font_height(30.0);
-  text->set_left(300.0);
-  text->set_baseline(300.0);
+  text->set_font_height(font_height);
+  text->set_left(text_margin);
+  text->set_baseline(video_height - font_height - text_margin);
   text->set_font_face(2);
+
   cc->Outputs()
       .Index(0)
       .AddPacket(mediapipe::MakePacket<RenderData>(render_data).At(cc->InputTimestamp()));
+
   return ::mediapipe::OkStatus();
 }
 
