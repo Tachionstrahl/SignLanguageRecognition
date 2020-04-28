@@ -3,7 +3,7 @@
 ...and their meaning.
 
 Future work:
- - [] Clean up and refactor notebooks
+ - [ ] Clean up and refactor notebooks
 
 ## Jupyter Notebooks
 
