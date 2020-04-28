@@ -2,7 +2,8 @@
 
 ...and their meaning.
 
-TODO: Clean up
+Future work:
+ - [] Clean up and refactor notebooks
 
 ## Jupyter Notebooks
 
