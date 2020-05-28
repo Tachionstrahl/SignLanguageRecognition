@@ -189,10 +189,39 @@ DEFINE_string(output_video_path, "",
 
 ::mediapipe::Status CheckInputPath(fs::path &inputPath) {
   RET_CHECK(fs::exists(inputPath)) << "Provided input directory does not exist";
-  RET_CHECK(fs::is_directory(inputPath)) << "Provided input path is not a directory";
+  RET_CHECK(fs::is_directory(inputPath) || fs::is_regular_file(inputPath)) << "Provided input path is not a directory or file";
   return mediapipe::OkStatus();
 }
 
+bool HandleFile(fs::path &inputFilepath, fs::path &outputRootDirectory) {
+  auto file_ext = fs::extension(inputFilepath);
+  if (!fs::is_regular_file(inputFilepath) || file_ext != ".mp4") {
+    return false;
+  }
+  
+  auto parentDirectory = inputFilepath.parent_path().filename();
+  auto outputFileName = inputFilepath.filename();
+  auto outputMp4FilePath = outputRootDirectory / "mp4" / parentDirectory / outputFileName;
+  outputFileName.replace_extension(".csv");
+  fs::path outputCsvFilePath = outputRootDirectory / "csv" / parentDirectory / outputFileName;
+  fs::create_directories(outputCsvFilePath.parent_path());
+  fs::create_directories(outputMp4FilePath.parent_path());
+  std::cout << outputMp4FilePath << std::endl;
+  std::cout << outputCsvFilePath << std::endl;
+  
+  LOG(INFO) << "Running graph for " << inputFilepath.c_str();
+  
+  ::mediapipe::Status run_status = RunMPPGraph(outputCsvFilePath.string(), outputMp4FilePath.string(), inputFilepath.string());
+  
+  if (!run_status.ok()) {
+    LOG(ERROR) << "Failed to run the graph: " << run_status.message();
+    return false;
+  } else {
+    LOG(INFO) << "Success!";
+    return true;
+  }
+  
+}
 
 int main(int argc, char** argv) {
   std::cout << "Started program.";
@@ -203,40 +232,26 @@ int main(int argc, char** argv) {
     {
         fs::path inputPath(FLAGS_input_video_path);
         mediapipe::Status path_status = CheckInputPath(inputPath);
+        
         if (!path_status.ok()) {
           LOG(ERROR) << "Input path not valid: " << path_status.message();
           return EXIT_FAILURE;
         }
 
+        bool isFile = fs::is_regular_file(inputPath);
         fs::path outputRootDirectory(FLAGS_output_video_path);
-        for (fs::directory_entry &entry : fs::recursive_directory_iterator(inputPath))
-        {
-            fs::path inputFilepath = entry.path();
-            auto file_ext = fs::extension(inputFilepath);
-            if (fs::is_regular_file(inputFilepath) && file_ext == ".mp4")
-            {
-                auto parentDirectory = inputFilepath.parent_path().filename();
-                auto outputFileName = inputFilepath.filename();
-                auto outputMp4FilePath = outputRootDirectory / "mp4" / parentDirectory / outputFileName;
-                outputFileName.replace_extension(".csv");
-                fs::path outputCsvFilePath = outputRootDirectory / "csv" / parentDirectory / outputFileName;
-                fs::create_directories(outputCsvFilePath.parent_path());
-                fs::create_directories(outputMp4FilePath.parent_path());
-                std::cout << outputMp4FilePath << std::endl;
-                std::cout << outputCsvFilePath << std::endl;
-                ::mediapipe::Status run_status = RunMPPGraph(outputCsvFilePath.string(), outputMp4FilePath.string(), inputFilepath.string());
-                if (!run_status.ok()) {
-                  LOG(ERROR) << "Failed to run the graph: " << run_status.message();
+        
+        if (isFile) {
+            HandleFile(inputPath, outputRootDirectory);
+        } else {
+            for (fs::directory_entry &entry : fs::recursive_directory_iterator(inputPath)) {
+                fs::path inputFilepath = entry.path();
+                if (!HandleFile(inputFilepath, outputRootDirectory)) {
                   return EXIT_FAILURE;
-                } else {
-                  LOG(INFO) << "Success!";
                 }
-
             }
         }
+        
     }
-
-  
-  
   return EXIT_SUCCESS;
 }
