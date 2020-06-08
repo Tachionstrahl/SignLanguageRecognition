@@ -31,5 +31,4 @@ Check out the folder `lab`.
 ### 4. Live prediction
 
 The trained model is used for predicting live video stream.
-Therefore another `MediaPipe` pipeline was build.
-***To be continued***
+***This is the next step for this project***
