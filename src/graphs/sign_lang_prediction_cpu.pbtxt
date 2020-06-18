@@ -1,3 +1,10 @@
+# Enabling profiling. See https://google.github.io/mediapipe/tools/tracing_and_profiling.html for more information.
+profiler_config {
+  enable_profiler: true
+  trace_enabled: true
+  trace_log_count: 5
+}
+
 # Images coming into and out of the graph.
 input_stream: "input_video"
 output_stream: "output_video"

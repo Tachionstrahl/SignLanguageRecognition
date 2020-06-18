@@ -39,7 +39,8 @@ cc_library(
         "@mediapipe//mediapipe/framework/port:ret_check",
         "@mediapipe//mediapipe/framework/port:status",
         "@mediapipe//mediapipe/framework/formats:landmark_cc_proto",
-        "@mediapipe//mediapipe/framework/formats:detection_cc_proto"
+        "@mediapipe//mediapipe/framework/formats:detection_cc_proto",
+        "@org_tensorflow//tensorflow/lite:framework"
     ],
     alwayslink = 1,
 )

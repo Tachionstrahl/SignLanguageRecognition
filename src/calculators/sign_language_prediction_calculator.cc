@@ -3,6 +3,7 @@
 #include "mediapipe/framework/formats/landmark.pb.h"
 #include "mediapipe/framework/formats/detection.pb.h"
 #include "mediapipe/framework/port/status.h"
+// #include "tensorflow/lite/model.h"
 
 using namespace mediapipe;
 
@@ -27,6 +28,7 @@ class SignLanguagePredictionCalculator : public CalculatorBase
 {
     public:
         static ::mediapipe::Status GetContract(CalculatorContract *cc);
+        ::mediapipe::Status Open(CalculatorContext *cc) override;
         ::mediapipe::Status Process(CalculatorContext *cc) override;
 
     private:
@@ -43,6 +45,12 @@ class SignLanguagePredictionCalculator : public CalculatorBase
     cc->Outputs().Tag(kTextOutputTag).Set<std::string>();
 
     return ::mediapipe::OkStatus();
+}
+::mediapipe::Status SignLanguagePredictionCalculator::Open(CalculatorContext *cc) {
+    // const char* filename = "models/sign_lang_recognition.tflite";
+    // // Load the model
+    // std::unique_ptr<tflite::FlatBufferModel> model =
+    //     tflite::FlatBufferModel::BuildFromFile(filename);
 }
 
 ::mediapipe::Status SignLanguagePredictionCalculator::Process(CalculatorContext *cc)
