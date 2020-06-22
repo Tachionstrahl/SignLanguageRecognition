@@ -3,7 +3,6 @@
 #include "mediapipe/framework/formats/landmark.pb.h"
 #include "mediapipe/framework/formats/detection.pb.h"
 #include "mediapipe/framework/port/status.h"
-// #include "tensorflow/lite/model.h"
 
 using namespace mediapipe;
 
@@ -47,15 +46,12 @@ class SignLanguagePredictionCalculator : public CalculatorBase
     return ::mediapipe::OkStatus();
 }
 ::mediapipe::Status SignLanguagePredictionCalculator::Open(CalculatorContext *cc) {
-    // const char* filename = "models/sign_lang_recognition.tflite";
-    // // Load the model
-    // std::unique_ptr<tflite::FlatBufferModel> model =
-    //     tflite::FlatBufferModel::BuildFromFile(filename);
+    LOG(INFO) << "Called Sign Language Open";
 }
 
 ::mediapipe::Status SignLanguagePredictionCalculator::Process(CalculatorContext *cc)
 {
-
+    LOG(INFO) << "Start Sign Language Processing";
     std::vector<float> coordinates = {};
     AddFaceDetectionsTo(coordinates, cc);
     if (coordinates.size() == 0) { // No face detected.        

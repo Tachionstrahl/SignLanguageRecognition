@@ -25,19 +25,19 @@ node {
   output_stream: "multi_hand_landmarks_render_data"
 }
 
-node {
-  calculator: "SignLanguagePredictionCalculator"
-  input_stream: "DETECTIONS:output_detections"
-  input_stream: "NORM_LANDMARKS:multi_hand_landmarks"
-  output_stream: "TEXT:predicted_text"
-}
+#node {
+#  calculator: "SignLanguagePredictionCalculator"
+#  input_stream: "DETECTIONS:output_detections"
+#  input_stream: "NORM_LANDMARKS:multi_hand_landmarks"
+#  output_stream: "TEXT:predicted_text"
+#}
 
 
-node {
-   calculator: "TextToRenderDataCalculator"
-   input_stream: "predicted_text"
-   output_stream: "text_render_data"
-}
+#node {
+#   calculator: "TextToRenderDataCalculator"
+#   input_stream: "predicted_text"
+#   output_stream: "text_render_data"
+#}
 
 node {
   calculator: "AnnotationOverlayCalculator"
@@ -46,7 +46,7 @@ node {
   input_stream: "multi_hand_rects_render_data"
   input_stream: "multi_palm_rects_render_data"
   input_stream: "render_data"
-  input_stream: "text_render_data"
+#  input_stream: "text_render_data"
   input_stream: "VECTOR:0:multi_hand_landmarks_render_data"
   output_stream: "IMAGE_GPU:output_video"
 }

@@ -5,7 +5,7 @@ import os
 import sys
 def start():
     os.system("cd src/ &&  bazel build -c opt --copt -DMESA_EGL_NO_X11_HEADERS app:files_to_csv_gpu")
-    input_dir = "/home/datagroup/Videos/Inbox/"
+    input_dir = "/home/datagroup/Videos/signlang"
     for subdir, dirs, files in os.walk(input_dir):
         for file in files:
             filename = os.path.join(subdir, file)
