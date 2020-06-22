@@ -37,32 +37,6 @@
                 }
             ],
             //"preLaunchTask": "bazel build video_processing_gpu"
-        },
-        {
-            "name": "Launch sign_language_prediction_gpu",
-            "type": "cppdbg",
-            "request": "launch",
-            "program": "${workspaceFolder}/src/bazel-bin/app/prediction_gpu",
-            "args": [
-                "--calculator_graph_config_file=${workspaceFolder}/src/graphs/sign_lang_prediction_gpu.pbtxt"
-            ],
-            "stopAtEntry": false,
-            "cwd": "${workspaceFolder}/src",
-            "symbolLoadInfo": {
-                "loadAll": true,
-                "exceptionList": ""
-            },
-            "environment": [],
-            "externalConsole": false,
-            "MIMode": "gdb",
-            "setupCommands": [
-                {
-                    "description": "Enable pretty-printing for gdb",
-                    "text": "-enable-pretty-printing",
-                    "ignoreFailures": true
-                }
-            ],
-            //"preLaunchTask": "bazel build video_processing_gpu"
         }
     ]
 }
