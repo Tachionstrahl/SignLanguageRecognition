@@ -51,11 +51,11 @@ class SignLanguagePredictionCalculator : public CalculatorBase
     // // Load the model
     // std::unique_ptr<tflite::FlatBufferModel> model =
     //     tflite::FlatBufferModel::BuildFromFile(filename);
+    return ::mediapipe::OkStatus();
 }
 
 ::mediapipe::Status SignLanguagePredictionCalculator::Process(CalculatorContext *cc)
 {
-
     std::vector<float> coordinates = {};
     AddFaceDetectionsTo(coordinates, cc);
     if (coordinates.size() == 0) { // No face detected.        
