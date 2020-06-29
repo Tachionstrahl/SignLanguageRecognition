@@ -19,6 +19,7 @@ constexpr char kLandmarksTag[] = "NORM_LANDMARKS";
 constexpr char kFaceDetectionsTag[] = "DETECTIONS";
 constexpr char kTextOutputTag[] = "TEXT";
 constexpr int maxFrames = 100;
+constexpr int framesBetweenPredictions = 20;
 
 
 // Example config:
@@ -41,6 +42,8 @@ class SignLanguagePredictionCalculator : public CalculatorBase
         std::vector<std::vector<float>> frames;
         std::unique_ptr<tflite::FlatBufferModel> model;
         std::unique_ptr<tflite::Interpreter> interpreter;
+        std::vector<std::string> labels = { "Computer", "Deutschland", "Du", "Haben", "Hallo", "Ich", "Mainz", "Software", "Unser", "Welt", "Zeigen"};
+        int framesSinceLastPrediction = 0;
 };
 
 ::mediapipe::Status SignLanguagePredictionCalculator::GetContract(CalculatorContract *cc)
@@ -83,10 +86,17 @@ class SignLanguagePredictionCalculator : public CalculatorBase
     if (coordinates.size() != 44 && coordinates.size() != 86) {
         LOG(WARNING) << "Expected coordinates to have a size of 44 or 86. Actual size: " << coordinates.size();
     }
+    while (coordinates.size() < 86) {
+        coordinates.push_back(0.0);
+    }
+    
+    RET_CHECK_EQ(coordinates.size(), 86) << "Coordinates size not equal 86. Actual size: " << coordinates.size();
+    
     if (frames.size() >= maxFrames) {
         frames.erase(frames.begin());
     }
 
+    // Fill frames up to maximum
     while (frames.size() < (maxFrames - 1)) {
         std::vector<float> frame = {};
         for (size_t i = 0; i < 86; i++)
@@ -96,15 +106,19 @@ class SignLanguagePredictionCalculator : public CalculatorBase
         frames.push_back(frame);
     }
     
+    // Put actual frame into array.
     frames.push_back(coordinates);
+    framesSinceLastPrediction++;
     LOG(INFO) << "Frames size: " << frames.size();
     LOG(INFO) << "First frame size: " << frames[0].size();
+    if (framesSinceLastPrediction % framesSinceLastPrediction == 0) {
+
+    }
     int input = interpreter->inputs()[0];
     TfLiteIntArray* dims = interpreter->tensor(input)->dims;
     LOG(INFO) << "Shape: {" << dims->data[0] << ", " << dims->data[1] << "}";
-    float* input_data_ptr = interpreter->typed_tensor<float>(0);
+    float* input_data_ptr = interpreter->typed_input_tensor<float>(0);
     RET_CHECK(input_data_ptr != nullptr);
-    size_t x = 0;
     for (size_t i = 0; i < frames.size(); i++)
     {
         // LOG(INFO) << "Frame: " << i;
@@ -114,13 +128,11 @@ class SignLanguagePredictionCalculator : public CalculatorBase
             // LOG(INFO) << "Coordinate: " << j;
             *(input_data_ptr) = frames[i][j];
             input_data_ptr++;
-            x++;
         }
-        x++;
     }
     interpreter->Invoke();
     int output_idx = interpreter->outputs()[0];
-    float* output = interpreter->typed_output_tensor<float>(0);
+    float* output = interpreter->typed_tensor<float>(output_idx);
     float predictions[12] = {};
     int highest_pred_idx = -1;
     float highest_pred = 0.0F;
@@ -134,8 +146,9 @@ class SignLanguagePredictionCalculator : public CalculatorBase
         }
         *output++;
     }
+
     // Here takes the prediction place!
-    std::string prediction = std::to_string(highest_pred);
+    std::string prediction = labels[highest_pred_idx] + std::to_string(highest_pred);
     LOG(INFO) << prediction;
     cc->Outputs()
     .Tag(kTextOutputTag)
