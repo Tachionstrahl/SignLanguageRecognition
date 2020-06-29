@@ -20,6 +20,24 @@
             "problemMatcher": [
                 "$gcc"
             ]
+        },
+        {
+            "label": "bazel build prediction_cpu",
+            "type": "shell",
+            "command": "bazel",
+            "args": [
+                "build",
+                "-c",
+                "opt",
+                "--copt",
+                "-DMESA_EGL_NO_X11_HEADERS",
+                "--compilation_mode=dbg",
+                "app:prediction_cpu"
+            ],
+            "group": "build",
+            "problemMatcher": [
+                "$gcc"
+            ]
         }
     ]
 }

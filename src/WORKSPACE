@@ -3,13 +3,13 @@ workspace(name = "src")
 load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
 
 # Version 0.7.5
-_MEDIAPIPE_GIT_COMMIT = "5d028d923b52fd95bd49642a9a4a162f57ae260e"
+_MEDIAPIPE_RELEASE_VERSION = "0.7.5"
 http_archive(
     name = "mediapipe",
     urls = [
-      "https://github.com/google/mediapipe/archive/%s.tar.gz" % _MEDIAPIPE_GIT_COMMIT,
+      "https://github.com/google/mediapipe/archive/v%s.tar.gz" % _MEDIAPIPE_RELEASE_VERSION,
     ],
-    strip_prefix = "mediapipe-%s" % _MEDIAPIPE_GIT_COMMIT,
+    strip_prefix = "mediapipe-%s" % _MEDIAPIPE_RELEASE_VERSION,
 )
 
 load("@bazel_tools//tools/build_defs/repo:git.bzl", "git_repository")

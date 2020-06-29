@@ -40,7 +40,9 @@ cc_library(
         "@mediapipe//mediapipe/framework/port:status",
         "@mediapipe//mediapipe/framework/formats:landmark_cc_proto",
         "@mediapipe//mediapipe/framework/formats:detection_cc_proto",
-        "@org_tensorflow//tensorflow/lite:framework"
+        "@org_tensorflow//tensorflow/lite:framework",
+        "@org_tensorflow//tensorflow/lite/kernels:builtin_ops",
+        "@org_tensorflow//tensorflow/lite/delegates/xnnpack:xnnpack_delegate"
     ],
     alwayslink = 1,
 )
