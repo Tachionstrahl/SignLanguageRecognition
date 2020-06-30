@@ -1,7 +1,7 @@
 # SignLanguageRecognition
 
 This repository contains a variety of tools to build up a system for recognizing signs of the german sign language (DGS).
-The idea is to provide a live translation on a webcam stream. This could be on mobile or desktop.
+Our claim is an experimental attempt at live subtitling of gestures.
 For this we train a deep learning model (RNN) for predicting the actual signs made by a person filmed.
 Therefore we use [MediaPipe](https://github.com/google/mediapipe), a framework for building ML pipelines, to extract face and hand positions, including multiple coordinates for each finger.
 
@@ -28,7 +28,6 @@ The CSV files are used to train a deep learning model with `Keras`, a high level
 Therefore we use jupyter notebooks to simply write and comment scripts.
 Check out the folder `lab`.
 
-### 4. Live prediction
+### 4. Live prediction (Subtitling) ***Work in progress***
 
-The trained model is used for predicting live video stream.
-***This is the next step for this project***
+The trained model is used for predicting live video stream. See the `SignLanguageRecognitionCalculator` for further details on how we try to use the model for live predictions. Currently it's not working well, like we expected before, but it provides us an infrastructure for experiments and testing. You've got ideas for improvements? Let us know!
