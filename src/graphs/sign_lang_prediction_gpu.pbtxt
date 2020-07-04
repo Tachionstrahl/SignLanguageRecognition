@@ -59,9 +59,6 @@ node {
 node {
   calculator: "AnnotationOverlayCalculator"
   input_stream: "IMAGE_GPU:throttled_input_video"
-  input_stream: "detection_render_data"
-  input_stream: "multi_hand_rects_render_data"
-  input_stream: "multi_palm_rects_render_data"
   input_stream: "render_data"
   input_stream: "text_render_data"
   input_stream: "VECTOR:0:multi_hand_landmarks_render_data"

@@ -40,8 +40,8 @@ class TextToRenderDataCalculator : public CalculatorBase {
   RenderData render_data;
 
   auto* text_annotation = render_data.add_render_annotations();
-  text_annotation->set_thickness(2);
-  text_annotation->mutable_color()->set_r(255);
+  text_annotation->set_thickness(2.0);
+  text_annotation->mutable_color()->set_r(0);
   text_annotation->mutable_color()->set_g(0);
   text_annotation->mutable_color()->set_b(0);
  
@@ -50,7 +50,7 @@ class TextToRenderDataCalculator : public CalculatorBase {
   text->set_font_height(font_height);
   text->set_left(text_margin);
   text->set_baseline(video_height - font_height - text_margin);
-  text->set_font_face(2);
+  // text->set_font_face(0);
 
   cc->Outputs()
       .Index(0)
