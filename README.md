@@ -29,5 +29,6 @@ Therefore we use jupyter notebooks to simply write and comment scripts.
 Check out the folder `lab`.
 
 ### 4. Live prediction (Subtitling) ***Work in progress***
+<img alt="SignLang Predictino Graph" src="docs/sign_lang_graph.png" width="500px">
 
 The trained model is used for predicting live video stream. See the `SignLanguageRecognitionCalculator` for further details on how we try to use the model for live predictions. Currently it's not working well, like we expected before, but it provides us an infrastructure for experiments and testing. You've got ideas for improvements? Let us know!
