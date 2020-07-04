@@ -1,0 +1,42 @@
+syntax = "proto2";
+
+package mediapipe;
+
+import "mediapipe/framework/calculator.proto";
+
+// IMPORTANT: Currently not in use, because not supported by mediapipe framework.
+// Full Example:
+// node {
+//   calculator: "SignLangPredictionCalculator"
+//   input_stream: "DETECTIONS:output_detections"
+//   input_stream: "NORM_LANDMARKS:multi_hand_landmarks"
+//   output_stream: "TEXT:prediction"
+//  options {
+//      [mediapipe.SignLangPredictionCalculatorOptions.ext] {
+//          verbose: true
+//          maxFrames: 20
+//          thresholdFramesCount = 60
+//          minFramesForInference = 10
+//      }
+//   }
+// }
+message SignLangPredictionCalculatorOptions {
+  extend mediapipe.CalculatorOptions {
+    optional SignLangPredictionCalculatorOptions ext = 245817797;
+  }
+  // If true, the log output will be more verbose.
+  optional bool verbose = 1 [default = false];
+
+  // Defines how many frames are required for the given tflite model.
+  // This setting highly depends by which dimensions the model was trained.
+  // If less then [maxFrames] Frames are buffered, the corresponding array will be filled up to [maxFrames] with 0.0 floats.
+  optional int32 maxFrames = 2 [default = 100];
+
+  // To detect single signs, we seperate them by detecting no hands for a given number of frames.
+  // Is the threshould reached, a prediction will be made. After that the frames will be deleted.
+  optional int32 thresholdFramesCount = 3 [default = 60];
+
+  // The minimum count of frames, that are required for prediction.
+  // This excludes the frames that are filled to reach [maxFrames].
+  optional int32 minFramesForInference = 4 [default = 10];
+}

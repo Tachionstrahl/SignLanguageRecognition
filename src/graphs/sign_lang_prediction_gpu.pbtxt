@@ -3,6 +3,22 @@ input_stream: "input_video"
 output_stream: "output_video"
 
 node {
+   calculator: "ConstantSidePacketCalculator"
+   output_side_packet: "PACKET:file_path"
+   options: {
+     [mediapipe.ConstantSidePacketCalculatorOptions.ext]: {
+       packet { string_value: "models/sign_lang_label_map.txt" }
+     }
+   }
+ }
+
+node {
+  calculator: "LocalFileContentsCalculator"
+  input_side_packet: "FILE_PATH:file_path"
+  output_side_packet: "CONTENTS:contents"
+}
+
+node {
   calculator: "FlowLimiterCalculator"
   input_stream: "input_video"
   input_stream: "FINISHED:multi_hand_landmarks"
@@ -26,7 +42,8 @@ node {
 }
 
 node {
-  calculator: "SignLanguagePredictionCalculator"
+  calculator: "SignLangPredictionCalculator"
+  input_side_packet: "LABELS:contents"
   input_stream: "DETECTIONS:output_detections"
   input_stream: "NORM_LANDMARKS:multi_hand_landmarks"
   output_stream: "TEXT:predicted_text"

@@ -1,6 +1,7 @@
 workspace(name = "src")
 
 load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
+load("@bazel_tools//tools/build_defs/repo:git.bzl", "git_repository")
 
 # Version 0.7.5
 _MEDIAPIPE_RELEASE_VERSION = "0.7.5"
@@ -11,8 +12,6 @@ http_archive(
     ],
     strip_prefix = "mediapipe-%s" % _MEDIAPIPE_RELEASE_VERSION,
 )
-
-load("@bazel_tools//tools/build_defs/repo:git.bzl", "git_repository")
 
 git_repository(
     name = "com_github_nelhage_rules_boost",

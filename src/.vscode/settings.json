@@ -103,7 +103,8 @@
         "locale": "cpp",
         "queue": "cpp",
         "stack": "cpp",
-        "netfwd": "cpp"
+        "netfwd": "cpp",
+        "*.def": "cpp"
     },
     "files.watcherExclude": {
         "**": true
