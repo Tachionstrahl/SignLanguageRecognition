@@ -7,8 +7,10 @@ Therefore we use [MediaPipe](https://github.com/google/mediapipe), a framework f
 
 ## Installation
 
+This repository is only tested under `Linux` (CPU and GPU) and `macOS` (CPU only).
+
 1. Clone the repository.
-2. Follow the instructions to [install MediaPipe](https://github.com/google/mediapipe/blob/master/mediapipe/docs/install.md).
+2. Follow the instructions to [install MediaPipe](https://google.github.io/mediapipe/getting_started/install).
 3. To work with our `jupyter notebooks`, we recommend to install [Anaconda](https://www.anaconda.com/).
 4. Install `TensorFlow 2.0` with `conda`, see <https://anaconda.org/anaconda/tensorflow-gpu>
 
