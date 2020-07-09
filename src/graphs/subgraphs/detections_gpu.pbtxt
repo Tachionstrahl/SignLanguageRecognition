@@ -171,7 +171,7 @@ node {
       # Please also remember to modify max_vec_size in
       # ClipVectorSizeCalculatorOptions in
       # mediapipe/graphs/hand_tracking/subgraphs/multi_hand_detection_gpu.pbtxt
-      min_size: 1
+      min_size: 2
     }
   }
 }
