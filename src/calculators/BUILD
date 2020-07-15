@@ -13,7 +13,7 @@ mediapipe_cc_proto_library(
     srcs = ["sign_lang_prediction_calculator.proto"],
     cc_deps = ["@mediapipe//mediapipe/framework:calculator_cc_proto"],
     visibility = ["//visibility:public"],
-    deps = [":tflite_converter_calculator_proto"],
+    deps = [":sign_lang_prediction_calculator_proto"],
 )
 
 cc_library(
@@ -52,6 +52,7 @@ cc_library(
         "//visibility:public",
     ],
     deps = [
+        ":sign_lang_prediction_calculator_cc_proto",
         "@mediapipe//mediapipe/framework:calculator_framework",
         "@mediapipe//mediapipe/framework/port:ret_check",
         "@mediapipe//mediapipe/framework/port:status",

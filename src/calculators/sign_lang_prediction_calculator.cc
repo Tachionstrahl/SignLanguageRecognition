@@ -1,4 +1,5 @@
 
+#include "calculators/sign_lang_prediction_calculator.pb.h"
 #include "mediapipe/framework/calculator_framework.h"
 #include "mediapipe/framework/formats/landmark.pb.h"
 #include "mediapipe/framework/formats/detection.pb.h"
@@ -19,13 +20,8 @@ constexpr char kLandmarksTag[] = "NORM_LANDMARKS";
 constexpr char kFaceDetectionsTag[] = "DETECTIONS";
 constexpr char kTextOutputTag[] = "TEXT";
 constexpr char kLabelsSidePacketTag[] = "LABELS";
-constexpr int maxFrames = 100;
-constexpr int thresholdFramesCount = 10;
-constexpr int minFramesForInference = 10;
 constexpr float defaultPoint = 0.0F;
 constexpr char tfLiteModelPath[] = "models/sign_lang_recognition.tflite";
-constexpr bool verbose = true;
-
 
 // Example config:
 // node {
@@ -42,6 +38,7 @@ class SignLangPredictionCalculator : public CalculatorBase
         ::mediapipe::Status Process(CalculatorContext *cc) override;
 
     private:
+        ::mediapipe::Status LoadOptions(CalculatorContext* cc);
         void AddFaceDetectionsTo(std::vector<float> &coordinates, CalculatorContext *cc);
         void AddMultiHandDetectionsTo(std::vector<float> &coordinates, CalculatorContext *cc);
         ::mediapipe::Status UpdateFrames(CalculatorContext *cc);
@@ -56,6 +53,11 @@ class SignLangPredictionCalculator : public CalculatorBase
         std::vector<std::string> labelMap = {};
         int framesSinceLastPrediction = 0;
         int emptyFrames = 0;
+        // Options
+        bool verboseLog= false;
+        int maxFrames = 0;
+        int thresholdFramesCount = 0;
+        int minFramesForInference = 0;
 };
 
 ::mediapipe::Status SignLangPredictionCalculator::GetContract(CalculatorContract *cc)
@@ -70,6 +72,8 @@ class SignLangPredictionCalculator : public CalculatorBase
     return ::mediapipe::OkStatus();
 }
 ::mediapipe::Status SignLangPredictionCalculator::Open(CalculatorContext *cc) {
+    // LOG(INFO) << "Open";
+    MP_RETURN_IF_ERROR(LoadOptions(cc));
     // Get Labels
     std::stringstream labels(cc->InputSidePackets().Tag(kLabelsSidePacketTag).Get<std::string>());
     std::string nextLabel;
@@ -81,12 +85,13 @@ class SignLangPredictionCalculator : public CalculatorBase
     RET_CHECK(model != nullptr) << "Building model from " << tfLiteModelPath << " failed.";
     tflite::ops::builtin::BuiltinOpResolver resolver;
     tflite::InterpreterBuilder(*model, resolver)(&interpreter);
-    //interpreter->ResizeInputTensor(0, {100, 86});
+    // interpreter->ResizeInputTensor(0, {100, 86});
     interpreter->AllocateTensors();
     tflite::PrintInterpreterState(interpreter.get());
     LOG(INFO) << "tensors size: " << interpreter->tensors_size() << "\n";
     LOG(INFO) << "nodes size: " << interpreter->nodes_size() << "\n";
-    LOG(INFO) << "inputs: " << interpreter->inputs().size() << "\n";
+    LOG(INFO) << "inputs: " << interpreter->inputs().size() << "\n";    
+    LOG(INFO) << "outputs: " << interpreter->outputs().size() << "\n";
     LOG(INFO) << "input(0) name: " << interpreter->GetInputName(0) << "\n";
     return ::mediapipe::OkStatus();
 }
@@ -136,6 +141,16 @@ class SignLangPredictionCalculator : public CalculatorBase
     LOG(INFO) << "Predicted: " << outputText;
     SetOutput(&outputText, cc);
     DeleteFramesBuffer();
+    return ::mediapipe::OkStatus();
+}
+
+::mediapipe::Status SignLangPredictionCalculator::LoadOptions(
+    CalculatorContext* cc) {
+    const auto& options = cc->Options<SignLangPredictionCalculatorOptions>();
+    verboseLog = options.verbose();
+    maxFrames = options.maxframes();
+    thresholdFramesCount = options.thresholdframescount();
+    minFramesForInference = options.minframesforinference();
     return ::mediapipe::OkStatus();
 }
 

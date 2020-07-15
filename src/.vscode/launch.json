@@ -42,7 +42,21 @@
             "externalConsole": false,
             "MIMode": "lldb",
             //"preLaunchTask": "bazel build prediction_cpu"
+        },
+        {
+            "name": "Launch sign_lang_gpu",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/bazel-bin/app/prediction_gpu",
+            "args": [
+                "--calculator_graph_config_file=${workspaceFolder}/graphs/sign_lang_prediction_gpu.pbtxt"
+            ],
+            "stopAtEntry": true,
+            "cwd": "${workspaceFolder}",
+            "environment": [],
+            "externalConsole": false,
+            "MIMode": "gdb",
+            //"preLaunchTask": "bazel build prediction_cpu"
         }
-        
     ]
 }
