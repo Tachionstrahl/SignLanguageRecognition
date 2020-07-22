@@ -51,7 +51,7 @@ node {
     [type.googleapis.com/mediapipe.RectToRenderDataCalculatorOptions] {
       filled: false
       color { r: 125 g: 0 b: 122 }
-      thickness: 4.0
+      thickness: 2.0
     }
   }
 }
@@ -118,7 +118,7 @@ node {
       landmark_connections: 20
       landmark_color { r: 255 g: 0 b: 0 }
       connection_color { r: 0 g: 255 b: 0 }
-      thickness: 4.0
+      thickness: 2.0
     }
   }
 }

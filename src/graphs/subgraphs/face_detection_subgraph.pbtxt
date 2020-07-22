@@ -150,7 +150,7 @@ node {
   node_options: {
     [type.googleapis.com/mediapipe.DetectionsToRenderDataCalculatorOptions] {
       thickness: 1.0
-      color { r: 255 g: 0 b: 0 }
+      color { r: 255 g: 127 b: 0 }
     }
   }
 }

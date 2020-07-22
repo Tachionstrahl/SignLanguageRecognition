@@ -23,8 +23,10 @@ cc_binary(
     deps = [
         "@mediapipe//mediapipe/examples/desktop:demo_run_graph_main_gpu",
         "@mediapipe//mediapipe/calculators/util:annotation_overlay_calculator",
+        "@mediapipe//mediapipe/calculators/core:constant_side_packet_calculator",
+        "@mediapipe//mediapipe/calculators/util:local_file_contents_calculator",
         "//calculators:text_to_render_data_calculator",
-        "//calculators:sign_language_prediction_calculator",
+        "//calculators:sign_lang_prediction_calculator",
         "//graphs/subgraphs:detections_gpu"
     ]
 )
@@ -34,8 +36,10 @@ cc_binary(
     deps = [
         "@mediapipe//mediapipe/examples/desktop:demo_run_graph_main",
         "@mediapipe//mediapipe/calculators/util:annotation_overlay_calculator",
+        "@mediapipe//mediapipe/calculators/core:constant_side_packet_calculator",
+        "@mediapipe//mediapipe/calculators/util:local_file_contents_calculator",
         "//calculators:text_to_render_data_calculator",
-        "//calculators:sign_language_prediction_calculator",
+        "//calculators:sign_lang_prediction_calculator",
         "//graphs/subgraphs:detections_cpu"
     ]
 )

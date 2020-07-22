@@ -1,16 +1,18 @@
 # SignLanguageRecognition
 
-This repository contains a variety of tools to build up a system for recognizing signs of the german sign language (DGS).
-The idea is to provide a live translation on a webcam stream. This could be on mobile or desktop.
+This repository contains a variety of tools to build up a experimental ecosystem for recognizing signs of the german sign language (DGS).
+Our claim is an experimental attempt at live subtitling of gestures.
 For this we train a deep learning model (RNN) for predicting the actual signs made by a person filmed.
 Therefore we use [MediaPipe](https://github.com/google/mediapipe), a framework for building ML pipelines, to extract face and hand positions, including multiple coordinates for each finger.
 
 ## Installation
 
+This repository is only tested under `Linux` (CPU and GPU) and `macOS` (CPU only).
+
 1. Clone the repository.
-2. Follow the instructions to [install MediaPipe](https://github.com/google/mediapipe/blob/master/mediapipe/docs/install.md).
+2. Follow the instructions to [install MediaPipe](https://google.github.io/mediapipe/getting_started/install).
 3. To work with our `jupyter notebooks`, we recommend to install [Anaconda](https://www.anaconda.com/).
-4. Install `TensorFlow 2.0` with `conda`, see <https://anaconda.org/anaconda/tensorflow-gpu>
+4. Install `TensorFlow 2.2.0` with `conda`, see <https://anaconda.org/anaconda/tensorflow-gpu>
 
 ## Workflow
 
@@ -28,8 +30,8 @@ The CSV files are used to train a deep learning model with `Keras`, a high level
 Therefore we use jupyter notebooks to simply write and comment scripts.
 Check out the folder `lab`.
 
-### 4. Live prediction
+### 4. Live prediction (Subtitling) ***Work in progress***
+<img alt="SignLang Predictino Graph" src="docs/sign_lang_graph.png" width="500px">
+Visualization of MediaPipe Graph
 
-The trained model is used for predicting live video stream.
-Therefore another `MediaPipe` pipeline was build.
-***To be continued***
+The trained model is used for predicting live video stream. See the `SignLanguageRecognitionCalculator` for further details on how we try to use the model for live predictions. Currently it's not working well, like we expected before, but it provides us an infrastructure for experiments and testing. You've got ideas for improvements? Let us know!

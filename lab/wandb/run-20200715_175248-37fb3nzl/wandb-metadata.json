@@ -1,0 +1,26 @@
+{
+    "root": "D:/Dokumente/GitHub/SignLanguageRecognition",
+    "program": "<python with no main file>",
+    "git": {
+        "remote": "https://github.com/Tachionstrahl/SignLanguageRecognition.git",
+        "commit": "8f6a1467a7b23e030cc05527bdaa7a1734602fb3"
+    },
+    "email": "58523261+MitchDtown@users.noreply.github.com",
+    "startedAt": "2020-07-15T16:03:57.777098",
+    "host": "MichiPC",
+    "username": "Michi",
+    "executable": "C:\\Users\\Michi\\.conda\\envs\\GPU\\python.exe",
+    "os": "Windows-10-10.0.18362-SP0",
+    "python": "3.7.7",
+    "cpu_count": 4,
+    "args": [
+        "-f",
+        "C:\\Users\\Michi\\AppData\\Roaming\\jupyter\\runtime\\kernel-1cb783ca-e3b6-4c5e-87ed-078ed62309dd.json"
+    ],
+    "state": "running",
+    "jobType": null,
+    "mode": "run",
+    "name": "bumbling-wood-2",
+    "project": "first_test_run_SLR",
+    "heartbeatAt": "2020-07-15T16:08:22.950954"
+}

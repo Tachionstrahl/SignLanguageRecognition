@@ -1,6 +1,28 @@
+# Enabling profiling. See https://google.github.io/mediapipe/tools/tracing_and_profiling.html for more information.
+profiler_config {
+  enable_profiler: true
+  trace_enabled: true
+  trace_log_count: 5
+}
+
 # Images coming into and out of the graph.
 input_stream: "input_video"
 output_stream: "output_video"
+node {
+   calculator: "ConstantSidePacketCalculator"
+   output_side_packet: "PACKET:file_path"
+   options: {
+     [mediapipe.ConstantSidePacketCalculatorOptions.ext]: {
+       packet { string_value: "models/sign_lang_label_map.txt" }
+     }
+   }
+ }
+
+node {
+  calculator: "LocalFileContentsCalculator"
+  input_side_packet: "FILE_PATH:file_path"
+  output_side_packet: "CONTENTS:contents"
+}
 
 node {
   calculator: "FlowLimiterCalculator"
@@ -26,7 +48,8 @@ node {
 }
 
 node {
-  calculator: "SignLanguagePredictionCalculator"
+  calculator: "SignLangPredictionCalculator"
+  input_side_packet: "LABELS:contents"
   input_stream: "DETECTIONS:output_detections"
   input_stream: "NORM_LANDMARKS:multi_hand_landmarks"
   output_stream: "TEXT:predicted_text"
@@ -42,9 +65,6 @@ node {
 node {
   calculator: "AnnotationOverlayCalculator"
   input_stream: "IMAGE:input_video"
-  input_stream: "detection_render_data"
-  input_stream: "multi_hand_rects_render_data"
-  input_stream: "multi_palm_rects_render_data"
   input_stream: "render_data"
   input_stream: "text_render_data"
   input_stream: "VECTOR:0:multi_hand_landmarks_render_data"
