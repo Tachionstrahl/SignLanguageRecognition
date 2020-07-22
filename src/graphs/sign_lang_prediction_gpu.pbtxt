@@ -47,6 +47,14 @@ node {
   input_stream: "DETECTIONS:output_detections"
   input_stream: "NORM_LANDMARKS:multi_hand_landmarks"
   output_stream: "TEXT:predicted_text"
+  options {
+      [signlang.SignLangPredictionCalculatorOptions.ext] {
+          verbose: true
+          maxFrames: 20
+          thresholdFramesCount: 60
+          minFramesForInference: 10
+      }
+   }
 }
 
 

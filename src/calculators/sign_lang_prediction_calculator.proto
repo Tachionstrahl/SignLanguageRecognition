@@ -1,6 +1,6 @@
 syntax = "proto2";
 
-package mediapipe;
+package signlang;
 
 import "mediapipe/framework/calculator.proto";
 
@@ -12,7 +12,7 @@ import "mediapipe/framework/calculator.proto";
 //   input_stream: "NORM_LANDMARKS:multi_hand_landmarks"
 //   output_stream: "TEXT:prediction"
 //  options {
-//      [mediapipe.SignLangPredictionCalculatorOptions.ext] {
+//      [signlang.SignLangPredictionCalculatorOptions.ext] {
 //          verbose: true
 //          maxFrames: 20
 //          thresholdFramesCount = 60
@@ -20,9 +20,10 @@ import "mediapipe/framework/calculator.proto";
 //      }
 //   }
 // }
+
 message SignLangPredictionCalculatorOptions {
   extend mediapipe.CalculatorOptions {
-    optional SignLangPredictionCalculatorOptions ext = 245817797;
+    optional SignLangPredictionCalculatorOptions ext = 23081994;
   }
   // If true, the log output will be more verbose.
   optional bool verbose = 1 [default = false];
