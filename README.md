@@ -28,7 +28,7 @@ For extracting multi hand and face detections for each frame of the videos and s
 
 The CSV files are used to train a deep learning model with `Keras`, a high level API for `TensorFlow`.
 Therefore we use jupyter notebooks to simply write and comment scripts.
-Check out the folder `lab`.
+Check out the `lab` folder.
 
 ### 4. Live prediction (Subtitling) ***Work in progress***
 <img alt="SignLang Predictino Graph" src="docs/sign_lang_graph.png" width="500px">
