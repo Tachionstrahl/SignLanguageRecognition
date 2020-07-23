@@ -33,12 +33,12 @@ Processing Videos in a given directory requires two arguments:
 
 1. The input root directory containing subdirectories with .mp4 files. 
 
-   `--input_video_path=/home/datagroup/Videos/SL/input`
+   `--input_video_path=/path/to/files`
 
    Example for a structure:
 
     ```none
-    input
+    files/
         -- word_one
             -- file_one.mp4
             -- file_two.mp4
@@ -49,7 +49,7 @@ Processing Videos in a given directory requires two arguments:
     ```
 
 2. The ouput root directory. Can be empty.
-   `--output_video_path=/home/datagroup/Videos/SL/output`
+   `--output_video_path=/path/for/output`
 
 ## Sign Language Prediction (`GPU`)
 
