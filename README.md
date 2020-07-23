@@ -12,7 +12,7 @@ This repository is only tested under `Linux` (CPU and GPU) and `macOS` (CPU only
 1. Clone the repository.
 2. Follow the instructions to [install MediaPipe](https://google.github.io/mediapipe/getting_started/install).
 3. To work with our `jupyter notebooks`, we recommend to install [Anaconda](https://www.anaconda.com/).
-4. Install `TensorFlow 2.0` with `conda`, see <https://anaconda.org/anaconda/tensorflow-gpu>
+4. Install `TensorFlow 2.2.0` with `conda`, see <https://anaconda.org/anaconda/tensorflow-gpu>
 
 ## Workflow
 
@@ -28,9 +28,10 @@ For extracting multi hand and face detections for each frame of the videos and s
 
 The CSV files are used to train a deep learning model with `Keras`, a high level API for `TensorFlow`.
 Therefore we use jupyter notebooks to simply write and comment scripts.
-Check out the folder `lab`.
+Check out the `lab` folder.
 
 ### 4. Live prediction (Subtitling) ***Work in progress***
 <img alt="SignLang Predictino Graph" src="docs/sign_lang_graph.png" width="500px">
+Visualization of MediaPipe Graph
 
 The trained model is used for predicting live video stream. See the `SignLanguageRecognitionCalculator` for further details on how we try to use the model for live predictions. Currently it's not working well, like we expected before, but it provides us an infrastructure for experiments and testing. You've got ideas for improvements? Let us know!
