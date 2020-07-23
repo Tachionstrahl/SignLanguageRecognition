@@ -13,7 +13,10 @@ namespace signlang
 constexpr char kLandmarksTag[] = "NORM_LANDMARKS";
 constexpr char kFaceDetectionsTag[] = "DETECTIONS";
 constexpr char kCSVPathTag[] = "CSV_OUTPUT_FILE_PATH";
-constexpr char csvHeader[] = "face_x;face_y;landmark_x_1;landmark_y_1;landmark_x_2;landmark_y_2;landmark_x_3;landmark_y_3;landmark_x_4;landmark_y_4;landmark_x_5;landmark_y_5;landmark_x_6;landmark_y_6;landmark_x_7;landmark_y_7;landmark_x_8;landmark_y_8;landmark_x_9;landmark_y_9;landmark_x_10;landmark_y_10;landmark_x_11;landmark_y_11;landmark_x_12;landmark_y_12;landmark_x_13;landmark_y_13;landmark_x_14;landmark_y_14;landmark_x_15;landmark_y_15;landmark_x_16;landmark_y_16;landmark_x_17;landmark_y_17;landmark_x_18;landmark_y_18;landmark_x_19;landmark_y_19;landmark_x_20;landmark_y_20;landmark_x_21;landmark_y_21;landmark_x_22;landmark_y_22;landmark_x_23;landmark_y_23;landmark_x_24;landmark_y_24;landmark_x_25;landmark_y_25;landmark_x_26;landmark_y_26;landmark_x_27;landmark_y_27;landmark_x_28;landmark_y_28;landmark_x_29;landmark_y_29;landmark_x_30;landmark_y_30;landmark_x_31;landmark_y_31;landmark_x_32;landmark_y_32;landmark_x_33;landmark_y_33;landmark_x_34;landmark_y_34;landmark_x_35;landmark_y_35;landmark_x_36;landmark_y_36;landmark_x_37;landmark_y_37;landmark_x_38;landmark_y_38;landmark_x_39;landmark_y_39;landmark_x_40;landmark_y_40;landmark_x_41;landmark_y_41;landmark_x_42;landmark_y_42";
+
+constexpr bool use3D = true;
+constexpr char csvHeader2D[] = "face_x;face_y;landmark_x_1;landmark_y_1;landmark_x_2;landmark_y_2;landmark_x_3;landmark_y_3;landmark_x_4;landmark_y_4;landmark_x_5;landmark_y_5;landmark_x_6;landmark_y_6;landmark_x_7;landmark_y_7;landmark_x_8;landmark_y_8;landmark_x_9;landmark_y_9;landmark_x_10;landmark_y_10;landmark_x_11;landmark_y_11;landmark_x_12;landmark_y_12;landmark_x_13;landmark_y_13;landmark_x_14;landmark_y_14;landmark_x_15;landmark_y_15;landmark_x_16;landmark_y_16;landmark_x_17;landmark_y_17;landmark_x_18;landmark_y_18;landmark_x_19;landmark_y_19;landmark_x_20;landmark_y_20;landmark_x_21;landmark_y_21;landmark_x_22;landmark_y_22;landmark_x_23;landmark_y_23;landmark_x_24;landmark_y_24;landmark_x_25;landmark_y_25;landmark_x_26;landmark_y_26;landmark_x_27;landmark_y_27;landmark_x_28;landmark_y_28;landmark_x_29;landmark_y_29;landmark_x_30;landmark_y_30;landmark_x_31;landmark_y_31;landmark_x_32;landmark_y_32;landmark_x_33;landmark_y_33;landmark_x_34;landmark_y_34;landmark_x_35;landmark_y_35;landmark_x_36;landmark_y_36;landmark_x_37;landmark_y_37;landmark_x_38;landmark_y_38;landmark_x_39;landmark_y_39;landmark_x_40;landmark_y_40;landmark_x_41;landmark_y_41;landmark_x_42;landmark_y_42";
+constexpr char csvHeader3D[] = "face_x;face_y;landmark_x_1;landmark_y_1;landmark_z_1;landmark_x_2;landmark_y_2;landmark_z_2;landmark_x_3;landmark_y_3;landmark_z_3;landmark_x_4;landmark_y_4;landmark_z_4;landmark_x_5;landmark_y_5;landmark_z_5;landmark_x_6;landmark_y_6;landmark_z_6;landmark_x_7;landmark_y_7;landmark_z_7;landmark_x_8;landmark_y_8;landmark_z_8;landmark_x_9;landmark_y_9;landmark_z_9;landmark_x_10;landmark_y_10;landmark_z_10;landmark_x_11;landmark_y_11;landmark_z_11;landmark_x_12;landmark_y_12;landmark_z_12;landmark_x_13;landmark_y_13;landmark_z_13;landmark_x_14;landmark_y_14;landmark_z_14;landmark_x_15;landmark_y_15;landmark_z_15;landmark_x_16;landmark_y_16;landmark_z_16;landmark_x_17;landmark_y_17;landmark_z_17;landmark_x_18;landmark_y_18;landmark_z_18;landmark_x_19;landmark_y_19;landmark_z_19;landmark_x_20;landmark_y_20;landmark_z_20;landmark_x_21;landmark_y_21;landmark_z_21;landmark_x_22;landmark_y_22;landmark_z_22;landmark_x_23;landmark_y_23;landmark_z_23;landmark_x_24;landmark_y_24;landmark_z_24;landmark_x_25;landmark_y_25;landmark_z_25;landmark_x_26;landmark_y_26;landmark_z_26;landmark_x_27;landmark_y_27;landmark_z_27;landmark_x_28;landmark_y_28;landmark_z_28;landmark_x_29;landmark_y_29;landmark_z_29;landmark_x_30;landmark_y_30;landmark_z_30;landmark_x_31;landmark_y_31;landmark_z_31;landmark_x_32;landmark_y_32;landmark_z_32;landmark_x_33;landmark_y_33;landmark_z_33;landmark_x_34;landmark_y_34;landmark_z_34;landmark_x_35;landmark_y_35;landmark_z_35;landmark_x_36;landmark_y_36;landmark_z_36;landmark_x_37;landmark_y_37;landmark_z_37;landmark_x_38;landmark_y_38;landmark_z_38;landmark_x_39;landmark_y_39;landmark_z_39;landmark_x_40;landmark_y_40;landmark_z_40;landmark_x_41;landmark_y_41;landmark_z_41;landmark_x_42;landmark_y_42;landmark_z_42";
 class DetectionsToCSVCalculator : public CalculatorBase
 {
 public:
@@ -37,7 +40,11 @@ public:
         const std::string &file_path =
             cc->InputSidePackets().Tag("CSV_OUTPUT_FILE_PATH").Get<std::string>();
         csvFile.open(file_path, fstream::out);
-        csvFile << csvHeader << endl;
+        if (use3D) {
+            csvFile << csvHeader3D << endl;
+        } else {
+            csvFile << csvHeader2D << endl;
+        }
         return OkStatus();
     }
 
@@ -69,10 +76,14 @@ public:
                 const NormalizedLandmark &landmark = landmarks.landmark(i);
                 coordinates.push_back(landmark.x());
                 coordinates.push_back(landmark.y());
+                if (use3D) {
+                    coordinates.push_back(landmark.z());
+                }
             }
         }
 
-        if (coordinates.size() == 44 || coordinates.size() == 86)
+        if ((use3D && (coordinates.size() == 65 || coordinates.size() == 128)) || 
+        (!use3D && (coordinates.size() == 44 || coordinates.size() == 86)))
         {
             for (int i = 0; i < coordinates.size(); i++)
             {
