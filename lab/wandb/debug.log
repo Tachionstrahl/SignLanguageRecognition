@@ -1,0 +1,292 @@
+2020-07-24 12:32:08,046 DEBUG   MainThread:24220 [wandb_config.py:_load_defaults():154] no defaults not found in config-defaults.yaml
+2020-07-24 12:32:08,282 DEBUG   MainThread:24220 [meta.py:_setup_code_git():49] probe for git information
+2020-07-24 12:32:08,349 DEBUG   MainThread:24220 [run_manager.py:__init__():547] Initialized sync for SLR/u7jina4j
+2020-07-24 12:32:08,352 INFO    MainThread:24220 [run_manager.py:wrap_existing_process():1149] wrapping existing process 16516
+2020-07-24 12:32:08,433 INFO    MainThread:24220 [run_manager.py:init_run():928] system metrics and metadata threads started
+2020-07-24 12:32:08,436 INFO    MainThread:24220 [run_manager.py:init_run():967] upserting run before process can begin, waiting at most 10 seconds
+2020-07-24 12:32:08,669 INFO    Thread-21 :24220 [run_manager.py:_upsert_run():1056] saving pip packages
+2020-07-24 12:32:08,669 INFO    Thread-21 :24220 [run_manager.py:_upsert_run():1058] initializing streaming files api
+2020-07-24 12:32:08,670 INFO    Thread-21 :24220 [run_manager.py:_upsert_run():1065] unblocking file change observer, beginning sync with W&B servers
+2020-07-24 12:32:08,670 INFO    MainThread:24220 [run_manager.py:wrap_existing_process():1166] informing user process we are ready to proceed
+2020-07-24 12:32:08,670 INFO    MainThread:24220 [run_manager.py:_sync_etc():1298] entering loop for messages from user process
+2020-07-24 12:32:09,264 INFO    Thread-8  :24220 [run_manager.py:_on_file_modified():692] file/dir modified: D:\Dokumente\GitHub\SignLanguageRecognition\lab\wandb\run-20200724_123204-u7jina4j\config.yaml
+2020-07-24 12:32:09,505 INFO    Thread-8  :24220 [run_manager.py:_on_file_created():681] file/dir created: D:\Dokumente\GitHub\SignLanguageRecognition\lab\wandb\run-20200724_123204-u7jina4j\wandb-metadata.json
+2020-07-24 12:32:09,506 INFO    Thread-8  :24220 [run_manager.py:_on_file_created():681] file/dir created: D:\Dokumente\GitHub\SignLanguageRecognition\lab\wandb\run-20200724_123204-u7jina4j\output.log
+2020-07-24 12:32:09,506 INFO    Thread-8  :24220 [run_manager.py:_on_file_created():681] file/dir created: D:\Dokumente\GitHub\SignLanguageRecognition\lab\wandb\run-20200724_123204-u7jina4j\requirements.txt
+2020-07-24 12:32:14,167 INFO    MainThread:24220 [run_manager.py:_sync_etc():1321] received message from user process: {"save_policy": {"glob": "model-best.h5", "policy": "live"}}
+2020-07-24 12:32:19,269 INFO    Thread-8  :24220 [run_manager.py:_on_file_created():681] file/dir created: D:\Dokumente\GitHub\SignLanguageRecognition\lab\wandb\run-20200724_123204-u7jina4j\media\graph\graph_summary_b84ffa8e.graph.json
+2020-07-24 12:32:19,269 INFO    Thread-8  :24220 [run_manager.py:_on_file_created():681] file/dir created: D:\Dokumente\GitHub\SignLanguageRecognition\lab\wandb\run-20200724_123204-u7jina4j\wandb-summary.json
+2020-07-24 12:32:19,275 INFO    Thread-8  :24220 [run_manager.py:_on_file_created():681] file/dir created: D:\Dokumente\GitHub\SignLanguageRecognition\lab\wandb\run-20200724_123204-u7jina4j\media
+2020-07-24 12:32:19,276 INFO    Thread-8  :24220 [run_manager.py:_on_file_created():681] file/dir created: D:\Dokumente\GitHub\SignLanguageRecognition\lab\wandb\run-20200724_123204-u7jina4j\media\graph
+2020-07-24 12:32:21,272 INFO    Thread-8  :24220 [run_manager.py:_on_file_modified():692] file/dir modified: D:\Dokumente\GitHub\SignLanguageRecognition\lab\wandb\run-20200724_123204-u7jina4j\wandb-summary.json
+2020-07-24 12:32:21,276 INFO    Thread-8  :24220 [run_manager.py:_on_file_modified():692] file/dir modified: D:\Dokumente\GitHub\SignLanguageRecognition\lab\wandb\run-20200724_123204-u7jina4j\wandb-history.jsonl
+2020-07-24 12:32:21,281 INFO    Thread-8  :24220 [run_manager.py:_on_file_created():681] file/dir created: D:\Dokumente\GitHub\SignLanguageRecognition\lab\wandb\run-20200724_123204-u7jina4j\model-best.h5
+2020-07-24 12:32:22,274 INFO    Thread-8  :24220 [run_manager.py:_on_file_modified():692] file/dir modified: D:\Dokumente\GitHub\SignLanguageRecognition\lab\wandb\run-20200724_123204-u7jina4j\model-best.h5
+2020-07-24 12:32:22,274 INFO    Thread-8  :24220 [run_manager.py:_on_file_modified():692] file/dir modified: D:\Dokumente\GitHub\SignLanguageRecognition\lab\wandb\run-20200724_123204-u7jina4j\wandb-summary.json
+2020-07-24 12:32:22,278 INFO    Thread-8  :24220 [run_manager.py:_on_file_modified():692] file/dir modified: D:\Dokumente\GitHub\SignLanguageRecognition\lab\wandb\run-20200724_123204-u7jina4j\wandb-history.jsonl
+2020-07-24 12:32:23,282 INFO    Thread-8  :24220 [run_manager.py:_on_file_modified():692] file/dir modified: D:\Dokumente\GitHub\SignLanguageRecognition\lab\wandb\run-20200724_123204-u7jina4j\model-best.h5
+2020-07-24 12:32:23,292 INFO    Thread-8  :24220 [run_manager.py:_on_file_modified():692] file/dir modified: D:\Dokumente\GitHub\SignLanguageRecognition\lab\wandb\run-20200724_123204-u7jina4j\wandb-summary.json
+2020-07-24 12:32:23,296 INFO    Thread-8  :24220 [run_manager.py:_on_file_modified():692] file/dir modified: D:\Dokumente\GitHub\SignLanguageRecognition\lab\wandb\run-20200724_123204-u7jina4j\wandb-history.jsonl
+2020-07-24 12:32:24,286 INFO    Thread-8  :24220 [run_manager.py:_on_file_modified():692] file/dir modified: D:\Dokumente\GitHub\SignLanguageRecognition\lab\wandb\run-20200724_123204-u7jina4j\model-best.h5
+2020-07-24 12:32:24,287 INFO    Thread-8  :24220 [run_manager.py:_on_file_modified():692] file/dir modified: D:\Dokumente\GitHub\SignLanguageRecognition\lab\wandb\run-20200724_123204-u7jina4j\wandb-summary.json
+2020-07-24 12:32:24,292 INFO    Thread-8  :24220 [run_manager.py:_on_file_modified():692] file/dir modified: D:\Dokumente\GitHub\SignLanguageRecognition\lab\wandb\run-20200724_123204-u7jina4j\wandb-history.jsonl
+2020-07-24 12:32:25,291 INFO    Thread-8  :24220 [run_manager.py:_on_file_modified():692] file/dir modified: D:\Dokumente\GitHub\SignLanguageRecognition\lab\wandb\run-20200724_123204-u7jina4j\wandb-metadata.json
+2020-07-24 12:32:25,291 INFO    Thread-8  :24220 [run_manager.py:_on_file_modified():692] file/dir modified: D:\Dokumente\GitHub\SignLanguageRecognition\lab\wandb\run-20200724_123204-u7jina4j\model-best.h5
+2020-07-24 12:32:25,292 INFO    Thread-8  :24220 [run_manager.py:_on_file_modified():692] file/dir modified: D:\Dokumente\GitHub\SignLanguageRecognition\lab\wandb\run-20200724_123204-u7jina4j\wandb-summary.json
+2020-07-24 12:32:25,296 INFO    Thread-8  :24220 [run_manager.py:_on_file_modified():692] file/dir modified: D:\Dokumente\GitHub\SignLanguageRecognition\lab\wandb\run-20200724_123204-u7jina4j\wandb-history.jsonl
+2020-07-24 12:32:26,293 INFO    Thread-8  :24220 [run_manager.py:_on_file_modified():692] file/dir modified: D:\Dokumente\GitHub\SignLanguageRecognition\lab\wandb\run-20200724_123204-u7jina4j\model-best.h5
+2020-07-24 12:32:26,293 INFO    Thread-8  :24220 [run_manager.py:_on_file_modified():692] file/dir modified: D:\Dokumente\GitHub\SignLanguageRecognition\lab\wandb\run-20200724_123204-u7jina4j\wandb-summary.json
+2020-07-24 12:32:26,298 INFO    Thread-8  :24220 [run_manager.py:_on_file_modified():692] file/dir modified: D:\Dokumente\GitHub\SignLanguageRecognition\lab\wandb\run-20200724_123204-u7jina4j\wandb-history.jsonl
+2020-07-24 12:32:27,294 INFO    Thread-8  :24220 [run_manager.py:_on_file_modified():692] file/dir modified: D:\Dokumente\GitHub\SignLanguageRecognition\lab\wandb\run-20200724_123204-u7jina4j\model-best.h5
+2020-07-24 12:32:27,294 INFO    Thread-8  :24220 [run_manager.py:_on_file_modified():692] file/dir modified: D:\Dokumente\GitHub\SignLanguageRecognition\lab\wandb\run-20200724_123204-u7jina4j\wandb-summary.json
+2020-07-24 12:32:27,298 INFO    Thread-8  :24220 [run_manager.py:_on_file_modified():692] file/dir modified: D:\Dokumente\GitHub\SignLanguageRecognition\lab\wandb\run-20200724_123204-u7jina4j\wandb-history.jsonl
+2020-07-24 12:32:28,296 INFO    Thread-8  :24220 [run_manager.py:_on_file_modified():692] file/dir modified: D:\Dokumente\GitHub\SignLanguageRecognition\lab\wandb\run-20200724_123204-u7jina4j\model-best.h5
+2020-07-24 12:32:28,296 INFO    Thread-8  :24220 [run_manager.py:_on_file_modified():692] file/dir modified: D:\Dokumente\GitHub\SignLanguageRecognition\lab\wandb\run-20200724_123204-u7jina4j\wandb-summary.json
+2020-07-24 12:32:28,301 INFO    Thread-8  :24220 [run_manager.py:_on_file_modified():692] file/dir modified: D:\Dokumente\GitHub\SignLanguageRecognition\lab\wandb\run-20200724_123204-u7jina4j\wandb-history.jsonl
+2020-07-24 12:32:29,297 INFO    Thread-8  :24220 [run_manager.py:_on_file_modified():692] file/dir modified: D:\Dokumente\GitHub\SignLanguageRecognition\lab\wandb\run-20200724_123204-u7jina4j\model-best.h5
+2020-07-24 12:32:29,297 INFO    Thread-8  :24220 [run_manager.py:_on_file_modified():692] file/dir modified: D:\Dokumente\GitHub\SignLanguageRecognition\lab\wandb\run-20200724_123204-u7jina4j\wandb-summary.json
+2020-07-24 12:32:29,302 INFO    Thread-8  :24220 [run_manager.py:_on_file_modified():692] file/dir modified: D:\Dokumente\GitHub\SignLanguageRecognition\lab\wandb\run-20200724_123204-u7jina4j\wandb-history.jsonl
+2020-07-24 12:32:30,299 INFO    Thread-8  :24220 [run_manager.py:_on_file_modified():692] file/dir modified: D:\Dokumente\GitHub\SignLanguageRecognition\lab\wandb\run-20200724_123204-u7jina4j\model-best.h5
+2020-07-24 12:32:30,300 INFO    Thread-8  :24220 [run_manager.py:_on_file_modified():692] file/dir modified: D:\Dokumente\GitHub\SignLanguageRecognition\lab\wandb\run-20200724_123204-u7jina4j\wandb-summary.json
+2020-07-24 12:32:30,306 INFO    Thread-8  :24220 [run_manager.py:_on_file_modified():692] file/dir modified: D:\Dokumente\GitHub\SignLanguageRecognition\lab\wandb\run-20200724_123204-u7jina4j\wandb-history.jsonl
+2020-07-24 12:32:31,302 INFO    Thread-8  :24220 [run_manager.py:_on_file_modified():692] file/dir modified: D:\Dokumente\GitHub\SignLanguageRecognition\lab\wandb\run-20200724_123204-u7jina4j\wandb-summary.json
+2020-07-24 12:32:31,306 INFO    Thread-8  :24220 [run_manager.py:_on_file_modified():692] file/dir modified: D:\Dokumente\GitHub\SignLanguageRecognition\lab\wandb\run-20200724_123204-u7jina4j\wandb-history.jsonl
+2020-07-24 12:32:32,304 INFO    Thread-8  :24220 [run_manager.py:_on_file_modified():692] file/dir modified: D:\Dokumente\GitHub\SignLanguageRecognition\lab\wandb\run-20200724_123204-u7jina4j\model-best.h5
+2020-07-24 12:32:32,304 INFO    Thread-8  :24220 [run_manager.py:_on_file_modified():692] file/dir modified: D:\Dokumente\GitHub\SignLanguageRecognition\lab\wandb\run-20200724_123204-u7jina4j\wandb-summary.json
+2020-07-24 12:32:32,307 INFO    Thread-8  :24220 [run_manager.py:_on_file_modified():692] file/dir modified: D:\Dokumente\GitHub\SignLanguageRecognition\lab\wandb\run-20200724_123204-u7jina4j\wandb-history.jsonl
+2020-07-24 12:32:33,305 INFO    Thread-8  :24220 [run_manager.py:_on_file_modified():692] file/dir modified: D:\Dokumente\GitHub\SignLanguageRecognition\lab\wandb\run-20200724_123204-u7jina4j\model-best.h5
+2020-07-24 12:32:33,305 INFO    Thread-8  :24220 [run_manager.py:_on_file_modified():692] file/dir modified: D:\Dokumente\GitHub\SignLanguageRecognition\lab\wandb\run-20200724_123204-u7jina4j\wandb-summary.json
+2020-07-24 12:32:33,311 INFO    Thread-8  :24220 [run_manager.py:_on_file_modified():692] file/dir modified: D:\Dokumente\GitHub\SignLanguageRecognition\lab\wandb\run-20200724_123204-u7jina4j\wandb-history.jsonl
+2020-07-24 12:32:34,307 INFO    Thread-8  :24220 [run_manager.py:_on_file_modified():692] file/dir modified: D:\Dokumente\GitHub\SignLanguageRecognition\lab\wandb\run-20200724_123204-u7jina4j\model-best.h5
+2020-07-24 12:32:34,307 INFO    Thread-8  :24220 [run_manager.py:_on_file_modified():692] file/dir modified: D:\Dokumente\GitHub\SignLanguageRecognition\lab\wandb\run-20200724_123204-u7jina4j\wandb-summary.json
+2020-07-24 12:32:34,310 INFO    Thread-8  :24220 [run_manager.py:_on_file_modified():692] file/dir modified: D:\Dokumente\GitHub\SignLanguageRecognition\lab\wandb\run-20200724_123204-u7jina4j\wandb-history.jsonl
+2020-07-24 12:32:35,308 INFO    Thread-8  :24220 [run_manager.py:_on_file_modified():692] file/dir modified: D:\Dokumente\GitHub\SignLanguageRecognition\lab\wandb\run-20200724_123204-u7jina4j\model-best.h5
+2020-07-24 12:32:35,309 INFO    Thread-8  :24220 [run_manager.py:_on_file_modified():692] file/dir modified: D:\Dokumente\GitHub\SignLanguageRecognition\lab\wandb\run-20200724_123204-u7jina4j\wandb-summary.json
+2020-07-24 12:32:35,323 INFO    Thread-8  :24220 [run_manager.py:_on_file_modified():692] file/dir modified: D:\Dokumente\GitHub\SignLanguageRecognition\lab\wandb\run-20200724_123204-u7jina4j\output.log
+2020-07-24 12:32:35,323 INFO    Thread-8  :24220 [run_manager.py:_on_file_modified():692] file/dir modified: D:\Dokumente\GitHub\SignLanguageRecognition\lab\wandb\run-20200724_123204-u7jina4j\wandb-history.jsonl
+2020-07-24 12:32:36,310 INFO    Thread-8  :24220 [run_manager.py:_on_file_modified():692] file/dir modified: D:\Dokumente\GitHub\SignLanguageRecognition\lab\wandb\run-20200724_123204-u7jina4j\model-best.h5
+2020-07-24 12:32:36,310 INFO    Thread-8  :24220 [run_manager.py:_on_file_modified():692] file/dir modified: D:\Dokumente\GitHub\SignLanguageRecognition\lab\wandb\run-20200724_123204-u7jina4j\wandb-summary.json
+2020-07-24 12:32:36,314 INFO    Thread-8  :24220 [run_manager.py:_on_file_modified():692] file/dir modified: D:\Dokumente\GitHub\SignLanguageRecognition\lab\wandb\run-20200724_123204-u7jina4j\wandb-history.jsonl
+2020-07-24 12:32:37,312 INFO    Thread-8  :24220 [run_manager.py:_on_file_modified():692] file/dir modified: D:\Dokumente\GitHub\SignLanguageRecognition\lab\wandb\run-20200724_123204-u7jina4j\model-best.h5
+2020-07-24 12:32:37,313 INFO    Thread-8  :24220 [run_manager.py:_on_file_modified():692] file/dir modified: D:\Dokumente\GitHub\SignLanguageRecognition\lab\wandb\run-20200724_123204-u7jina4j\wandb-summary.json
+2020-07-24 12:32:37,319 INFO    Thread-8  :24220 [run_manager.py:_on_file_modified():692] file/dir modified: D:\Dokumente\GitHub\SignLanguageRecognition\lab\wandb\run-20200724_123204-u7jina4j\wandb-history.jsonl
+2020-07-24 12:32:37,319 INFO    Thread-8  :24220 [run_manager.py:_on_file_created():681] file/dir created: D:\Dokumente\GitHub\SignLanguageRecognition\lab\wandb\run-20200724_123204-u7jina4j\wandb-events.jsonl
+2020-07-24 12:32:38,314 INFO    Thread-8  :24220 [run_manager.py:_on_file_modified():692] file/dir modified: D:\Dokumente\GitHub\SignLanguageRecognition\lab\wandb\run-20200724_123204-u7jina4j\wandb-summary.json
+2020-07-24 12:32:38,321 INFO    Thread-8  :24220 [run_manager.py:_on_file_modified():692] file/dir modified: D:\Dokumente\GitHub\SignLanguageRecognition\lab\wandb\run-20200724_123204-u7jina4j\wandb-history.jsonl
+2020-07-24 12:32:39,315 INFO    Thread-8  :24220 [run_manager.py:_on_file_modified():692] file/dir modified: D:\Dokumente\GitHub\SignLanguageRecognition\lab\wandb\run-20200724_123204-u7jina4j\wandb-summary.json
+2020-07-24 12:32:39,320 INFO    Thread-8  :24220 [run_manager.py:_on_file_modified():692] file/dir modified: D:\Dokumente\GitHub\SignLanguageRecognition\lab\wandb\run-20200724_123204-u7jina4j\wandb-history.jsonl
+2020-07-24 12:32:40,324 INFO    Thread-8  :24220 [run_manager.py:_on_file_modified():692] file/dir modified: D:\Dokumente\GitHub\SignLanguageRecognition\lab\wandb\run-20200724_123204-u7jina4j\wandb-summary.json
+2020-07-24 12:32:40,328 INFO    Thread-8  :24220 [run_manager.py:_on_file_modified():692] file/dir modified: D:\Dokumente\GitHub\SignLanguageRecognition\lab\wandb\run-20200724_123204-u7jina4j\wandb-history.jsonl
+2020-07-24 12:32:41,325 INFO    Thread-8  :24220 [run_manager.py:_on_file_modified():692] file/dir modified: D:\Dokumente\GitHub\SignLanguageRecognition\lab\wandb\run-20200724_123204-u7jina4j\wandb-metadata.json
+2020-07-24 12:32:41,325 INFO    Thread-8  :24220 [run_manager.py:_on_file_modified():692] file/dir modified: D:\Dokumente\GitHub\SignLanguageRecognition\lab\wandb\run-20200724_123204-u7jina4j\model-best.h5
+2020-07-24 12:32:41,326 INFO    Thread-8  :24220 [run_manager.py:_on_file_modified():692] file/dir modified: D:\Dokumente\GitHub\SignLanguageRecognition\lab\wandb\run-20200724_123204-u7jina4j\wandb-summary.json
+2020-07-24 12:32:41,331 INFO    Thread-8  :24220 [run_manager.py:_on_file_modified():692] file/dir modified: D:\Dokumente\GitHub\SignLanguageRecognition\lab\wandb\run-20200724_123204-u7jina4j\wandb-history.jsonl
+2020-07-24 12:32:42,327 INFO    Thread-8  :24220 [run_manager.py:_on_file_modified():692] file/dir modified: D:\Dokumente\GitHub\SignLanguageRecognition\lab\wandb\run-20200724_123204-u7jina4j\model-best.h5
+2020-07-24 12:32:42,328 INFO    Thread-8  :24220 [run_manager.py:_on_file_modified():692] file/dir modified: D:\Dokumente\GitHub\SignLanguageRecognition\lab\wandb\run-20200724_123204-u7jina4j\wandb-summary.json
+2020-07-24 12:32:42,332 INFO    Thread-8  :24220 [run_manager.py:_on_file_modified():692] file/dir modified: D:\Dokumente\GitHub\SignLanguageRecognition\lab\wandb\run-20200724_123204-u7jina4j\wandb-history.jsonl
+2020-07-24 12:32:43,329 INFO    Thread-8  :24220 [run_manager.py:_on_file_modified():692] file/dir modified: D:\Dokumente\GitHub\SignLanguageRecognition\lab\wandb\run-20200724_123204-u7jina4j\wandb-summary.json
+2020-07-24 12:32:43,332 INFO    Thread-8  :24220 [run_manager.py:_on_file_modified():692] file/dir modified: D:\Dokumente\GitHub\SignLanguageRecognition\lab\wandb\run-20200724_123204-u7jina4j\wandb-history.jsonl
+2020-07-24 12:32:44,330 INFO    Thread-8  :24220 [run_manager.py:_on_file_modified():692] file/dir modified: D:\Dokumente\GitHub\SignLanguageRecognition\lab\wandb\run-20200724_123204-u7jina4j\model-best.h5
+2020-07-24 12:32:44,331 INFO    Thread-8  :24220 [run_manager.py:_on_file_modified():692] file/dir modified: D:\Dokumente\GitHub\SignLanguageRecognition\lab\wandb\run-20200724_123204-u7jina4j\wandb-summary.json
+2020-07-24 12:32:44,336 INFO    Thread-8  :24220 [run_manager.py:_on_file_modified():692] file/dir modified: D:\Dokumente\GitHub\SignLanguageRecognition\lab\wandb\run-20200724_123204-u7jina4j\wandb-history.jsonl
+2020-07-24 12:32:45,332 INFO    Thread-8  :24220 [run_manager.py:_on_file_modified():692] file/dir modified: D:\Dokumente\GitHub\SignLanguageRecognition\lab\wandb\run-20200724_123204-u7jina4j\model-best.h5
+2020-07-24 12:32:45,332 INFO    Thread-8  :24220 [run_manager.py:_on_file_modified():692] file/dir modified: D:\Dokumente\GitHub\SignLanguageRecognition\lab\wandb\run-20200724_123204-u7jina4j\wandb-summary.json
+2020-07-24 12:32:45,337 INFO    Thread-8  :24220 [run_manager.py:_on_file_modified():692] file/dir modified: D:\Dokumente\GitHub\SignLanguageRecognition\lab\wandb\run-20200724_123204-u7jina4j\wandb-history.jsonl
+2020-07-24 12:32:46,336 INFO    Thread-8  :24220 [run_manager.py:_on_file_modified():692] file/dir modified: D:\Dokumente\GitHub\SignLanguageRecognition\lab\wandb\run-20200724_123204-u7jina4j\output.log
+2020-07-24 12:32:46,336 INFO    Thread-8  :24220 [run_manager.py:_on_file_modified():692] file/dir modified: D:\Dokumente\GitHub\SignLanguageRecognition\lab\wandb\run-20200724_123204-u7jina4j\wandb-summary.json
+2020-07-24 12:32:46,343 INFO    Thread-8  :24220 [run_manager.py:_on_file_modified():692] file/dir modified: D:\Dokumente\GitHub\SignLanguageRecognition\lab\wandb\run-20200724_123204-u7jina4j\wandb-history.jsonl
+2020-07-24 12:32:47,340 INFO    Thread-8  :24220 [run_manager.py:_on_file_modified():692] file/dir modified: D:\Dokumente\GitHub\SignLanguageRecognition\lab\wandb\run-20200724_123204-u7jina4j\wandb-summary.json
+2020-07-24 12:32:47,346 INFO    Thread-8  :24220 [run_manager.py:_on_file_modified():692] file/dir modified: D:\Dokumente\GitHub\SignLanguageRecognition\lab\wandb\run-20200724_123204-u7jina4j\wandb-history.jsonl
+2020-07-24 12:32:48,341 INFO    Thread-8  :24220 [run_manager.py:_on_file_modified():692] file/dir modified: D:\Dokumente\GitHub\SignLanguageRecognition\lab\wandb\run-20200724_123204-u7jina4j\wandb-summary.json
+2020-07-24 12:32:48,345 INFO    Thread-8  :24220 [run_manager.py:_on_file_modified():692] file/dir modified: D:\Dokumente\GitHub\SignLanguageRecognition\lab\wandb\run-20200724_123204-u7jina4j\wandb-history.jsonl
+2020-07-24 12:32:49,343 INFO    Thread-8  :24220 [run_manager.py:_on_file_modified():692] file/dir modified: D:\Dokumente\GitHub\SignLanguageRecognition\lab\wandb\run-20200724_123204-u7jina4j\wandb-summary.json
+2020-07-24 12:32:49,347 INFO    Thread-8  :24220 [run_manager.py:_on_file_modified():692] file/dir modified: D:\Dokumente\GitHub\SignLanguageRecognition\lab\wandb\run-20200724_123204-u7jina4j\wandb-history.jsonl
+2020-07-24 12:32:50,344 INFO    Thread-8  :24220 [run_manager.py:_on_file_modified():692] file/dir modified: D:\Dokumente\GitHub\SignLanguageRecognition\lab\wandb\run-20200724_123204-u7jina4j\wandb-summary.json
+2020-07-24 12:32:50,348 INFO    Thread-8  :24220 [run_manager.py:_on_file_modified():692] file/dir modified: D:\Dokumente\GitHub\SignLanguageRecognition\lab\wandb\run-20200724_123204-u7jina4j\wandb-history.jsonl
+2020-07-24 12:32:51,347 INFO    Thread-8  :24220 [run_manager.py:_on_file_modified():692] file/dir modified: D:\Dokumente\GitHub\SignLanguageRecognition\lab\wandb\run-20200724_123204-u7jina4j\wandb-summary.json
+2020-07-24 12:32:51,354 INFO    Thread-8  :24220 [run_manager.py:_on_file_modified():692] file/dir modified: D:\Dokumente\GitHub\SignLanguageRecognition\lab\wandb\run-20200724_123204-u7jina4j\wandb-history.jsonl
+2020-07-24 12:32:52,347 INFO    Thread-8  :24220 [run_manager.py:_on_file_modified():692] file/dir modified: D:\Dokumente\GitHub\SignLanguageRecognition\lab\wandb\run-20200724_123204-u7jina4j\wandb-summary.json
+2020-07-24 12:32:52,354 INFO    Thread-8  :24220 [run_manager.py:_on_file_modified():692] file/dir modified: D:\Dokumente\GitHub\SignLanguageRecognition\lab\wandb\run-20200724_123204-u7jina4j\wandb-history.jsonl
+2020-07-24 12:32:53,349 INFO    Thread-8  :24220 [run_manager.py:_on_file_modified():692] file/dir modified: D:\Dokumente\GitHub\SignLanguageRecognition\lab\wandb\run-20200724_123204-u7jina4j\wandb-summary.json
+2020-07-24 12:32:53,353 INFO    Thread-8  :24220 [run_manager.py:_on_file_modified():692] file/dir modified: D:\Dokumente\GitHub\SignLanguageRecognition\lab\wandb\run-20200724_123204-u7jina4j\wandb-history.jsonl
+2020-07-24 12:32:54,350 INFO    Thread-8  :24220 [run_manager.py:_on_file_modified():692] file/dir modified: D:\Dokumente\GitHub\SignLanguageRecognition\lab\wandb\run-20200724_123204-u7jina4j\wandb-summary.json
+2020-07-24 12:32:54,355 INFO    Thread-8  :24220 [run_manager.py:_on_file_modified():692] file/dir modified: D:\Dokumente\GitHub\SignLanguageRecognition\lab\wandb\run-20200724_123204-u7jina4j\wandb-history.jsonl
+2020-07-24 12:32:55,351 INFO    Thread-8  :24220 [run_manager.py:_on_file_modified():692] file/dir modified: D:\Dokumente\GitHub\SignLanguageRecognition\lab\wandb\run-20200724_123204-u7jina4j\wandb-summary.json
+2020-07-24 12:32:55,356 INFO    Thread-8  :24220 [run_manager.py:_on_file_modified():692] file/dir modified: D:\Dokumente\GitHub\SignLanguageRecognition\lab\wandb\run-20200724_123204-u7jina4j\wandb-history.jsonl
+2020-07-24 12:32:56,353 INFO    Thread-8  :24220 [run_manager.py:_on_file_modified():692] file/dir modified: D:\Dokumente\GitHub\SignLanguageRecognition\lab\wandb\run-20200724_123204-u7jina4j\output.log
+2020-07-24 12:32:56,354 INFO    Thread-8  :24220 [run_manager.py:_on_file_modified():692] file/dir modified: D:\Dokumente\GitHub\SignLanguageRecognition\lab\wandb\run-20200724_123204-u7jina4j\wandb-summary.json
+2020-07-24 12:32:56,360 INFO    Thread-8  :24220 [run_manager.py:_on_file_modified():692] file/dir modified: D:\Dokumente\GitHub\SignLanguageRecognition\lab\wandb\run-20200724_123204-u7jina4j\wandb-history.jsonl
+2020-07-24 12:32:57,357 INFO    Thread-8  :24220 [run_manager.py:_on_file_modified():692] file/dir modified: D:\Dokumente\GitHub\SignLanguageRecognition\lab\wandb\run-20200724_123204-u7jina4j\wandb-metadata.json
+2020-07-24 12:32:57,358 INFO    Thread-8  :24220 [run_manager.py:_on_file_modified():692] file/dir modified: D:\Dokumente\GitHub\SignLanguageRecognition\lab\wandb\run-20200724_123204-u7jina4j\wandb-summary.json
+2020-07-24 12:32:57,366 INFO    Threa2020-07-24 12:33:22,186 INFO    MainThread:27104 [wandb_agent.py:run():209] Cleaning up finished run: u7jina4j
+2020-07-24 12:33:22,498 INFO    MainThread:27104 [wandb_agent.py:_process_command():256] Agent received command: run
+2020-07-24 12:33:22,498 INFO    MainThread:27104 [wandb_agent.py:_command_run():286] Agent starting run with config:
+	batch_size: 66
+	epochs: 200
+	node_size1: 64
+	node_size2: 256
+	node_size3: 256
+	node_size4: 64
+	node_size5: 64
+	num_layers: 1
+	optimizer: Adam
+2020-07-24 12:33:22,502 DEBUG   MainThread:27104 [wandb_config.py:_load_defaults():150] wandb dir not provided, skipping defaults
+2020-07-24 12:33:22,709 INFO    MainThread:27104 [wandb_agent.py:_command_run():325] About to run command: python sweep.py --batch_size=66 --epochs=200 --node_size1=64 --node_size2=256 --node_size3=256 --node_size4=64 --node_size5=64 --num_layers=1 --optimizer=Adam
+692] file/dir modified: D:\Dokumente\GitHub\SignLanguageRecognition\lab\wandb\run-20200724_123204-u7jina4j\wandb-history.jsonl
+2020-07-24 12:33:00,362 INFO    Thread-8  :24220 [run_manager.py:_on_file_modified():692] file/dir modified: D:\Dokumente\GitHub\SignLanguageRecognition\lab\wandb\run-20200724_123204-u7jina4j\wandb-summary.json
+2020-07-24 12:33:00,371 INFO    Thread-8  :24220 [run_manager.py:_on_file_modified():692] file/dir modified: D:\Dokumente\GitHub\SignLanguageRecognition\lab\wandb\run-20200724_123204-u7jina4j\wandb-history.jsonl
+2020-07-24 12:33:01,363 INFO    Thread-8  :24220 [run_manager.py:_on_file_modified():692] file/dir modified: D:\Dokumente\GitHub\SignLanguageRecognition\lab\wandb\run-20200724_123204-u7jina4j\wandb-summary.json
+2020-07-24 12:33:01,368 INFO    Thread-8  :24220 [run_manager.py:_on_file_modified():692] file/dir modified: D:\Dokumente\GitHub\SignLanguageRecognition\lab\wandb\run-20200724_123204-u7jina4j\wandb-history.jsonl
+2020-07-24 12:33:02,382 INFO    Thread-8  :24220 [run_manager.py:_on_file_modified():692] file/dir modified: D:\Dokumente\GitHub\SignLanguageRecognition\lab\wandb\run-20200724_123204-u7jina4j\wandb-summary.json
+2020-07-24 12:33:02,387 INFO    Thread-8  :24220 [run_manager.py:_on_file_modified():692] file/dir modified: D:\Dokumente\GitHub\SignLanguageRecognition\lab\wandb\run-20200724_123204-u7jina4j\wandb-history.jsonl
+2020-07-24 12:33:03,384 INFO    Thread-8  :24220 [run_manager.py:_on_file_modified():692] file/dir modified: D:\Dokumente\GitHub\SignLanguageRecognition\lab\wandb\run-20200724_123204-u7jina4j\wandb-summary.json
+2020-07-24 12:33:03,390 INFO    Thread-8  :24220 [run_manager.py:_on_file_modified():692] file/dir modified: D:\Dokumente\GitHub\SignLanguageRecognition\lab\wandb\run-20200724_123204-u7jina4j\wandb-history.jsonl
+2020-07-24 12:33:04,386 INFO    Thread-8  :24220 [run_manager.py:_on_file_modified():692] file/dir modified: D:\Dokumente\GitHub\SignLanguageRecognition\lab\wandb\run-20200724_123204-u7jina4j\wandb-summary.json
+2020-07-24 12:33:04,391 INFO    Thread-8  :24220 [run_manager.py:_on_file_modified():692] file/dir modified: D:\Dokumente\GitHub\SignLanguageRecognition\lab\wandb\run-20200724_123204-u7jina4j\wandb-history.jsonl
+2020-07-24 12:33:05,388 INFO    Thread-8  :24220 [run_manager.py:_on_file_modified():692] file/dir modified: D:\Dokumente\GitHub\SignLanguageRecognition\lab\wandb\run-20200724_123204-u7jina4j\wandb-summary.json
+2020-07-24 12:33:05,394 INFO    Thread-8  :24220 [run_manager.py:_on_file_modified():692] file/dir modified: D:\Dokumente\GitHub\SignLanguageRecognition\lab\wandb\run-20200724_123204-u7jina4j\wandb-history.jsonl
+2020-07-24 12:33:06,389 INFO    Thread-8  :24220 [run_manager.py:_on_file_modified():692] file/dir modified: D:\Dokumente\GitHub\SignLanguageRecognition\lab\wandb\run-20200724_123204-u7jina4j\wandb-summary.json
+2020-07-24 12:33:06,393 INFO    Thread-8  :24220 [run_manager.py:_on_file_modified():692] file/dir modified: D:\Dokumente\GitHub\SignLanguageRecognition\lab\wandb\run-20200724_123204-u7jina4j\wandb-history.jsonl
+2020-07-24 12:33:07,413 INFO    Thread-8  :24220 [run_manager.py:_on_file_modified():692] file/dir modified: D:\Dokumente\GitHub\SignLanguageRecognition\lab\wandb\run-20200724_123204-u7jina4j\wandb-events.jsonl
+2020-07-24 12:33:07,413 INFO    Thread-8  :24220 [run_manager.py:_on_file_modified():692] file/dir modified: D:\Dokumente\GitHub\SignLanguageRecognition\lab\wandb\run-20200724_123204-u7jina4j\wandb-summary.json
+2020-07-24 12:33:07,418 INFO    Thread-8  :24220 [run_manager.py:_on_file_modified():692] file/dir modified: D:\Dokumente\GitHub\SignLanguageRecognition\lab\wandb\run-20200724_123204-u7jina4j\output.log
+2020-07-24 12:33:07,418 INFO    Thread-8  :24220 [run_manager.py:_on_file_modified():692] file/dir modified: D:\Dokumente\GitHub\SignLanguageRecognition\lab\wandb\run-20200724_123204-u7jina4j\wandb-history.jsonl
+2020-07-24 12:33:08,415 INFO    Thread-8  :24220 [run_manager.py:_on_file_modified():692] file/dir modified: D:\Dokumente\GitHub\SignLanguageRecognition\lab\wandb\run-20200724_123204-u7jina4j\wandb-summary.json
+2020-07-24 12:33:08,420 INFO    Thread-8  :24220 [run_manager.py:_on_file_modified():692] file/dir modified: D:\Dokumente\GitHub\SignLanguageRecognition\lab\wandb\run-20200724_123204-u7jina4j\wandb-history.jsonl
+2020-07-24 12:33:09,417 INFO    Thread-8  :24220 [run_manager.py:_on_file_modified():692] file/dir modified: D:\Dokumente\GitHub\SignLanguageRecognition\lab\wandb\run-20200724_123204-u7jina4j\wandb-summary.json
+2020-07-24 12:33:09,423 INFO    Thread-8  :24220 [run_manager.py:_on_file_modified():692] file/dir modified: D:\Dokumente\GitHub\SignLanguageRecognition\lab\wandb\run-20200724_123204-u7jina4j\wandb-history.jsonl
+2020-07-24 12:33:10,419 INFO    Thread-8  :24220 [run_manager.py:_on_file_modified():692] file/dir modified: D:\Dokumente\GitHub\SignLanguageRecognition\lab\wandb\run-20200724_123204-u7jina4j\wandb-summary.json
+2020-07-24 12:33:10,424 INFO    Thread-8  :24220 [run_manager.py:_on_file_modified():692] file/dir modified: D:\Dokumente\GitHub\SignLanguageRecognition\lab\wandb\run-20200724_123204-u7jina4j\wandb-history.jsonl
+2020-07-24 12:33:11,426 INFO    Thread-8  :24220 [run_manager.py:_on_file_modified():692] file/dir modified: D:\Dokumente\GitHub\SignLanguageRecognition\lab\wandb\run-20200724_123204-u7jina4j\wandb-summary.json
+2020-07-24 12:33:11,430 INFO    Thread-8  :24220 [run_manager.py:_on_file_modified():692] file/dir modified: D:\Dokumente\GitHub\SignLanguageRecognition\lab\wandb\run-20200724_123204-u7jina4j\wandb-history.jsonl
+2020-07-24 12:33:12,427 INFO    Thread-8  :24220 [run_manager.py:_on_file_modified():692] file/dir modified: D:\Dokumente\GitHub\SignLanguageRecognition\lab\wandb\run-20200724_123204-u7jina4j\wandb-summary.json
+2020-07-24 12:33:12,432 INFO    Thread-8  :24220 [run_manager.py:_on_file_modified():692] file/dir modified: D:\Dokumente\GitHub\SignLanguageRecognition\lab\wandb\run-20200724_123204-u7jina4j\wandb-history.jsonl
+2020-07-24 12:33:13,430 INFO    Thread-8  :24220 [run_manager.py:_on_file_modified():692] file/dir modified: D:\Dokumente\GitHub\SignLanguageRecognition\lab\wandb\run-20200724_123204-u7jina4j\wandb-metadata.json
+2020-07-24 12:33:13,430 INFO    Thread-8  :24220 [run_manager.py:_on_file_modified():692] file/dir modified: D:\Dokumente\GitHub\SignLanguageRecognition\lab\wandb\run-20200724_123204-u7jina4j\wandb-summary.json
+2020-07-24 12:33:13,435 INFO    Thread-8  :24220 [run_manager.py:_on_file_modified():692] file/dir modified: D:\Dokumente\GitHub\SignLanguageRecognition\lab\wandb\run-20200724_123204-u7jina4j\wandb-history.jsonl
+2020-07-24 12:33:13,754 INFO    MainThread:24220 [run_manager.py:_sync_etc():1321] received message from user process: {"exitcode": 0}
+2020-07-24 12:33:13,755 INFO    MainThread:24220 [run_manager.py:_sync_etc():1408] closing log streams and sending exitcode to W&B
+2020-07-24 12:33:13,755 INFO    MainThread:24220 [run_manager.py:shutdown():1072] shutting down system stats and metadata service
+2020-07-24 12:33:14,431 INFO    Thread-8  :24220 [run_manager.py:_on_file_modified():692] file/dir modified: D:\Dokumente\GitHub\SignLanguageRecognition\lab\wandb\run-20200724_123204-u7jina4j\wandb-events.jsonl
+2020-07-24 12:33:14,431 INFO    Thread-8  :24220 [run_manager.py:_on_file_modified():692] file/dir modified: D:\Dokumente\GitHub\SignLanguageRecognition\lab\wandb\run-20200724_123204-u7jina4j\wandb-summary.json
+2020-07-24 12:33:14,435 INFO    Thread-8  :24220 [run_manager.py:_on_file_modified():692] file/dir modified: D:\Dokumente\GitHub\SignLanguageRecognition\lab\wandb\run-20200724_123204-u7jina4j\output.log
+2020-07-24 12:33:14,436 INFO    Thread-8  :24220 [run_manager.py:_on_file_modified():692] file/dir modified: D:\Dokumente\GitHub\SignLanguageRecognition\lab\wandb\run-20200724_123204-u7jina4j\wandb-history.jsonl
+2020-07-24 12:33:14,471 INFO    MainThread:24220 [run_manager.py:shutdown():1086] stopping streaming files and file change observer
+2020-07-24 12:33:15,432 INFO    Thread-8  :24220 [run_manager.py:_on_file_modified():692] file/dir modified: D:\Dokumente\GitHub\SignLanguageRecognition\lab\wandb\run-20200724_123204-u7jina4j\wandb-metadata.json
+2020-07-24 12:33:16,673 INFO    MainThread:24220 [run_manager.py:_sync_etc():1427] rendering summary
+2020-07-24 12:33:16,683 INFO    MainThread:24220 [run_manager.py:_sync_etc():1459] syncing files to cloud storage
+2020-07-24 12:33:19,692 INFO    MainThread:24220 [run_manager.py:_sync_etc():1468] syncing complete: https://app.wandb.ai/michid41/SLR/runs/u7jina4j
+gnition\lab\wandb\run-20200724_123204-u7jina4j\wandb-summary.json
+2020-07-24 12:32:32,307 INFO    Thread-8  :24220 [u7jina4j:run_manager.py:_on_file_modified():692] file/dir modified: D:\Dokumente\GitHub\SignLanguageRecognition\lab\wandb\run-20200724_123204-u7jina4j\wandb-history.jsonl
+2020-07-24 12:32:33,305 INFO    Thread-8  :24220 [u7jina4j:run_manager.py:_on_file_modified():692] file/dir modified: D:\Dokumente\GitHub\SignLanguageRecognition\lab\wandb\run-20200724_123204-u7jina4j\model-best.h5
+2020-07-24 12:32:33,305 INFO    Thread-8  :24220 [u7jina4j:run_manager.py:_on_file_modified():692] file/dir modified: D:\Dokumente\GitHub\SignLanguageRecognition\lab\wandb\run-20200724_123204-u7jina4j\wandb-summary.json
+2020-07-24 12:32:33,311 INFO    Thread-8  :24220 [u7jina4j:run_manager.py:_on_file_modified():692] file/dir modified: D:\Dokumente\GitHub\SignLanguageRecognition\lab\wandb\run-20200724_123204-u7jina4j\wandb-history.jsonl
+2020-07-24 12:32:34,307 INFO    Thread-8  :24220 [u7jina4j:run_manager.py:_on_file_modified():692] file/dir modified: D:\Dokumente\GitHub\SignLanguageRecognition\lab\wandb\run-20200724_123204-u7jina4j\model-best.h5
+2020-07-24 12:32:34,307 INFO    Thread-8  :24220 [u7jina4j:run_manager.py:_on_file_modified():692] file/dir modified: D:\Dokumente\GitHub\SignLanguageRecognition\lab\wandb\run-20200724_123204-u7jina4j\wandb-summary.json
+2020-07-24 12:32:34,310 INFO    Thread-8  :24220 [u7jina4j:run_manager.py:_on_file_modified():692] file/dir modified: D:\Dokumente\GitHub\SignLanguageRecognition\lab\wandb\run-20200724_123204-u7jina4j\wandb-history.jsonl
+2020-07-24 12:32:35,308 INFO    Thread-8  :24220 [u7jina4j:run_manager.py:_on_file_modified():692] file/dir modified: D:\Dokumente\GitHub\SignLanguageRecognition\lab\wandb\run-20200724_123204-u7jina4j\model-best.h5
+2020-07-24 12:32:35,309 INFO    Thread-8  :24220 [u7jina4j:run_manager.py:_on_file_modified():692] file/dir modified: D:\Dokumente\GitHub\SignLanguageRecognition\lab\wandb\run-20200724_123204-u7jina4j\wandb-summary.json
+2020-07-24 12:32:35,323 INFO    Thread-8  :24220 [u7jina4j:run_manager.py:_on_file_modified():692] file/dir modified: D:\Dokumente\GitHub\SignLanguageRecognition\lab\wandb\run-20200724_123204-u7jina4j\output.log
+2020-07-24 12:32:35,323 INFO    Thread-8  :24220 [u7jina4j:run_manager.py:_on_file_modified():692] file/dir modified: D:\Dokumente\GitHub\SignLanguageRecognition\lab\wandb\run-20200724_123204-u7jina4j\wandb-history.jsonl
+2020-07-24 12:32:36,310 INFO    Thread-8  :24220 [u7jina4j:run_manager.py:_on_file_modified():692] file/dir modified: D:\Dokumente\GitHub\SignLanguageRecognition\lab\wandb\run-20200724_123204-u7jina4j\model-best.h5
+2020-07-24 12:32:36,310 INFO    Thread-8  :24220 [u7jina4j:run_manager.py:_on_file_modified():692] file/dir modified: D:\Dokumente\GitHub\SignLanguageRecognition\lab\wandb\run-20200724_123204-u7jina4j\wandb-summary.json
+2020-07-24 12:32:36,314 INFO    Thread-8  :24220 [u7jina4j:run_manager.py:_on_file_modified():692] file/dir modified: D:\Dokumente\GitHub\SignLanguageRecognition\lab\wandb\run-20200724_123204-u7jina4j\wandb-history.jsonl
+2020-07-24 12:32:37,312 INFO    Thread-8  :24220 [u7jina4j:run_manager.py:_on_file_modified():692] file/dir modified: D:\Dokumente\GitHub\SignLanguageRecognition\lab\wandb\run-20200724_123204-u7jina4j\model-best.h5
+2020-07-24 12:32:37,313 INFO    Thread-8  :24220 [u7jina4j:run_manager.py:_on_file_modified():692] file/dir modified: D:\Dokumente\GitHub\SignLanguageRecognition\lab\wandb\run-20200724_123204-u7jina4j\wandb-summary.json
+2020-07-24 12:32:37,319 INFO    Thread-8  :24220 [u7jina4j:run_manager.py:_on_file_modified():692] file/dir modified: D:\Dokumente\GitHub\SignLanguageRecognition\lab\wandb\run-20200724_123204-u7jina4j\wandb-history.jsonl
+2020-07-24 12:32:37,319 INFO    Thread-8  :24220 [u7jina4j:run_manager.py:_on_file_created():681] file/dir created: D:\Dokumente\GitHub\SignLanguageRecognition\lab\wandb\run-20200724_123204-u7jina4j\wandb-events.jsonl
+2020-07-24 12:32:38,314 INFO    Thread-8  :24220 [u7jina4j:run_manager.py:_on_file_modified():692] file/dir modified: D:\Dokumente\GitHub\SignLanguageRecognition\lab\wandb\run-20200724_123204-u7jina4j\wandb-summary.json
+2020-07-24 12:32:38,321 INFO    Thread-8  :24220 [u7jina4j:run_manager.py:_on_file_modified():692] file/dir modified: D:\Dokumente\GitHub\SignLanguageRecognition\lab\wandb\run-20200724_123204-u7jina4j\wandb-history.jsonl
+2020-07-24 12:32:39,315 INFO    Thread-8  :24220 [u7jina4j:run_manager.py:_on_file_modified():692] file/dir modified: D:\Dokumente\GitHub\SignLanguageRecognition\lab\wandb\run-20200724_123204-u7jina4j\wandb-summary.json
+2020-07-24 12:32:39,320 INFO    Thread-8  :24220 [u7jina4j:run_manager.py:_on_file_modified():692] file/dir modified: D:\Dokumente\GitHub\SignLanguageRecognition\lab\wandb\run-20200724_123204-u7jina4j\wandb-history.jsonl
+2020-07-24 12:32:40,324 INFO    Thread-8  :24220 [u7jina4j:run_manager.py:_on_file_modified():692] file/dir modified: D:\Dokumente\GitHub\SignLanguageRecognition\lab\wandb\run-20200724_123204-u7jina4j\wandb-summary.json
+2020-07-24 12:32:40,328 INFO    Thread-8  :24220 [u7jina4j:run_manager.py:_on_file_modified():692] file/dir modified: D:\Dokumente\GitHub\SignLanguageRecognition\lab\wandb\run-20200724_123204-u7jina4j\wandb-history.jsonl
+2020-07-24 12:32:41,325 INFO    Thread-8  :24220 [u7jina4j:run_manager.py:_on_file_modified():692] file/dir modified: D:\Dokumente\GitHub\SignLanguageRecognition\lab\wandb\run-20200724_123204-u7jina4j\wandb-metadata.json
+2020-07-24 12:32:41,325 INFO    Thread-8  :24220 [u7jina4j:run_manager.py:_on_file_modified():692] file/dir modified: D:\Dokumente\GitHub\SignLanguageRecognition\lab\wandb\run-20200724_123204-u7jina4j\model-best.h5
+2020-07-24 12:32:41,326 INFO    Thread-8  :24220 [u7jina4j:run_manager.py:_on_file_modified():692] file/dir modified: D:\Dokumente\GitHub\SignLanguageRecognition\lab\wandb\run-20200724_123204-u7jina4j\wandb-summary.json
+2020-07-24 12:32:41,331 INFO    Thread-8  :24220 [u7jina4j:run_manager.py:_on_file_modified():692] file/dir modified: D:\Dokumente\GitHub\SignLanguageRecognition\lab\wandb\run-20200724_123204-u7jina4j\wandb-history.jsonl
+2020-07-24 12:32:42,327 INFO    Thread-8  :24220 [u7jina4j:run_manager.py:_on_file_modified():692] file/dir modified: D:\Dokumente\GitHub\SignLanguageRecognition\lab\wandb\run-20200724_123204-u7jina4j\model-best.h5
+2020-07-24 12:32:42,328 INFO    Thread-8  :24220 [u7jina4j:run_manager.py:_on_file_modified():692] file/dir modified: D:\Dokumente\GitHub\SignLanguageRecognition\lab\wandb\run-20200724_123204-u7jina4j\wandb-summary.json
+2020-07-24 12:32:42,332 INFO    Thread-8  :24220 [u7jina4j:run_manager.py:_on_file_modified():692] file/dir modified: D:\Dokumente\GitHub\SignLanguageRecognition\lab\wandb\run-20200724_123204-u7jina4j\wandb-history.jsonl
+2020-07-24 12:32:43,329 INFO    Thread-8  :24220 [u7jina4j:run_manager.py:_on_file_modified():692] file/dir modified: D:\Dokumente\GitHub\SignLanguageRecognition\lab\wandb\run-20200724_123204-u7jina4j\wandb-summary.json
+2020-07-24 12:32:43,332 INFO    Thread-8  :24220 [u7jina4j:run_manager.py:_on_file_modified():692] file/dir modified: D:\Dokumente\GitHub\SignLanguageRecognition\lab\wandb\run-20200724_123204-u7jina4j\wandb-history.jsonl
+2020-07-24 12:32:44,330 INFO    Thread-8  :24220 [u7jina4j:run_manager.py:_on_file_modified():692] file/dir modified: D:\Dokumente\GitHub\SignLanguageRecognition\lab\wandb\run-20200724_123204-u7jina4j\model-best.h5
+2020-07-24 12:32:44,331 INFO    Thread-8  :24220 [u7jina4j:run_manager.py:_on_file_modified():692] file/dir modified: D:\Dokumente\GitHub\SignLanguageRecognition\lab\wandb\run-20200724_123204-u7jina4j\wandb-summary.json
+2020-07-24 12:32:44,336 INFO    Thread-8  :24220 [u7jina4j:run_manager.py:_on_file_modified():692] file/dir modified: D:\Dokumente\GitHub\SignLanguageRecognition\lab\wandb\run-20200724_123204-u7jina4j\wandb-history.jsonl
+2020-07-24 12:32:45,332 INFO    Thread-8  :24220 [u7jina4j:run_manager.py:_on_file_modified():692] file/dir modified: D:\Dokumente\GitHub\SignLanguageRecognition\lab\wandb\run-20200724_123204-u7jina4j\model-best.h5
+2020-07-24 12:32:45,332 INFO    Thread-8  :24220 [u7jina4j:run_manager.py:_on_file_modified():692] file/dir modified: D:\Dokumente\GitHub\SignLanguageRecognition\lab\wandb\run-20200724_123204-u7jina4j\wandb-summary.json
+2020-07-24 12:32:45,337 INFO    Thread-8  :24220 [u7jina4j:run_manager.py:_on_file_modified():692] file/dir modified: D:\Dokumente\GitHub\SignLanguageRecognition\lab\wandb\run-20200724_123204-u7jina4j\wandb-history.jsonl
+2020-07-24 12:32:46,336 INFO    Thread-8  :24220 [u7jina4j:run_manager.py:_on_file_modified():692] file/dir modified: D:\Dokumente\GitHub\SignLanguageRecognition\lab\wandb\run-20200724_123204-u7jina4j\output.log
+2020-07-24 12:32:46,336 INFO    Thread-8  :24220 [u7jina4j:run_manager.py:_on_file_modified():692] file/dir modified: D:\Dokumente\GitHub\SignLanguageRecognition\lab\wandb\run-20200724_123204-u7jina4j\wandb-summary.json
+2020-07-24 12:32:46,343 INFO    Thread-8  :24220 [u7jina4j:run_manager.py:_on_file_modified():692] file/dir modified: D:\Dokumente\GitHub\SignLanguageRecognition\lab\wandb\run-20200724_123204-u7jina4j\wandb-history.jsonl
+2020-07-24 12:32:47,340 INFO    Thread-8  :24220 [u7jina4j:run_manager.py:_on_file_modified():692] file/dir modified: D:\Dokumente\GitHub\SignLanguageRecognition\lab\wandb\run-20200724_123204-u7jina4j\wandb-summary.json
+2020-07-24 12:32:47,346 INFO    Thread-8  :24220 [u7jina4j:run_manager.py:_on_file_modified():692] file/dir modified: D:\Dokumente\GitHub\SignLanguageRecognition\lab\wandb\run-20200724_123204-u7jina4j\wandb-history.jsonl
+2020-07-24 12:32:48,341 INFO    Thread-8  :24220 [u7jina4j:run_manager.py:_on_file_modified():692] file/dir modified: D:\Dokumente\GitHub\SignLanguageRecognition\lab\wandb\run-20200724_123204-u7jina4j\wandb-summary.json
+2020-07-24 12:32:48,345 INFO    Thread-8  :24220 [u7jina4j:run_manager.py:_on_file_modified():692] file/dir modified: D:\Dokumente\GitHub\SignLanguageRecognition\lab\wandb\run-20200724_123204-u7jina4j\wandb-history.jsonl
+2020-07-24 12:32:49,343 INFO    Thread-8  :24220 [u7jina4j:run_manager.py:_on_file_modified():692] file/dir modified: D:\Dokumente\GitHub\SignLanguageRecognition\lab\wandb\run-20200724_123204-u7jina4j\wandb-summary.json
+2020-07-24 12:32:49,347 INFO    Thread-8  :24220 [u7jina4j:run_manager.py:_on_file_modified():692] file/dir modified: D:\Dokumente\GitHub\SignLanguageRecognition\lab\wandb\run-20200724_123204-u7jina4j\wandb-history.jsonl
+2020-07-24 12:32:50,344 INFO    Thread-8  :24220 [u7jina4j:run_manager.py:_on_file_modified():692] file/dir modified: D:\Dokumente\GitHub\SignLanguageRecognition\lab\wandb\run-20200724_123204-u7jina4j\wandb-summary.json
+2020-07-24 12:32:50,348 INFO    Thread-8  :24220 [u7jina4j:run_manager.py:_on_file_modified():692] file/dir modified: D:\Dokumente\GitHub\SignLanguageRecognition\lab\wandb\run-20200724_123204-u7jina4j\wandb-history.jsonl
+2020-07-24 12:32:51,347 INFO    Thread-8  :24220 [u7jina4j:run_manager.py:_on_file_modified():692] file/dir modified: D:\Dokumente\GitHub\SignLanguageRecognition\lab\wandb\run-20200724_123204-u7jina4j\wandb-summary.json
+2020-07-24 12:32:51,354 INFO    Thread-8  :24220 [u7jina4j:run_manager.py:_on_file_modified():692] file/dir modified: D:\Dokumente\GitHub\SignLanguageRecognition\lab\wandb\run-20200724_123204-u7jina4j\wandb-history.jsonl
+2020-07-24 12:32:52,347 INFO    Thread-8  :24220 [u7jina4j:run_manager.py:_on_file_modified():692] file/dir modified: D:\Dokumente\GitHub\SignLanguageRecognition\lab\wandb\run-20200724_123204-u7jina4j\wandb-summary.json
+2020-07-24 12:32:52,354 INFO    Thread-8  :24220 [u7jina4j:run_manager.py:_on_file_modified():692] file/dir modified: D:\Dokumente\GitHub\SignLanguageRecognition\lab\wandb\run-20200724_123204-u7jina4j\wandb-history.jsonl
+2020-07-24 12:32:53,349 INFO    Thread-8  :24220 [u7jina4j:run_manager.py:_on_file_modified():692] file/dir modified: D:\Dokumente\GitHub\SignLanguageRecognition\lab\wandb\run-20200724_123204-u7jina4j\wandb-summary.json
+2020-07-24 12:32:53,353 INFO    Thread-8  :24220 [u7jina4j:run_manager.py:_on_file_modified():692] file/dir modified: D:\Dokumente\GitHub\SignLanguageRecognition\lab\wandb\run-20200724_123204-u7jina4j\wandb-history.jsonl
+2020-07-24 12:32:54,350 INFO    Thread-8  :24220 [u7jina4j:run_manager.py:_on_file_modified():692] file/dir modified: D:\Dokumente\GitHub\SignLanguageRecognition\lab\wandb\run-20200724_123204-u7jina4j\wandb-summary.json
+2020-07-24 12:32:54,355 INFO    Thread-8  :24220 [u7jina4j:run_manager.py:_on_file_modified():692] file/dir modified: D:\Dokumente\GitHub\SignLanguageRecognition\lab\wandb\run-20200724_123204-u7jina4j\wandb-history.jsonl
+2020-07-24 12:32:55,351 INFO    Thread-8  :24220 [u7jina4j:run_manager.py:_on_file_modified():692] file/dir modified: D:\Dokumente\GitHub\SignLanguageRecognition\lab\wandb\run-20200724_123204-u7jina4j\wandb-summary.json
+2020-07-24 12:32:55,356 INFO    Thread-8  :24220 [u7jina4j:run_manager.py:_on_file_modified():692] file/dir modified: D:\Dokumente\GitHub\SignLanguageRecognition\lab\wandb\run-20200724_123204-u7jina4j\wandb-history.jsonl
+2020-07-24 12:32:56,353 INFO    Thread-8  :24220 [u7jina4j:run_manager.py:_on_file_modified():692] file/dir modified: D:\Dokumente\GitHub\SignLanguageRecognition\lab\wandb\run-20200724_123204-u7jina4j\output.log
+2020-07-24 12:32:56,354 INFO    Thread-8  :24220 [u7jina4j:run_manager.py:_on_file_modified():692] file/dir modified: D:\Dokumente\GitHub\SignLanguageRecognition\lab\wandb\run-20200724_123204-u7jina4j\wandb-summary.json
+2020-07-24 12:32:56,360 INFO    Thread-8  :24220 [u7jina4j:run_manager.py:_on_file_modified():692] file/dir modified: D:\Dokumente\GitHub\SignLanguageRecognition\lab\wandb\run-20200724_123204-u7jina4j\wandb-history.jsonl
+2020-07-24 12:32:57,357 INFO    Thread-8  :24220 [u7jina4j:run_manager.py:_on_file_modified():692] file/dir modified: D:\Dokumente\GitHub\SignLanguageRecognition\lab\wandb\run-20200724_123204-u7jina4j\wandb-metadata.json
+2020-07-24 12:32:57,358 INFO    Thread-8  :24220 [u7jina4j:run_manager.py:_on_file_modified():692] file/dir modified: D:\Dokumente\GitHub\SignLanguageRecognition\lab\wandb\run-20200724_123204-u7jina4j\wandb-summary.json
+2020-07-24 12:32:57,366 INFO    Thread-8  :24220 [u7jina4j:run_manager.py:_on_file_modified():692] file/dir modified: D:\Dokumente\GitHub\SignLanguageRecognition\lab\wandb\run-20200724_123204-u7jina4j\wandb-history.jsonl
+2020-07-24 12:32:58,359 INFO    Thread-8  :24220 [u7jina4j:run_manager.py:_on_file_modified():692] file/dir modified: D:\Dokumente\GitHub\SignLanguageRecognition\lab\wandb\run-20200724_123204-u7jina4j\wandb-summary.json
+2020-07-24 12:32:58,365 INFO    Thread-8  :24220 [u7jina4j:run_manager.py:_on_file_modified():692] file/dir modified: D:\Dokumente\GitHub\SignLanguageRecognition\lab\wandb\run-20200724_123204-u7jina4j\wandb-history.jsonl
+2020-07-24 12:32:59,360 INFO    Thread-8  :24220 [u7jina4j:run_manager.py:_on_file_modified():692] file/dir modified: D:\Dokumente\GitHub\SignLanguageRecognition\lab\wandb\run-20200724_123204-u7jina4j\wandb-summary.json
+2020-07-24 12:32:59,369 INFO    Thread-8  :24220 [u7jina4j:run_manager.py:_on_file_modified():692] file/dir modified: D:\Dokumente\GitHub\SignLanguageRecognition\lab\wandb\run-20200724_123204-u7jina4j\wandb-history.jsonl
+2020-07-24 12:33:00,362 INFO    Thread-8  :24220 [u7jina4j:run_manager.py:_on_file_modified():692] file/dir modified: D:\Dokumente\GitHub\SignLanguageRecognition\lab\wandb\run-20200724_123204-u7jina4j\wandb-summary.json
+2020-07-24 12:33:00,371 INFO    Thread-8  :24220 [u7jina4j:run_manager.py:_on_file_modified():692] file/dir modified: D:\Dokumente\GitHub\SignLanguageRecognition\lab\wandb\run-20200724_123204-u7jina4j\wandb-history.jsonl
+2020-07-24 12:33:01,363 INFO    Thread-8  :24220 [u7jina4j:run_manager.py:_on_file_modified():692] file/dir modified: D:\Dokumente\GitHub\SignLanguageRecognition\lab\wandb\run-20200724_123204-u7jina4j\wandb-summary.json
+2020-07-24 12:33:01,368 INFO    Thread-8  :24220 [u7jina4j:run_manager.py:_on_file_modified():692] file/dir modified: D:\Dokumente\GitHub\SignLanguageRecognition\lab\wandb\run-20200724_123204-u7jina4j\wandb-history.jsonl
+2020-07-24 12:33:02,382 INFO    Thread-8  :24220 [u7jina4j:run_manager.py:_on_file_modified():692] file/dir modified: D:\Dokumente\GitHub\SignLanguageRecognition\lab\wandb\run-20200724_123204-u7jina4j\wandb-summary.json
+2020-07-24 12:33:02,387 INFO    Thread-8  :24220 [u7jina4j:run_manager.py:_on_file_modified():692] file/dir modified: D:\Dokumente\GitHub\SignLanguageRecognition\lab\wandb\run-20200724_123204-u7jina4j\wandb-history.jsonl
+2020-07-24 12:33:03,384 INFO    Thread-8  :24220 [u7jina4j:run_manager.py:_on_file_modified():692] file/dir modified: D:\Dokumente\GitHub\SignLanguageRecognition\lab\wandb\run-20200724_123204-u7jina4j\wandb-summary.json
+2020-07-24 12:33:03,390 INFO    Thread-8  :24220 [u7jina4j:run_manager.py:_on_file_modified():692] file/dir modified: D:\Dokumente\GitHub\SignLanguageRecognition\lab\wandb\run-20200724_123204-u7jina4j\wandb-history.jsonl
+2020-07-24 12:33:04,386 INFO    Thread-8  :24220 [u7jina4j:run_manager.py:_on_file_modified():692] file/dir modified: D:\Dokumente\GitHub\SignLanguageRecognition\lab\wandb\run-20200724_123204-u7jina4j\wandb-summary.json
+2020-07-24 12:33:04,391 INFO    Thread-8  :24220 [u7jina4j:run_manager.py:_on_file_modified():692] file/dir modified: D:\Dokumente\GitHub\SignLanguageRecognition\lab\wandb\run-20200724_123204-u7jina4j\wandb-history.jsonl
+2020-07-24 12:33:05,388 INFO    Thread-8  :24220 [u7jina4j:run_manager.py:_on_file_modified():692] file/dir modified: D:\Dokumente\GitHub\SignLanguageRecognition\lab\wandb\run-20200724_123204-u7jina4j\wandb-summary.json
+2020-07-24 12:33:05,394 INFO    Thread-8  :24220 [u7jina4j:run_manager.py:_on_file_modified():692] file/dir modified: D:\Dokumente\GitHub\SignLanguageRecognition\lab\wandb\run-20200724_123204-u7jina4j\wandb-history.jsonl
+2020-07-24 12:33:06,389 INFO    Thread-8  :24220 [u7jina4j:run_manager.py:_on_file_modified():692] file/dir modified: D:\Dokumente\GitHub\SignLanguageRecognition\lab\wandb\run-20200724_123204-u7jina4j\wandb-summary.json
+2020-07-24 12:33:06,393 INFO    Thread-8  :24220 [u7jina4j:run_manager.py:_on_file_modified():692] file/dir modified: D:\Dokumente\GitHub\SignLanguageRecognition\lab\wandb\run-20200724_123204-u7jina4j\wandb-history.jsonl
+2020-07-24 12:33:07,413 INFO    Thread-8  :24220 [u7jina4j:run_manager.py:_on_file_modified():692] file/dir modified: D:\Dokumente\GitHub\SignLanguageRecognition\lab\wandb\run-20200724_123204-u7jina4j\wandb-events.jsonl
+2020-07-24 12:33:07,413 INFO    Thread-8  :24220 [u7jina4j:run_manager.py:_on_file_modified():692] file/dir modified: D:\Dokumente\GitHub\SignLanguageRecognition\lab\wandb\run-20200724_123204-u7jina4j\wandb-summary.json
+2020-07-24 12:33:07,418 INFO    Thread-8  :24220 [u7jina4j:run_manager.py:_on_file_modified():692] file/dir modified: D:\Dokumente\GitHub\SignLanguageRecognition\lab\wandb\run-20200724_123204-u7jina4j\output.log
+2020-07-24 12:33:07,418 INFO    Thread-8  :24220 [u7jina4j:run_manager.py:_on_file_modified():692] file/dir modified: D:\Dokumente\GitHub\SignLanguageRecognition\lab\wandb\run-20200724_123204-u7jina4j\wandb-history.jsonl
+2020-07-24 12:33:08,415 INFO    Thread-8  :24220 [u7jina4j:run_manager.py:_on_file_modified():692] file/dir modified: D:\Dokumente\GitHub\SignLanguageRecognition\lab\wandb\run-20200724_123204-u7jina4j\wandb-summary.json
+2020-07-24 12:33:08,420 INFO    Thread-8  :24220 [u7jina4j:run_manager.py:_on_file_modified():692] file/dir modified: D:\Dokumente\GitHub\SignLanguageRecognition\lab\wandb\run-20200724_123204-u7jina4j\wandb-history.jsonl
+2020-07-24 12:33:09,417 INFO    Thread-8  :24220 [u7jina4j:run_manager.py:_on_file_modified():692] file/dir modified: D:\Dokumente\GitHub\SignLanguageRecognition\lab\wandb\run-20200724_123204-u7jina4j\wandb-summary.json
+2020-07-24 12:33:09,423 INFO    Thread-8  :24220 [u7jina4j:run_manager.py:_on_file_modified():692] file/dir modified: D:\Dokumente\GitHub\SignLanguageRecognition\lab\wandb\run-20200724_123204-u7jina4j\wandb-history.jsonl
+2020-07-24 12:33:10,419 INFO    Thread-8  :24220 [u7jina4j:run_manager.py:_on_file_modified():692] file/dir modified: D:\Dokumente\GitHub\SignLanguageRecognition\lab\wandb\run-20200724_123204-u7jina4j\wandb-summary.json
+2020-07-24 12:33:10,424 INFO    Thread-8  :24220 [u7jina4j:run_manager.py:_on_file_modified():692] file/dir modified: D:\Dokumente\GitHub\SignLanguageRecognition\lab\wandb\run-20200724_123204-u7jina4j\wandb-history.jsonl
+2020-07-24 12:33:11,426 INFO    Thread-8  :24220 [u7jina4j:run_manager.py:_on_file_modified():692] file/dir modified: D:\Dokumente\GitHub\SignLanguageRecognition\lab\wandb\run-20200724_123204-u7jina4j\wandb-summary.json
+2020-07-24 12:33:11,430 INFO    Thread-8  :24220 [u7jina4j:run_manager.py:_on_file_modified():692] file/dir modified: D:\Dokumente\GitHub\SignLanguageRecognition\lab\wandb\run-20200724_123204-u7jina4j\wandb-history.jsonl
+2020-07-24 12:33:12,427 INFO    Thread-8  :24220 [u7jina4j:run_manager.py:_on_file_modified():692] file/dir modified: D:\Dokumente\GitHub\SignLanguageRecognition\lab\wandb\run-20200724_123204-u7jina4j\wandb-summary.json
+2020-07-24 12:33:12,432 INFO    Thread-8  :24220 [u7jina4j:run_manager.py:_on_file_modified():692] file/dir modified: D:\Dokumente\GitHub\SignLanguageRecognition\lab\wandb\run-20200724_123204-u7jina4j\wandb-history.jsonl
+2020-07-24 12:33:13,430 INFO    Thread-8  :24220 [u7jina4j:run_manager.py:_on_file_modified():692] file/dir modified: D:\Dokumente\GitHub\SignLanguageRecognition\lab\wandb\run-20200724_123204-u7jina4j\wandb-metadata.json
+2020-07-24 12:33:13,430 INFO    Thread-8  :24220 [u7jina4j:run_manager.py:_on_file_modified():692] file/dir modified: D:\Dokumente\GitHub\SignLanguageRecognition\lab\wandb\run-20200724_123204-u7jina4j\wandb-summary.json
+2020-07-24 12:33:13,435 INFO    Thread-8  :24220 [u7jina4j:run_manager.py:_on_file_modified():692] file/dir modified: D:\Dokumente\GitHub\SignLanguageRecognition\lab\wandb\run-20200724_123204-u7jina4j\wandb-history.jsonl
+2020-07-24 12:33:13,754 INFO    MainThread:24220 [u7jina4j:run_manager.py:_sync_etc():1321] received message from user process: {"exitcode": 0}
+2020-07-24 12:33:13,755 INFO    MainThread:24220 [u7jina4j:run_manager.py:_sync_etc():1408] closing log streams and sending exitcode to W&B
+2020-07-24 12:33:13,755 INFO    MainThread:24220 [u7jina4j:run_manager.py:shutdown():1072] shutting down system stats and metadata service
+2020-07-24 12:33:14,431 INFO    Thread-8  :24220 [u7jina4j:run_manager.py:_on_file_modified():692] file/dir modified: D:\Dokumente\GitHub\SignLanguageRecognition\lab\wandb\run-20200724_123204-u7jina4j\wandb-events.jsonl
+2020-07-24 12:33:14,431 INFO    Thread-8  :24220 [u7jina4j:run_manager.py:_on_file_modified():692] file/dir modified: D:\Dokumente\GitHub\SignLanguageRecognition\lab\wandb\run-20200724_123204-u7jina4j\wandb-summary.json
+2020-07-24 12:33:14,435 INFO    Thread-8  :24220 [u7jina4j:run_manager.py:_on_file_modified():692] file/dir modified: D:\Dokumente\GitHub\SignLanguageRecognition\lab\wandb\run-20200724_123204-u7jina4j\output.log
+2020-07-24 12:33:14,436 INFO    Thread-8  :24220 [u7jina4j:run_manager.py:_on_file_modified():692] file/dir modified: D:\Dokumente\GitHub\SignLanguageRecognition\lab\wandb\run-20200724_123204-u7jina4j\wandb-history.jsonl
+2020-07-24 12:33:14,471 INFO    MainThread:24220 [u7jina4j:run_manager.py:shutdown():1086] stopping streaming files and file change observer
+2020-07-24 12:33:15,432 INFO    Thread-8  :24220 [u7jina4j:run_manager.py:_on_file_modified():692] file/dir modified: D:\Dokumente\GitHub\SignLanguageRecognition\lab\wandb\run-20200724_123204-u7jina4j\wandb-metadata.json
+2020-07-24 12:33:16,673 INFO    MainThread:24220 [u7jina4j:run_manager.py:_sync_etc():1427] rendering summary
+2020-07-24 12:33:16,683 INFO    MainThread:24220 [u7jina4j:run_manager.py:_sync_etc():1459] syncing files to cloud storage
+2020-07-24 12:33:19,692 INFO    MainThread:24220 [u7jina4j:run_manager.py:_sync_etc():1468] syncing complete: https://app.wandb.ai/michid41/SLR/runs/u7jina4j
