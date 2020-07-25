@@ -30,8 +30,8 @@ def load_from(dirname, verbose = False):
     features = [n[1] for n in data]
     features = [f.to_numpy() for f in features]
     labels = [n[0] for n in data]
-    x_train, x_val, y_train, y_val = train_test_split(features, labels, test_size=0.40, random_state=42)
-    x_val, x_test, y_val, y_test = train_test_split(x_val, y_val, test_size=0.50, random_state=42)
+    x_train, x_val, y_train, y_val = train_test_split(features, labels, test_size=0.40, random_state=42, stratify=labels)
+    x_val, x_test, y_val, y_test = train_test_split(x_val, y_val, test_size=0.50, random_state=42, stratify=y_val)
     if verbose:
         summary(y_train, y_val, y_test, labels)
     #Tokenize (One Hot)

@@ -54,10 +54,11 @@ class SignLangPredictionCalculator : public CalculatorBase
         int framesSinceLastPrediction = 0;
         int emptyFrames = 0;
         // Options
-        bool verboseLog= false;
+        bool verboseLog = false;
         int maxFrames = 0;
         int thresholdFramesCount = 0;
         int minFramesForInference = 0;
+        bool use3D = false;
 };
 
 ::mediapipe::Status SignLangPredictionCalculator::GetContract(CalculatorContract *cc)
@@ -87,12 +88,15 @@ class SignLangPredictionCalculator : public CalculatorBase
     tflite::InterpreterBuilder(*model, resolver)(&interpreter);
     // interpreter->ResizeInputTensor(0, {100, 86});
     interpreter->AllocateTensors();
-    tflite::PrintInterpreterState(interpreter.get());
-    LOG(INFO) << "tensors size: " << interpreter->tensors_size() << "\n";
-    LOG(INFO) << "nodes size: " << interpreter->nodes_size() << "\n";
-    LOG(INFO) << "inputs: " << interpreter->inputs().size() << "\n";    
-    LOG(INFO) << "outputs: " << interpreter->outputs().size() << "\n";
-    LOG(INFO) << "input(0) name: " << interpreter->GetInputName(0) << "\n";
+    if (verboseLog) {
+        tflite::PrintInterpreterState(interpreter.get());
+        LOG(INFO) << "tensors size: " << interpreter->tensors_size() << "\n";
+        LOG(INFO) << "nodes size: " << interpreter->nodes_size() << "\n";
+        LOG(INFO) << "inputs: " << interpreter->inputs().size() << "\n";    
+        LOG(INFO) << "outputs: " << interpreter->outputs().size() << "\n";
+        LOG(INFO) << "input(0) name: " << interpreter->GetInputName(0) << "\n";
+    }
+    
     return ::mediapipe::OkStatus();
 }
 
@@ -134,7 +138,6 @@ class SignLangPredictionCalculator : public CalculatorBase
         }
         *output++;
     }
-    RET_CHECK_GT(highest_pred_idx, -1) << "No prediction found.";
 
     std::string prediction = labelMap[highest_pred_idx] + ", " + std::to_string(highest_pred);
     outputText = prediction;
@@ -202,11 +205,12 @@ void SignLangPredictionCalculator::SetOutput(const std::string *str, ::mediapipe
         return ::mediapipe::OkStatus();
     }
     emptyFrames = 0;
-    while (coordinates.size() < 86) {
+    int maxSize = use3D ? 128 : 86;
+    while (coordinates.size() < maxSize) {
         coordinates.push_back(defaultPoint);
     }
     
-    RET_CHECK_EQ(coordinates.size(), 86) << "Coordinates size not equal 86. Actual size: " << coordinates.size();
+    RET_CHECK_EQ(coordinates.size(), maxSize) << "Coordinates size not equal 86. Actual size: " << coordinates.size();
     
     if (frames.size() >= maxFrames) {
         frames.erase(frames.begin());
@@ -243,9 +247,9 @@ void SignLangPredictionCalculator::AddFaceDetectionsTo(std::vector<float> &coord
     
     if (!kpSize) { return; }
     
-    float faceX = face.location_data().relative_keypoints(0).x();
-    coordinates.push_back(faceX);
-    coordinates.push_back(face.location_data().relative_keypoints(0).y());
+    auto keypoint = face.location_data().relative_keypoints(0);
+    coordinates.push_back(keypoint.x());
+    coordinates.push_back(keypoint.y());
 }
 
 void SignLangPredictionCalculator::AddMultiHandDetectionsTo(std::vector<float> &coordinates, CalculatorContext *cc)
@@ -262,6 +266,9 @@ void SignLangPredictionCalculator::AddMultiHandDetectionsTo(std::vector<float> &
             }
             coordinates.push_back(landmark.x());
             coordinates.push_back(landmark.y());
+            if (use3D && landmark.has_z()) {
+                coordinates.push_back(landmark.z());
+            }
         }
     }
 }

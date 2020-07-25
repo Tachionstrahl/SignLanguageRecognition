@@ -40,4 +40,6 @@ message SignLangPredictionCalculatorOptions {
   // The minimum count of frames, that are required for prediction.
   // This excludes the frames that are filled to reach [maxFrames].
   optional int32 minFramesForInference = 4 [default = 10];
+
+  optional bool use3D = 5 [default = false];
 }
