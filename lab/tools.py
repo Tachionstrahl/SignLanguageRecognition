@@ -13,6 +13,7 @@ default = .5
 def load_from(dirname, verbose = False):
     #Preparation Stage - Load data and normalize
     listfile = os.listdir(dirname)
+    listfile= sorted(listfile, key=str.casefold) 
     data = []
     for wordname in listfile:
         if wordname == ".DS_Store":
@@ -34,7 +35,7 @@ def load_from(dirname, verbose = False):
     if verbose:
         summary(y_train, y_val, y_test, labels)
     #Tokenize (One Hot)
-    tokenizer = tokenize(dirname)
+    tokenizer = tokenize(listfile)
     if verbose:
         print('Tokens:')
         print(tokenizer.word_index)
@@ -91,8 +92,7 @@ def summary(y_train, y_val, y_test, labels):
     print("Amount validiation:", len(y_val))
     print("Amount test:", len(y_test))      
 
-def tokenize(dirname):
-    words = [word for word in os.listdir(dirname)]
+def tokenize(words):
     text = " ".join(words)
     t = Tokenizer()
     t.fit_on_texts([text])
