@@ -12,7 +12,7 @@ def start():
             result = os.system("cd src/ && GLOG_logtostderr=1 bazel-bin/app/files_to_csv_gpu \
             --calculator_graph_config_file=graphs/video_processing_gpu.pbtxt \
             --input_video_path="+ filename + " \
-            --output_video_path=/home/datagroup/Videos/rendered3D")
+            --output_video_path=/home/datagroup/Videos/rendered")
             
 
 if __name__ == "__main__":
