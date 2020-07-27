@@ -23,7 +23,7 @@ warnings.simplefilter(action='ignore', category=FutureWarning)
 # wandb init
 wandb.init(project="SLR")
 # Root CSV files directory
-dirname = "./data/absolute/2D/"  
+dirname = "./data/absolute/3D/"  
 
 # Load data and print summary, if desired
 x_train, x_val, x_test, y_train, y_val, y_test, labels = tools.load_from(dirname, verbose=False) 
@@ -68,8 +68,17 @@ model.compile(loss='categorical_crossentropy',
               metrics=['accuracy',tf.keras.metrics.Precision(),tf.keras.metrics.Recall()])
 model.summary()
 
+wandb.config.optimizer_config = model.optimizer.get_config()
 
 history=model.fit(x_train,y_train,epochs=wandb.config.epochs ,batch_size=wandb.config.batch_size, validation_data=(x_val,y_val),shuffle=False,verbose=2, callbacks=[WandbCallback()])
+
+y_eval = model.evaluate(x_test, y_test, verbose=2)
+
+wandb.config.update({'test_loss': y_eval[0],'test_accuracy': y_eval[1], 'test_precision': y_eval[2], 'test_recall': y_eval[3]})
+
+#wandb.log({'test_loss': y_eval[0],'test_accuracy': y_eval[1], 'test_precision': y_eval[2], 'test_recall': y_eval[3]})
+
+
 
 #Confusion Matrix
 y_pred = model.predict(x_test)
@@ -81,5 +90,3 @@ y_pred_name = ([token_labels[p] for p in y_pred_integer])
 y_test_name = ([token_labels[p] for p in y_test_integer])
 
 wandb.sklearn.plot_confusion_matrix(y_test_name, y_pred_name)
-
-#history=model.fit(x_train,y_train,epochs=30 ,batch_size=32, validation_data=(x_val,y_val),shuffle=False,verbose=2)

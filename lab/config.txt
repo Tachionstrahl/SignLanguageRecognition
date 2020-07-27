@@ -1,9 +1,9 @@
-description: erster sweep
+description: LSTM-3D
 method: random
 metric:
   goal: maximize
   name: val_accuracy
-name: swap
+name: LSTM-3D
 parameters:
   batch_size:
     distribution: int_uniform
