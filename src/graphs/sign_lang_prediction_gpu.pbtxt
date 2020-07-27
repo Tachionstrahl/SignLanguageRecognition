@@ -49,11 +49,11 @@ node {
   output_stream: "TEXT:predicted_text"
   options {
       [signlang.SignLangPredictionCalculatorOptions.ext] {
-          verbose: false
+          verbose: true
           maxFrames: 20
           thresholdFramesCount: 60
           minFramesForInference: 10
-          use3D: true
+          use3D: false
       }
    }
 }
