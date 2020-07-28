@@ -1,7 +1,6 @@
 # Imports
 import os
 import warnings
-import tools
 import tensorflow as tf
 import wandb
 from wandb.keras import WandbCallback
@@ -17,6 +16,7 @@ from tensorflow.keras import optimizers
 from tensorflow.keras.layers import SimpleRNN, Dense
 from tensorflow.keras.layers import Bidirectional
 from matplotlib import pyplot
+from data_repository import DataRepository
 # Ignore future warnings
 warnings.simplefilter(action='ignore', category=FutureWarning)
 
@@ -26,7 +26,8 @@ wandb.init(project="SLR")
 dirname = "./data/absolute/2D/"  
 
 # Load data and print summary, if desired
-x_train, x_val, x_test, y_train, y_val, y_test, labels = tools.load_from(dirname, verbose=False) 
+repo = DataRepository(dirname)
+x_train, x_val, x_test, y_train, y_val, y_test, labels = repo.getForTraining()
 
 #load tokens
 with open('tokens_json.txt', 'r') as outfile:
