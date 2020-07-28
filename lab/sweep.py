@@ -21,7 +21,7 @@ from data_repository import DataRepository
 warnings.simplefilter(action='ignore', category=FutureWarning)
 
 # wandb init
-wandb.init(project="SLR")
+wandb.init()
 # Root CSV files directory
 dirname = "./data/absolute/2D/"  
 
@@ -76,9 +76,6 @@ history=model.fit(x_train,y_train,epochs=wandb.config.epochs ,batch_size=wandb.c
 y_eval = model.evaluate(x_test, y_test, verbose=2)
 
 wandb.config.update({'test_loss': y_eval[0],'test_accuracy': y_eval[1], 'test_precision': y_eval[2], 'test_recall': y_eval[3]})
-
-#wandb.log({'test_loss': y_eval[0],'test_accuracy': y_eval[1], 'test_precision': y_eval[2], 'test_recall': y_eval[3]})
-
 
 
 #Confusion Matrix
