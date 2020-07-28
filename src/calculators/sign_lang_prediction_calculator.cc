@@ -10,6 +10,11 @@
 #include "tensorflow/lite/optional_debug_tools.h"
 #include "tensorflow/lite/string_util.h"
 #include "tensorflow/lite/delegates/xnnpack/xnnpack_delegate.h"
+#include <iostream>
+#include <iomanip>
+#include <ctime>
+#include <cstdio>
+#include <fstream>
 
 using namespace mediapipe;
 
@@ -21,7 +26,10 @@ constexpr char kFaceDetectionsTag[] = "DETECTIONS";
 constexpr char kTextOutputTag[] = "TEXT";
 constexpr char kLabelsSidePacketTag[] = "LABELS";
 constexpr float defaultPoint = 0.0F;
-constexpr char tfLiteModelPath[] = "models/sign_lang_recognition.tflite";
+constexpr char tfLiteModelPath2D[] = "models/sign_lang_recognition_2D.tflite";
+constexpr char tfLiteModelPath3D[] = "models/sign_lang_recognition_3D.tflite";
+constexpr char csvHeader2D[] = "face_x;face_y;landmark_x_1;landmark_y_1;landmark_x_2;landmark_y_2;landmark_x_3;landmark_y_3;landmark_x_4;landmark_y_4;landmark_x_5;landmark_y_5;landmark_x_6;landmark_y_6;landmark_x_7;landmark_y_7;landmark_x_8;landmark_y_8;landmark_x_9;landmark_y_9;landmark_x_10;landmark_y_10;landmark_x_11;landmark_y_11;landmark_x_12;landmark_y_12;landmark_x_13;landmark_y_13;landmark_x_14;landmark_y_14;landmark_x_15;landmark_y_15;landmark_x_16;landmark_y_16;landmark_x_17;landmark_y_17;landmark_x_18;landmark_y_18;landmark_x_19;landmark_y_19;landmark_x_20;landmark_y_20;landmark_x_21;landmark_y_21;landmark_x_22;landmark_y_22;landmark_x_23;landmark_y_23;landmark_x_24;landmark_y_24;landmark_x_25;landmark_y_25;landmark_x_26;landmark_y_26;landmark_x_27;landmark_y_27;landmark_x_28;landmark_y_28;landmark_x_29;landmark_y_29;landmark_x_30;landmark_y_30;landmark_x_31;landmark_y_31;landmark_x_32;landmark_y_32;landmark_x_33;landmark_y_33;landmark_x_34;landmark_y_34;landmark_x_35;landmark_y_35;landmark_x_36;landmark_y_36;landmark_x_37;landmark_y_37;landmark_x_38;landmark_y_38;landmark_x_39;landmark_y_39;landmark_x_40;landmark_y_40;landmark_x_41;landmark_y_41;landmark_x_42;landmark_y_42";
+constexpr char csvHeader3D[] = "face_x;face_y;landmark_x_1;landmark_y_1;landmark_z_1;landmark_x_2;landmark_y_2;landmark_z_2;landmark_x_3;landmark_y_3;landmark_z_3;landmark_x_4;landmark_y_4;landmark_z_4;landmark_x_5;landmark_y_5;landmark_z_5;landmark_x_6;landmark_y_6;landmark_z_6;landmark_x_7;landmark_y_7;landmark_z_7;landmark_x_8;landmark_y_8;landmark_z_8;landmark_x_9;landmark_y_9;landmark_z_9;landmark_x_10;landmark_y_10;landmark_z_10;landmark_x_11;landmark_y_11;landmark_z_11;landmark_x_12;landmark_y_12;landmark_z_12;landmark_x_13;landmark_y_13;landmark_z_13;landmark_x_14;landmark_y_14;landmark_z_14;landmark_x_15;landmark_y_15;landmark_z_15;landmark_x_16;landmark_y_16;landmark_z_16;landmark_x_17;landmark_y_17;landmark_z_17;landmark_x_18;landmark_y_18;landmark_z_18;landmark_x_19;landmark_y_19;landmark_z_19;landmark_x_20;landmark_y_20;landmark_z_20;landmark_x_21;landmark_y_21;landmark_z_21;landmark_x_22;landmark_y_22;landmark_z_22;landmark_x_23;landmark_y_23;landmark_z_23;landmark_x_24;landmark_y_24;landmark_z_24;landmark_x_25;landmark_y_25;landmark_z_25;landmark_x_26;landmark_y_26;landmark_z_26;landmark_x_27;landmark_y_27;landmark_z_27;landmark_x_28;landmark_y_28;landmark_z_28;landmark_x_29;landmark_y_29;landmark_z_29;landmark_x_30;landmark_y_30;landmark_z_30;landmark_x_31;landmark_y_31;landmark_z_31;landmark_x_32;landmark_y_32;landmark_z_32;landmark_x_33;landmark_y_33;landmark_z_33;landmark_x_34;landmark_y_34;landmark_z_34;landmark_x_35;landmark_y_35;landmark_z_35;landmark_x_36;landmark_y_36;landmark_z_36;landmark_x_37;landmark_y_37;landmark_z_37;landmark_x_38;landmark_y_38;landmark_z_38;landmark_x_39;landmark_y_39;landmark_z_39;landmark_x_40;landmark_y_40;landmark_z_40;landmark_x_41;landmark_y_41;landmark_z_41;landmark_x_42;landmark_y_42;landmark_z_42";
 
 // Example config:
 // node {
@@ -46,6 +54,7 @@ class SignLangPredictionCalculator : public CalculatorBase
         ::mediapipe::Status FillInputTensor();
         void SetOutput(const std::string *str, ::mediapipe::CalculatorContext *cc);
         void DeleteFramesBuffer();
+        void WriteFramesToFile(std::string prediction);
         std::vector<std::vector<float>> frames = {};
         std::unique_ptr<tflite::FlatBufferModel> model;
         std::unique_ptr<tflite::Interpreter> interpreter;
@@ -82,8 +91,8 @@ class SignLangPredictionCalculator : public CalculatorBase
         labelMap.push_back(nextLabel);
     }
     // Load the model
-    model = tflite::FlatBufferModel::BuildFromFile(tfLiteModelPath);
-    RET_CHECK(model != nullptr) << "Building model from " << tfLiteModelPath << " failed.";
+    model = tflite::FlatBufferModel::BuildFromFile(tfLiteModelPath2D);
+    RET_CHECK(model != nullptr) << "Building model from " << tfLiteModelPath2D << " failed.";
     tflite::ops::builtin::BuiltinOpResolver resolver;
     tflite::InterpreterBuilder(*model, resolver)(&interpreter);
     // interpreter->ResizeInputTensor(0, {100, 86});
@@ -131,7 +140,9 @@ class SignLangPredictionCalculator : public CalculatorBase
     float highest_pred = 0.0F;
     for (size_t i = 0; i < 12; i++)
     {
-        LOG(INFO) << "OUTPUT (" << i << "): " << *output;
+        if (verboseLog) {
+            LOG(INFO) << "OUTPUT (" << i << "): " << *output;
+        }
         if (*output > highest_pred) {
             highest_pred = *output;
             highest_pred_idx = i;
@@ -140,11 +151,44 @@ class SignLangPredictionCalculator : public CalculatorBase
     }
 
     std::string prediction = labelMap[highest_pred_idx] + ", " + std::to_string(highest_pred);
+    //WriteFramesToFile(prediction);
     outputText = prediction;
     LOG(INFO) << "Predicted: " << outputText;
     SetOutput(&outputText, cc);
     DeleteFramesBuffer();
     return ::mediapipe::OkStatus();
+}
+
+void SignLangPredictionCalculator::WriteFramesToFile(std::string prediction) {
+    std::fstream csvFile;
+    
+    auto t = std::time(nullptr);
+    auto tm = *std::localtime(&t);
+    std::ostringstream oss;
+    oss << "/home/datagroup/Development/SignLanguageRecognition/lab/data/live/ich/" << prediction << std::put_time(&tm, "%d-%m-%Y %H-%M-%S") << ".csv";
+    const std::string filePath = oss.str();
+    LOG(INFO) << "Writing to file " << filePath << " ...";
+    csvFile.open(filePath, std::fstream::out);
+    if (use3D) {
+            csvFile << csvHeader3D << std::endl;
+        } else {
+            csvFile << csvHeader2D << std::endl;
+        }
+    for (size_t i = 0; i < frames.size(); i++)
+    {
+        auto frame = frames[i];
+        for (size_t j = 0; j < frame.size(); j++)
+        {
+            csvFile << frame[j];
+            if (j < frame.size() - 1) {
+                csvFile << ";";
+            }
+        }
+        csvFile << std::endl;
+    }
+    csvFile.flush();
+    csvFile.close();
+    
 }
 
 ::mediapipe::Status SignLangPredictionCalculator::LoadOptions(
@@ -154,6 +198,7 @@ class SignLangPredictionCalculator : public CalculatorBase
     maxFrames = options.maxframes();
     thresholdFramesCount = options.thresholdframescount();
     minFramesForInference = options.minframesforinference();
+    use3D = options.use3d();
     return ::mediapipe::OkStatus();
 }
 
@@ -209,8 +254,10 @@ void SignLangPredictionCalculator::SetOutput(const std::string *str, ::mediapipe
     while (coordinates.size() < maxSize) {
         coordinates.push_back(defaultPoint);
     }
-    
-    RET_CHECK_EQ(coordinates.size(), maxSize) << "Coordinates size not equal 86. Actual size: " << coordinates.size();
+    if (coordinates.size() > maxSize) {
+        LOG(ERROR) << "Coordinates size not equal " << maxSize << ". Actual size: " << coordinates.size();
+        return ::mediapipe::OkStatus();
+    }
     
     if (frames.size() >= maxFrames) {
         frames.erase(frames.begin());

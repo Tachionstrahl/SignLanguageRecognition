@@ -23,7 +23,7 @@ warnings.simplefilter(action='ignore', category=FutureWarning)
 # wandb init
 wandb.init(project="SLR")
 # Root CSV files directory
-dirname = "./data/absolute/3D/"  
+dirname = "./data/absolute/2D/"  
 
 # Load data and print summary, if desired
 x_train, x_val, x_test, y_train, y_val, y_test, labels = tools.load_from(dirname, verbose=False) 
