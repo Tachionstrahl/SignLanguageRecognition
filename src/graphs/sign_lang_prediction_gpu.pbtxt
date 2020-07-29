@@ -50,7 +50,7 @@ node {
   options {
       [signlang.SignLangPredictionCalculatorOptions.ext] {
           verbose: true
-          maxFrames: 20
+          maxFrames: 100
           thresholdFramesCount: 60
           minFramesForInference: 10
           use3D: false

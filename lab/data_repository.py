@@ -30,7 +30,7 @@ class DataRepository():
     def __loadData(self):
         listfile = os.listdir(self.__dirname)
         listfile= sorted(listfile, key=str.casefold) 
-        
+        print(listfile)
         for word in listfile:
             if word == ".DS_Store":
                 continue
@@ -74,6 +74,7 @@ class DataRepository():
     def getDataAndLabels(self):
         features = [n[1] for n in self.dataPerWord]
         x = [f.to_numpy() for f in features]
+        x = np.array(x)
         encoded_y = self.tokenizer.texts_to_sequences([self.labels])[0]
         y = to_categorical(encoded_y)
         return x, y;
