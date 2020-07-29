@@ -153,7 +153,7 @@ class SignLangPredictionCalculator : public CalculatorBase
     }
 
     std::string prediction = labelMap[highest_pred_idx] + ", " + std::to_string(highest_pred);
-    WriteFramesToFile(prediction);
+    //WriteFramesToFile(prediction);
     outputText = prediction;
     LOG(INFO) << "Predicted: " << outputText;
     SetOutput(&outputText, cc);
@@ -167,7 +167,7 @@ void SignLangPredictionCalculator::WriteFramesToFile(std::string prediction) {
     auto t = std::time(nullptr);
     auto tm = *std::localtime(&t);
     std::ostringstream oss;
-    oss << "/home/michi/ML/SignLanguageRecognition/lab/data/absolute/live/zeigen/" << prediction << std::put_time(&tm, "%d-%m-%Y %H-%M-%S") << ".csv";
+    oss << "/home/michi/ML/SignLanguageRecognition/lab/data/absolute/live/Hallo/" << prediction << std::put_time(&tm, "%d-%m-%Y %H-%M-%S") << ".csv";
     // oss << "/home/datagroup/Development/SignLanguageRecognition/lab/data/live/ich/" << prediction << std::put_time(&tm, "%d-%m-%Y %H-%M-%S") << ".csv";
     const std::string filePath = oss.str();
     LOG(INFO) << "Writing to file " << filePath << " ...";
