@@ -23,11 +23,13 @@ warnings.simplefilter(action='ignore', category=FutureWarning)
 # wandb init
 wandb.init()
 # Root CSV files directory
-dirname = "./data/absolute/2D/"  
+dirname = wandb.config.path
 
 # Load data and print summary, if desired
 repo = DataRepository(dirname)
 x_train, x_val, x_test, y_train, y_val, y_test, labels = repo.getForTraining()
+
+wandb.config.update({'Size_Training_Set': len(x_train),'Size_Validation_Set': len(x_val), 'Size_Test_Set': len(x_test)})
 
 #load tokens
 with open('tokens_json.txt', 'r') as outfile:
