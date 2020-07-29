@@ -23,7 +23,7 @@ warnings.simplefilter(action='ignore', category=FutureWarning)
 # wandb init
 wandb.init()
 # Root CSV files directory
-dirname = "./data/absolute/2D/"  
+dirname = wandb.config.path 
 
 # Load data and print summary, if desired
 repo = DataRepository(dirname)
