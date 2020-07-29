@@ -1,7 +1,6 @@
 workspace(name = "src")
 
 load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
-load("@bazel_tools//tools/build_defs/repo:git.bzl", "git_repository")
 
 # Version 0.7.6
 _MEDIAPIPE_RELEASE_VERSION = "0.7.6"
@@ -13,11 +12,14 @@ http_archive(
     strip_prefix = "mediapipe-%s" % _MEDIAPIPE_RELEASE_VERSION,
 )
 
-git_repository(
+_RULES_BOOST_COMMIT = "9f9fb8b2f0213989247c9d5c0e814a8451d18d7f"
+http_archive(
     name = "com_github_nelhage_rules_boost",
-    commit = "9f9fb8b2f0213989247c9d5c0e814a8451d18d7f",
-    remote = "https://github.com/nelhage/rules_boost",
-    shallow_since = "1570056263 -0700",
+    urls = [
+        "https://github.com/nelhage/rules_boost/archive/%s.tar.gz" % _RULES_BOOST_COMMIT,
+    ],
+    strip_prefix = "rules_boost-%s" % _RULES_BOOST_COMMIT,
+    sha256 = "f8c9653c1c49489c04f9f87ab1ee93d7b59bb26a39d9e30e9687fca3c6197c3f"
 )
 
 load("@com_github_nelhage_rules_boost//:boost/boost.bzl", "boost_deps")
