@@ -1,0 +1,13 @@
+diff --git a/mediapipe/examples/desktop/demo_run_graph_main_gpu.cc b/mediapipe/examples/desktop/demo_run_graph_main_gpu.cc
+index b77d8d4..a14ab4a 100644
+--- a/mediapipe/examples/desktop/demo_run_graph_main_gpu.cc
++++ b/mediapipe/examples/desktop/demo_run_graph_main_gpu.cc
+@@ -100,7 +100,7 @@ DEFINE_string(output_video_path, "",
+     cv::Mat camera_frame;
+     cv::cvtColor(camera_frame_raw, camera_frame, cv::COLOR_BGR2RGB);
+     if (!load_video) {
+-      cv::flip(camera_frame, camera_frame, /*flipcode=HORIZONTAL*/ 1);
++      //cv::flip(camera_frame, camera_frame, /*flipcode=HORIZONTAL*/ 1);
+     }
+ 
+     // Wrap Mat into an ImageFrame.
