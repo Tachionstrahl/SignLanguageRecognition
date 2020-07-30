@@ -1,9 +1,9 @@
-description: LSTM with 2D relative landmarks
+description: LSTM-Absolute-3D
 method: random
 metric:
   goal: maximize
   name: val_accuracy
-name: LSTM-Relative-2D
+name: LSTM-Absolute-3D
 parameters:
   batch_size:
     distribution: int_uniform
@@ -56,6 +56,6 @@ parameters:
     - Adagrad
   path:
     distribution: constant
-    value: ./data/relative/2D/
+    value: "./data/absolute/3D/"
 program: sweep.py
 project: SLR
