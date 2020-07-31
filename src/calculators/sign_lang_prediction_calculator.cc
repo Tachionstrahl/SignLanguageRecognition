@@ -15,6 +15,7 @@
 #include <ctime>
 #include <cstdio>
 #include <fstream>
+#include <math.h>
 
 using namespace mediapipe;
 
@@ -119,7 +120,7 @@ class SignLangPredictionCalculator : public CalculatorBase
     
     RET_CHECK_OK(UpdateFrames(cc));
     if (!ShouldPredict()) {
-        std::string text = "Buffered: " + std::to_string(framesSinceLastPrediction);
+        std::string text = outputText + " : " + std::to_string(framesSinceLastPrediction);
         SetOutput(&text, cc);
         return ::mediapipe::OkStatus();
     }
