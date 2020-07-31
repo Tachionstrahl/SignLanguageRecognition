@@ -22,7 +22,7 @@ class TextToRenderDataCalculator : public CalculatorBase {
   ::mediapipe::Status Process(CalculatorContext* cc) override;
 
  private:
-  double video_height = 700.0;
+  double video_height = 0.0;
   double font_height = 30.0;
   double text_margin = 10.0;
 };
@@ -49,7 +49,7 @@ class TextToRenderDataCalculator : public CalculatorBase {
   text->set_display_text(text_content);
   text->set_font_height(font_height);
   text->set_left(text_margin);
-  text->set_baseline(video_height - font_height - text_margin);
+  text->set_baseline(video_height + font_height + text_margin);
   // text->set_font_face(0);
 
   cc->Outputs()

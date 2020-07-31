@@ -153,7 +153,7 @@ class SignLangPredictionCalculator : public CalculatorBase
     }
 
     std::string prediction = labelMap[highest_pred_idx] + ", " + std::to_string(highest_pred);
-    //WriteFramesToFile(prediction);
+    WriteFramesToFile(prediction);
     outputText = prediction;
     LOG(INFO) << "Predicted: " << outputText;
     SetOutput(&outputText, cc);
