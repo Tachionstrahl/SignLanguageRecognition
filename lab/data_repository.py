@@ -7,7 +7,7 @@ from sklearn.model_selection import train_test_split
 # Constant frame count.
 frames = 100
 # Default value for empty cells
-default = .5
+default = 0.0
 json_token_filename = 'tokens_json.txt';
 
 class DataRepository():
