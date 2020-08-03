@@ -27,7 +27,7 @@ dirname = wandb.config.path
 # Load data and print summary, if desired
 repo = DataRepository(dirname)
 x_train, x_val, x_test, y_train, y_val, y_test, labels = repo.getForTraining()
-num_classes = len(labels) + 1
+num_classes = 12
 x_train = np.concatenate((x_train, x_val))
 y_train = np.concatenate((y_train, y_val))
 wandb.config.update({'Size_Training_Set': len(x_train),'Size_Validation_Set': len(x_val), 'Size_Test_Set': len(x_test)})
@@ -79,13 +79,18 @@ inputs = keras.Input(shape=(x_train.shape[1], x_train.shape[2]))
 embedding = layers.LSTM(wandb.config.node_size1, return_sequences=True)(inputs)
 for i in range(0, wandb.config.num_layers):    #number of layers ramdom between 1 an 3
     embedding = layers.LSTM(nodesizes[i],return_sequences=True)(embedding)
+embedding = layers.LSTM(wandb.config.node_size5)(embedding)
 
 reject_output = layers.Dense(1, activation="sigmoid", name="reject_output")(embedding)
-class_output = layers.Dense(num_classes, activation='softmax')(embedding)
+class_output = layers.Dense(num_classes, activation='softmax', name="class_output")(embedding)
 
 model = keras.models.Model(inputs=inputs, outputs=[reject_output, class_output])
+keras.utils.plot_model(model, "model.png", show_shapes=True)
 model.compile(
-    loss={'class_output': 'categorical_crossentropy'},
+    loss={
+        'class_output': 'categorical_crossentropy',
+        'reject_output': 'binary_crossentropy'
+        },
     optimizer=wandb.config.optimizer,
     metrics={'class_output': [
                     'accuracy',
@@ -98,13 +103,13 @@ model.summary()
 wandb.config.optimizer_config = model.optimizer.get_config()
 
 y_train_reject = [False for _ in y_train]
-y_train_reject = to_categorical(y_reject)
+y_train_reject = to_categorical(y_train_reject)
 y_val_reject = [False for _ in y_val]
-y_val_reject = to_categorical(y_val)
+y_val_reject = to_categorical(y_val_reject)
 # history=model.fit(x_train,y_train,epochs=wandb.config.epochs ,batch_size=wandb.config.batch_size, validation_data=(x_val,y_val),shuffle=False,verbose=2, callbacks=[WandbCallback()])
 history=model.fit(
     x_train,
-    {'class_output': y_train, 'reject_output': y_reject},
+    {'class_output': y_train, 'reject_output': y_train_reject},
     epochs=wandb.config.epochs,
     batch_size=wandb.config.batch_size,
     validation_data=(x_val, {'class_output': y_val, 'reject_output': y_val_reject}),
