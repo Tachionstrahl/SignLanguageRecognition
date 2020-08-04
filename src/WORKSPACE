@@ -10,6 +10,14 @@ http_archive(
       "https://github.com/google/mediapipe/archive/v%s.tar.gz" % _MEDIAPIPE_RELEASE_VERSION,
     ],
     strip_prefix = "mediapipe-%s" % _MEDIAPIPE_RELEASE_VERSION,
+    # No camera image horizontal flip.
+    patches = [
+        "@//third_party:demo_run_graph_main_gpu_flip_fix.diff",
+        "@//third_party:demo_run_graph_main_flip_fix.diff"
+    ],
+    patch_args = [
+        "-p1",
+    ],
 )
 
 _RULES_BOOST_COMMIT = "9f9fb8b2f0213989247c9d5c0e814a8451d18d7f"

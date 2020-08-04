@@ -17,13 +17,18 @@ from tensorflow.keras.layers import SimpleRNN, Dense
 from tensorflow.keras.layers import Bidirectional
 from matplotlib import pyplot
 from data_repository import DataRepository
+import sys
+import tensorflow.keras as K
+
+np.set_printoptions(threshold=sys.maxsize)
+
 # Ignore future warnings
 warnings.simplefilter(action='ignore', category=FutureWarning)
 
 # wandb init
 wandb.init()
 # Root CSV files directory
-dirname = wandb.config.path
+dirname = wandb.config.path 
 
 # Load data and print summary, if desired
 repo = DataRepository(dirname)
@@ -90,3 +95,17 @@ y_pred_name = ([token_labels[p] for p in y_pred_integer])
 y_test_name = ([token_labels[p] for p in y_test_integer])
 
 wandb.sklearn.plot_confusion_matrix(y_test_name, y_pred_name)
+
+#Convert to TFLite
+print(wandb.run.dir)
+
+new_model= tf.keras.models.load_model(filepath=os.path.join(wandb.run.dir, "model-best.h5"))
+
+tflite_converter = tf.lite.TFLiteConverter.from_keras_model(new_model)
+# Needed for some ops.
+tflite_converter.experimental_new_converter = True
+# tflite_converter.allow_custom_ops = True
+
+tflite_model = tflite_converter.convert()
+
+open(os.path.join(wandb.run.dir, "model-best.tflite"), "wb").write(tflite_model)
