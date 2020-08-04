@@ -49,8 +49,5 @@ lab/Train-experimental.ipynb
 #wandb
 lab/wandb/*
 lab/tokens_json.txt
-lab/models/*
-
-
-
-
+lab/tokens_json.txt
+lab/wandb/debug.log
