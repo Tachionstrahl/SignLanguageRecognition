@@ -53,7 +53,7 @@ node {
           maxFrames: 100
           thresholdFramesCount: 60
           minFramesForInference: 10
-          use3D: true
+          use3D: false
       }
    }
 }
