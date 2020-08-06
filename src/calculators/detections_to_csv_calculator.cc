@@ -43,6 +43,7 @@ Status DetectionsToCSVCalculator::GetContract(CalculatorContract *cc)
 
 Status DetectionsToCSVCalculator::Open(CalculatorContext *cc)
 {
+    LOG(INFO) << "JJOOOOO INfo";
     if (csvFile.is_open()) {
         csvFile.flush();
         csvFile.close();
@@ -134,8 +135,18 @@ std::vector<float> DetectionsToCSVCalculator::GetCoordinatesRelative(std::vector
     for (size_t i = 0; i < coordinatesB.size(); i++)
     {
         if (coordinatesA.size() >= i+1) {
-            float relativePoint = coordinatesB[i] - coordinatesA[i];
-            relativeCoordinates.push_back(relativePoint);
+            float delta = coordinatesB[i] - coordinatesA[i];
+            int change;
+            if (delta > 0.001) {
+                change = 1;
+            } else if (delta < -0.001)
+            {
+                change = -1;
+            } else {
+                change = 0;
+            }
+            
+            relativeCoordinates.push_back(change);
         }
     }
     coordinatesA = coordinatesB;

@@ -15,6 +15,8 @@ from tensorflow.keras import layers
 from tensorflow.keras import optimizers
 from tensorflow.keras.layers import SimpleRNN, Dense
 from tensorflow.keras.layers import Bidirectional
+from tensorflow.compat.v1 import ConfigProto
+from tensorflow.compat.v1 import InteractiveSession
 from matplotlib import pyplot
 from data_repository import DataRepository
 import sys
@@ -33,7 +35,7 @@ dirname = wandb.config.path
 # Load data and print summary, if desired
 repo = DataRepository(dirname)
 x_train, x_val, x_test, y_train, y_val, y_test, labels = repo.getForTraining()
-
+num_classes = repo.numClasses + 1
 wandb.config.update({'Size_Training_Set': len(x_train),'Size_Validation_Set': len(x_val), 'Size_Test_Set': len(x_test)})
 
 #load tokens
@@ -47,9 +49,6 @@ token_labels = {y:x for x,y in tokenizer.word_index.items()}
 # GPU-initialization
 physical_devices = tf.config.list_physical_devices('GPU') 
 print("Num GPUs:", len(physical_devices)) 
-
-from tensorflow.compat.v1 import ConfigProto
-from tensorflow.compat.v1 import InteractiveSession
 
 config = ConfigProto()
 config.gpu_options.per_process_gpu_memory_fraction = 0.3
@@ -72,7 +71,7 @@ for i in range(0,wandb.config.num_layers):    #number of layers ramdom between 1
 model.add(Bidirectional(layers.LSTM(wandb.config.node_size5)))
 model.add(layers.Dropout(rate=dropout))
 
-model.add(layers.Dense(12, activation='softmax'))
+model.add(layers.Dense(num_classes, activation='softmax'))
 
 model.compile(loss='categorical_crossentropy',
               optimizer=wandb.config.optimizer,

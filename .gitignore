@@ -52,3 +52,5 @@ lab/tokens_json.txt
 lab/tokens_json.txt
 lab/wandb/debug.log
 lab/models/*
+
+src/.vscode/
