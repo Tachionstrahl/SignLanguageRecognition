@@ -7,7 +7,6 @@ hallo
 ich
 mainz
 software
-unknown
 unser
 welt
 zeigen

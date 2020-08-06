@@ -39,12 +39,9 @@ num_classes = repo.numClasses + 1
 wandb.config.update({'Size_Training_Set': len(x_train),'Size_Validation_Set': len(x_val), 'Size_Test_Set': len(x_test)})
 
 #load tokens
-with open('tokens_json.txt', 'r') as outfile:
-    json_ex = outfile.read()
-    
-
-tokenizer = tf.keras.preprocessing.text.tokenizer_from_json(json_ex)
-token_labels = {y:x for x,y in tokenizer.word_index.items()}
+tokens = os.listdir(dirname)
+tokens = sorted(tokens, key=str.casefold) 
+token_labels = {i:tokens[i] for i in range(0, len(tokens))}
 
 # GPU-initialization
 physical_devices = tf.config.list_physical_devices('GPU') 
