@@ -27,7 +27,7 @@ For extracting multi hand and face detections for each frame of the videos and s
 ### 3. Training deep learning model
 
 The CSV files are used to train a deep learning model with `Keras`, a high level API for `TensorFlow`.
-Therefore we use jupyter notebooks to simply write and comment scripts.
+To find best hyperparameter sets we use Weights&Biases' Sweeps.
 Check out the `lab` folder.
 
 ### 4. Live prediction (Subtitling) ***Work in progress***
