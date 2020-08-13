@@ -19,6 +19,15 @@ cc_binary(
 )
 
 cc_binary(
+    name = "pose_to_csv_gpu",
+    deps = [
+        ":run_graph_main_gpu",
+        "//graphs/subgraphs:pose_tracking_gpu",
+        "//calculators:pose_landmarks_to_csv_calculator"
+    ],
+)
+
+cc_binary(
     name = "prediction_gpu",
     deps = [
         "@mediapipe//mediapipe/examples/desktop:demo_run_graph_main_gpu",

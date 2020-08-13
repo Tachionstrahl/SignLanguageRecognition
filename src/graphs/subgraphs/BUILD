@@ -90,3 +90,12 @@ mediapipe_simple_subgraph(
         "@mediapipe//mediapipe/calculators/util:rect_to_render_data_calculator",
     ],
 )
+
+mediapipe_simple_subgraph(
+    name = "pose_tracking_gpu",
+    graph = "pose_tracking_gpu.pbtxt",
+    register_as = "PoseTrackingGpuSubgraph",
+    deps = [
+        "@mediapipe//mediapipe/graphs/pose_tracking:upper_body_pose_tracking_gpu_deps"
+    ]
+)
