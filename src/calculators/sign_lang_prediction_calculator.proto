@@ -41,5 +41,9 @@ message SignLangPredictionCalculatorOptions {
   // This excludes the frames that are filled to reach [maxFrames].
   optional int32 minFramesForInference = 4 [default = 10];
 
+  // If true, use 3D coordinates and inference with 3D model.
   optional bool use3D = 5 [default = false];
+
+  // A threshold for prediction probabilities.
+  optional float probabilityThreshold = 6 [default = 0.5];
 }

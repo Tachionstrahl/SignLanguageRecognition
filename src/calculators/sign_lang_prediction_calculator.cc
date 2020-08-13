@@ -69,6 +69,7 @@ class SignLangPredictionCalculator : public CalculatorBase
         int thresholdFramesCount = 0;
         int minFramesForInference = 0;
         bool use3D = false;
+        float probabilitityThreshold = 0.5;
 };
 
 ::mediapipe::Status SignLangPredictionCalculator::GetContract(CalculatorContract *cc)
@@ -145,7 +146,7 @@ class SignLangPredictionCalculator : public CalculatorBase
     float* output = interpreter->typed_tensor<float>(output_idx);
     int highest_pred_idx = -1;
     float highest_pred = 0.0F;
-    for (size_t i = 0; i < 13; i++)
+    for (size_t i = 0; i < labelMap.size(); i++)
     {
         if (verboseLog) {
             LOG(INFO) << "OUTPUT (" << i << "): " << *output;
@@ -156,8 +157,13 @@ class SignLangPredictionCalculator : public CalculatorBase
         }
         *output++;
     }
-
-    std::string prediction = labelMap[highest_pred_idx] + ", " + std::to_string(highest_pred);
+    std::string prediction;
+    if (highest_pred > probabilitityThreshold) {
+        prediction = labelMap[highest_pred_idx] + ", " + std::to_string(highest_pred);
+    } else {
+        prediction = "Unbekannt";
+    }
+    
     //WriteFramesToFile(prediction);
     outputText = prediction;
     LOG(INFO) << "Predicted: " << outputText;
@@ -207,6 +213,7 @@ void SignLangPredictionCalculator::WriteFramesToFile(std::string prediction) {
     thresholdFramesCount = options.thresholdframescount();
     minFramesForInference = options.minframesforinference();
     use3D = options.use3d();
+    probabilitityThreshold = options.probabilitythreshold();
     return ::mediapipe::OkStatus();
 }
 

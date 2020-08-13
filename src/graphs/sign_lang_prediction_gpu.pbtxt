@@ -54,6 +54,7 @@ node {
           thresholdFramesCount: 60
           minFramesForInference: 10
           use3D: false
+          probabilityThreshold: 0.75
       }
    }
 }
