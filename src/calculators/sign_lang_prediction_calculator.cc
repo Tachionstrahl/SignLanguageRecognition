@@ -21,37 +21,36 @@ using namespace mediapipe;
 
 namespace signlang
 {
+    constexpr char kPoseLandmarksTag[] = "POSE_LANDMARKS";
+    constexpr char kLandmarksTag[] = "NORM_LANDMARKS";
+    constexpr char kFaceDetectionsTag[] = "DETECTIONS";
+    constexpr char kTextOutputTag[] = "TEXT";
+    constexpr char kLabelsSidePacketTag[] = "LABELS";
+    constexpr float defaultPoint = 0.0F;
+    constexpr char csvHeader2D[] = "face_x;face_y;landmark_x_1;landmark_y_1;landmark_x_2;landmark_y_2;landmark_x_3;landmark_y_3;landmark_x_4;landmark_y_4;landmark_x_5;landmark_y_5;landmark_x_6;landmark_y_6;landmark_x_7;landmark_y_7;landmark_x_8;landmark_y_8;landmark_x_9;landmark_y_9;landmark_x_10;landmark_y_10;landmark_x_11;landmark_y_11;landmark_x_12;landmark_y_12;landmark_x_13;landmark_y_13;landmark_x_14;landmark_y_14;landmark_x_15;landmark_y_15;landmark_x_16;landmark_y_16;landmark_x_17;landmark_y_17;landmark_x_18;landmark_y_18;landmark_x_19;landmark_y_19;landmark_x_20;landmark_y_20;landmark_x_21;landmark_y_21;landmark_x_22;landmark_y_22;landmark_x_23;landmark_y_23;landmark_x_24;landmark_y_24;landmark_x_25;landmark_y_25;landmark_x_26;landmark_y_26;landmark_x_27;landmark_y_27;landmark_x_28;landmark_y_28;landmark_x_29;landmark_y_29;landmark_x_30;landmark_y_30;landmark_x_31;landmark_y_31;landmark_x_32;landmark_y_32;landmark_x_33;landmark_y_33;landmark_x_34;landmark_y_34;landmark_x_35;landmark_y_35;landmark_x_36;landmark_y_36;landmark_x_37;landmark_y_37;landmark_x_38;landmark_y_38;landmark_x_39;landmark_y_39;landmark_x_40;landmark_y_40;landmark_x_41;landmark_y_41;landmark_x_42;landmark_y_42";
+    constexpr char csvHeader3D[] = "face_x;face_y;landmark_x_1;landmark_y_1;landmark_z_1;landmark_x_2;landmark_y_2;landmark_z_2;landmark_x_3;landmark_y_3;landmark_z_3;landmark_x_4;landmark_y_4;landmark_z_4;landmark_x_5;landmark_y_5;landmark_z_5;landmark_x_6;landmark_y_6;landmark_z_6;landmark_x_7;landmark_y_7;landmark_z_7;landmark_x_8;landmark_y_8;landmark_z_8;landmark_x_9;landmark_y_9;landmark_z_9;landmark_x_10;landmark_y_10;landmark_z_10;landmark_x_11;landmark_y_11;landmark_z_11;landmark_x_12;landmark_y_12;landmark_z_12;landmark_x_13;landmark_y_13;landmark_z_13;landmark_x_14;landmark_y_14;landmark_z_14;landmark_x_15;landmark_y_15;landmark_z_15;landmark_x_16;landmark_y_16;landmark_z_16;landmark_x_17;landmark_y_17;landmark_z_17;landmark_x_18;landmark_y_18;landmark_z_18;landmark_x_19;landmark_y_19;landmark_z_19;landmark_x_20;landmark_y_20;landmark_z_20;landmark_x_21;landmark_y_21;landmark_z_21;landmark_x_22;landmark_y_22;landmark_z_22;landmark_x_23;landmark_y_23;landmark_z_23;landmark_x_24;landmark_y_24;landmark_z_24;landmark_x_25;landmark_y_25;landmark_z_25;landmark_x_26;landmark_y_26;landmark_z_26;landmark_x_27;landmark_y_27;landmark_z_27;landmark_x_28;landmark_y_28;landmark_z_28;landmark_x_29;landmark_y_29;landmark_z_29;landmark_x_30;landmark_y_30;landmark_z_30;landmark_x_31;landmark_y_31;landmark_z_31;landmark_x_32;landmark_y_32;landmark_z_32;landmark_x_33;landmark_y_33;landmark_z_33;landmark_x_34;landmark_y_34;landmark_z_34;landmark_x_35;landmark_y_35;landmark_z_35;landmark_x_36;landmark_y_36;landmark_z_36;landmark_x_37;landmark_y_37;landmark_z_37;landmark_x_38;landmark_y_38;landmark_z_38;landmark_x_39;landmark_y_39;landmark_z_39;landmark_x_40;landmark_y_40;landmark_z_40;landmark_x_41;landmark_y_41;landmark_z_41;landmark_x_42;landmark_y_42;landmark_z_42";
 
-constexpr char kLandmarksTag[] = "NORM_LANDMARKS";
-constexpr char kFaceDetectionsTag[] = "DETECTIONS";
-constexpr char kTextOutputTag[] = "TEXT";
-constexpr char kLabelsSidePacketTag[] = "LABELS";
-constexpr float defaultPoint = 0.0F;
-constexpr char tfLiteModelPath2D[] = "models/sign_lang_recognition_2D.tflite";
-constexpr char tfLiteModelPath3D[] = "models/sign_lang_recognition_3D_00.tflite";
-constexpr char csvHeader2D[] = "face_x;face_y;landmark_x_1;landmark_y_1;landmark_x_2;landmark_y_2;landmark_x_3;landmark_y_3;landmark_x_4;landmark_y_4;landmark_x_5;landmark_y_5;landmark_x_6;landmark_y_6;landmark_x_7;landmark_y_7;landmark_x_8;landmark_y_8;landmark_x_9;landmark_y_9;landmark_x_10;landmark_y_10;landmark_x_11;landmark_y_11;landmark_x_12;landmark_y_12;landmark_x_13;landmark_y_13;landmark_x_14;landmark_y_14;landmark_x_15;landmark_y_15;landmark_x_16;landmark_y_16;landmark_x_17;landmark_y_17;landmark_x_18;landmark_y_18;landmark_x_19;landmark_y_19;landmark_x_20;landmark_y_20;landmark_x_21;landmark_y_21;landmark_x_22;landmark_y_22;landmark_x_23;landmark_y_23;landmark_x_24;landmark_y_24;landmark_x_25;landmark_y_25;landmark_x_26;landmark_y_26;landmark_x_27;landmark_y_27;landmark_x_28;landmark_y_28;landmark_x_29;landmark_y_29;landmark_x_30;landmark_y_30;landmark_x_31;landmark_y_31;landmark_x_32;landmark_y_32;landmark_x_33;landmark_y_33;landmark_x_34;landmark_y_34;landmark_x_35;landmark_y_35;landmark_x_36;landmark_y_36;landmark_x_37;landmark_y_37;landmark_x_38;landmark_y_38;landmark_x_39;landmark_y_39;landmark_x_40;landmark_y_40;landmark_x_41;landmark_y_41;landmark_x_42;landmark_y_42";
-constexpr char csvHeader3D[] = "face_x;face_y;landmark_x_1;landmark_y_1;landmark_z_1;landmark_x_2;landmark_y_2;landmark_z_2;landmark_x_3;landmark_y_3;landmark_z_3;landmark_x_4;landmark_y_4;landmark_z_4;landmark_x_5;landmark_y_5;landmark_z_5;landmark_x_6;landmark_y_6;landmark_z_6;landmark_x_7;landmark_y_7;landmark_z_7;landmark_x_8;landmark_y_8;landmark_z_8;landmark_x_9;landmark_y_9;landmark_z_9;landmark_x_10;landmark_y_10;landmark_z_10;landmark_x_11;landmark_y_11;landmark_z_11;landmark_x_12;landmark_y_12;landmark_z_12;landmark_x_13;landmark_y_13;landmark_z_13;landmark_x_14;landmark_y_14;landmark_z_14;landmark_x_15;landmark_y_15;landmark_z_15;landmark_x_16;landmark_y_16;landmark_z_16;landmark_x_17;landmark_y_17;landmark_z_17;landmark_x_18;landmark_y_18;landmark_z_18;landmark_x_19;landmark_y_19;landmark_z_19;landmark_x_20;landmark_y_20;landmark_z_20;landmark_x_21;landmark_y_21;landmark_z_21;landmark_x_22;landmark_y_22;landmark_z_22;landmark_x_23;landmark_y_23;landmark_z_23;landmark_x_24;landmark_y_24;landmark_z_24;landmark_x_25;landmark_y_25;landmark_z_25;landmark_x_26;landmark_y_26;landmark_z_26;landmark_x_27;landmark_y_27;landmark_z_27;landmark_x_28;landmark_y_28;landmark_z_28;landmark_x_29;landmark_y_29;landmark_z_29;landmark_x_30;landmark_y_30;landmark_z_30;landmark_x_31;landmark_y_31;landmark_z_31;landmark_x_32;landmark_y_32;landmark_z_32;landmark_x_33;landmark_y_33;landmark_z_33;landmark_x_34;landmark_y_34;landmark_z_34;landmark_x_35;landmark_y_35;landmark_z_35;landmark_x_36;landmark_y_36;landmark_z_36;landmark_x_37;landmark_y_37;landmark_z_37;landmark_x_38;landmark_y_38;landmark_z_38;landmark_x_39;landmark_y_39;landmark_z_39;landmark_x_40;landmark_y_40;landmark_z_40;landmark_x_41;landmark_y_41;landmark_z_41;landmark_x_42;landmark_y_42;landmark_z_42";
-
-// Example config:
-// node {
-//   calculator: "SignLangPredictionCalculator"
-//   input_stream: "DETECTIONS:output_detections"
-//   input_stream: "NORM_LANDMARKS:multi_hand_landmarks"
-//   output_stream: "TEXT:prediction"
-// }
-class SignLangPredictionCalculator : public CalculatorBase
-{
+    // Example config:
+    // node {
+    //   calculator: "SignLangPredictionCalculator"
+    //   input_stream: "DETECTIONS:output_detections"
+    //   input_stream: "NORM_LANDMARKS:multi_hand_landmarks"
+    //   output_stream: "TEXT:prediction"
+    // }
+    class SignLangPredictionCalculator : public CalculatorBase
+    {
     public:
         static ::mediapipe::Status GetContract(CalculatorContract *cc);
         ::mediapipe::Status Open(CalculatorContext *cc) override;
         ::mediapipe::Status Process(CalculatorContext *cc) override;
 
     private:
-        ::mediapipe::Status LoadOptions(CalculatorContext* cc);
+        ::mediapipe::Status LoadOptions(CalculatorContext *cc);
         void AddFaceDetectionsTo(std::vector<float> &coordinates, CalculatorContext *cc);
         void AddMultiHandDetectionsTo(std::vector<float> &coordinates, CalculatorContext *cc);
+        void AddPoseLandmarks(std::vector<float> &coordinates, CalculatorContext *cc);
         ::mediapipe::Status UpdateFrames(CalculatorContext *cc);
-        bool ShouldPredict(); 
+        bool ShouldPredict();
         ::mediapipe::Status FillInputTensor();
         void SetOutput(const std::string *str, ::mediapipe::CalculatorContext *cc);
         void DeleteFramesBuffer();
@@ -69,272 +68,339 @@ class SignLangPredictionCalculator : public CalculatorBase
         int thresholdFramesCount = 0;
         int minFramesForInference = 0;
         bool use3D = false;
+        bool usePoseLandmarks = false;
         float probabilitityThreshold = 0.5;
-};
+        std::string tfLiteModelPath;
+    };
 
-::mediapipe::Status SignLangPredictionCalculator::GetContract(CalculatorContract *cc)
-{
-    RET_CHECK(cc->InputSidePackets().HasTag(kLabelsSidePacketTag)) << "Missing " << kLabelsSidePacketTag << " input side packet";
-    RET_CHECK(cc->Inputs().HasTag(kLandmarksTag)) << "No input has the label " << kLandmarksTag;
-    RET_CHECK(cc->Inputs().HasTag(kFaceDetectionsTag)) << "No input has the label " << kFaceDetectionsTag;
-    cc->InputSidePackets().Tag(kLabelsSidePacketTag).Set<std::string>();
-    cc->Inputs().Tag(kLandmarksTag).Set<std::vector<NormalizedLandmarkList>>();
-    cc->Inputs().Tag(kFaceDetectionsTag).Set<std::vector<Detection>>();
-    cc->Outputs().Tag(kTextOutputTag).Set<std::string>();
-    return ::mediapipe::OkStatus();
-}
-::mediapipe::Status SignLangPredictionCalculator::Open(CalculatorContext *cc) {
-    // LOG(INFO) << "Open";
-    MP_RETURN_IF_ERROR(LoadOptions(cc));
-    // Get Labels
-    std::stringstream labels(cc->InputSidePackets().Tag(kLabelsSidePacketTag).Get<std::string>());
-    std::string nextLabel;
-    while(std::getline(labels, nextLabel, '\n')) {
-        labelMap.push_back(nextLabel);
-    }
-    // Load the model
-    if (use3D) {
-        model = tflite::FlatBufferModel::BuildFromFile(tfLiteModelPath3D);
-    } else {
-        model = tflite::FlatBufferModel::BuildFromFile(tfLiteModelPath2D);
-    }
-    RET_CHECK(model != nullptr) << "Building model from " << (use3D ? tfLiteModelPath3D : tfLiteModelPath2D) << " failed.";
-    tflite::ops::builtin::BuiltinOpResolver resolver;
-    tflite::InterpreterBuilder(*model, resolver)(&interpreter);
-    // interpreter->ResizeInputTensor(0, {100, 86});
-    interpreter->AllocateTensors();
-    if (verboseLog) {
-        tflite::PrintInterpreterState(interpreter.get());
-        LOG(INFO) << "tensors size: " << interpreter->tensors_size() << "\n";
-        LOG(INFO) << "nodes size: " << interpreter->nodes_size() << "\n";
-        LOG(INFO) << "inputs: " << interpreter->inputs().size() << "\n";    
-        LOG(INFO) << "outputs: " << interpreter->outputs().size() << "\n";
-        LOG(INFO) << "input(0) name: " << interpreter->GetInputName(0) << "\n";
-    }
-    
-    return ::mediapipe::OkStatus();
-}
+    ::mediapipe::Status SignLangPredictionCalculator::GetContract(CalculatorContract *cc)
+    {
+        RET_CHECK(cc->InputSidePackets().HasTag(kLabelsSidePacketTag)) << "Missing " << kLabelsSidePacketTag << " input side packet";
+        cc->InputSidePackets().Tag(kLabelsSidePacketTag).Set<std::string>();
 
-::mediapipe::Status SignLangPredictionCalculator::Process(CalculatorContext *cc)
-{
-    // LOG(INFO) << "Processing started!";
-    
-    RET_CHECK_OK(UpdateFrames(cc));
-    if (!ShouldPredict()) {
-        std::string text = outputText + " : " + std::to_string(framesSinceLastPrediction);
-        SetOutput(&text, cc);
+        if (cc->Inputs().HasTag(kPoseLandmarksTag))
+        {
+            cc->Inputs().Tag(kPoseLandmarksTag).Set<NormalizedLandmarkList>();
+        }
+        else
+        {
+            RET_CHECK(cc->Inputs().HasTag(kLandmarksTag)) << "No input has the label " << kLandmarksTag;
+            RET_CHECK(cc->Inputs().HasTag(kFaceDetectionsTag)) << "No input has the label " << kFaceDetectionsTag;
+            cc->Inputs().Tag(kLandmarksTag).Set<std::vector<NormalizedLandmarkList>>();
+            cc->Inputs().Tag(kFaceDetectionsTag).Set<std::vector<Detection>>();
+        }
+        cc->Outputs().Tag(kTextOutputTag).Set<std::string>();
+        return ::mediapipe::OkStatus();
+    }
+    ::mediapipe::Status SignLangPredictionCalculator::Open(CalculatorContext *cc)
+    {
+        // LOG(INFO) << "Open";
+        if (cc->Inputs().HasTag(kPoseLandmarksTag))
+        {
+            usePoseLandmarks = true;
+        }
+        MP_RETURN_IF_ERROR(LoadOptions(cc)) << "Loading options failed";
+        // Get Labels
+        std::stringstream labels(cc->InputSidePackets().Tag(kLabelsSidePacketTag).Get<std::string>());
+        std::string nextLabel;
+        while (std::getline(labels, nextLabel, '\n'))
+        {
+            labelMap.push_back(nextLabel);
+        }
+        // Load the model
+        model = tflite::FlatBufferModel::BuildFromFile(tfLiteModelPath.c_str());
+
+        RET_CHECK(model != nullptr) << "Building model from " << tfLiteModelPath << " failed.";
+        tflite::ops::builtin::BuiltinOpResolver resolver;
+        tflite::InterpreterBuilder(*model, resolver)(&interpreter);
+        interpreter->AllocateTensors();
+        if (verboseLog)
+        {
+            tflite::PrintInterpreterState(interpreter.get());
+            LOG(INFO) << "tensors size: " << interpreter->tensors_size() << "\n";
+            LOG(INFO) << "nodes size: " << interpreter->nodes_size() << "\n";
+            LOG(INFO) << "inputs: " << interpreter->inputs().size() << "\n";
+            LOG(INFO) << "outputs: " << interpreter->outputs().size() << "\n";
+            LOG(INFO) << "input(0) name: " << interpreter->GetInputName(0) << "\n";
+        }
+
         return ::mediapipe::OkStatus();
     }
 
-    // Fill frames up to maximum
-    LOG(INFO) << "Frames: " << frames.size();
-
-    while (frames.size() < (maxFrames)) {
-        std::vector<float> frame = {};
-        for (size_t i = 0; i < 86; i++)
-        {
-            frame.push_back(defaultPoint);
-        }
-        frames.push_back(frame);
-    }
-    // LOG(INFO) << "Frames: " << frames.size();
-    RET_CHECK_OK(FillInputTensor());
-
-    interpreter->Invoke();
-
-    int output_idx = interpreter->outputs()[0];
-    float* output = interpreter->typed_tensor<float>(output_idx);
-    int highest_pred_idx = -1;
-    float highest_pred = 0.0F;
-    for (size_t i = 0; i < labelMap.size(); i++)
+    ::mediapipe::Status SignLangPredictionCalculator::Process(CalculatorContext *cc)
     {
-        if (verboseLog) {
-            LOG(INFO) << "OUTPUT (" << i << "): " << *output;
-        }
-        if (*output > highest_pred) {
-            highest_pred = *output;
-            highest_pred_idx = i;
-        }
-        *output++;
-    }
-    std::string prediction;
-    if (highest_pred > probabilitityThreshold) {
-        prediction = labelMap[highest_pred_idx] + ", " + std::to_string(highest_pred);
-    } else {
-        prediction = "Unbekannt";
-    }
-    
-    //WriteFramesToFile(prediction);
-    outputText = prediction;
-    LOG(INFO) << "Predicted: " << outputText;
-    SetOutput(&outputText, cc);
-    DeleteFramesBuffer();
-    return ::mediapipe::OkStatus();
-}
+        LOG(INFO) << "Processing started!";
 
-void SignLangPredictionCalculator::WriteFramesToFile(std::string prediction) {
-    std::fstream csvFile;
-    
-    auto t = std::time(nullptr);
-    auto tm = *std::localtime(&t);
-    std::ostringstream oss;
-    oss << "/home/michi/ML/SignLanguageRecognition/lab/data/absolute/live/Hallo/" << prediction << std::put_time(&tm, "%d-%m-%Y %H-%M-%S") << ".csv";
-    // oss << "/home/datagroup/Development/SignLanguageRecognition/lab/data/live/ich/" << prediction << std::put_time(&tm, "%d-%m-%Y %H-%M-%S") << ".csv";
-    const std::string filePath = oss.str();
-    LOG(INFO) << "Writing to file " << filePath << " ...";
-    csvFile.open(filePath, std::fstream::out);
-    if (use3D) {
+        RET_CHECK_OK(UpdateFrames(cc)) << "Updating frames failed.";
+        if (!ShouldPredict())
+        {
+            std::string text = outputText + " : " + std::to_string(framesSinceLastPrediction);
+            SetOutput(&text, cc);
+            return ::mediapipe::OkStatus();
+        }
+
+        // Fill frames up to maximum
+        LOG(INFO) << "Frames: " << frames.size();
+
+        while (frames.size() < (maxFrames))
+        {
+            std::vector<float> frame = {};
+            for (size_t i = 0; i < 86; i++)
+            {
+                frame.push_back(defaultPoint);
+            }
+            frames.push_back(frame);
+        }
+        // LOG(INFO) << "Frames: " << frames.size();
+        RET_CHECK_OK(FillInputTensor());
+
+        interpreter->Invoke();
+
+        int output_idx = interpreter->outputs()[0];
+        float *output = interpreter->typed_tensor<float>(output_idx);
+        int highest_pred_idx = -1;
+        float highest_pred = 0.0F;
+        for (size_t i = 0; i < labelMap.size(); i++)
+        {
+            if (verboseLog)
+            {
+                LOG(INFO) << "OUTPUT (" << i << "): " << *output;
+            }
+            if (*output > highest_pred)
+            {
+                highest_pred = *output;
+                highest_pred_idx = i;
+            }
+            *output++;
+        }
+        std::string prediction;
+        if (highest_pred > probabilitityThreshold)
+        {
+            prediction = labelMap[highest_pred_idx] + ", " + std::to_string(highest_pred);
+        }
+        else
+        {
+            prediction = "Unbekannt";
+        }
+
+        //WriteFramesToFile(prediction);
+        outputText = prediction;
+        LOG(INFO) << "Predicted: " << outputText;
+        SetOutput(&outputText, cc);
+        DeleteFramesBuffer();
+        return ::mediapipe::OkStatus();
+    }
+
+    void SignLangPredictionCalculator::WriteFramesToFile(std::string prediction)
+    {
+        std::fstream csvFile;
+
+        auto t = std::time(nullptr);
+        auto tm = *std::localtime(&t);
+        std::ostringstream oss;
+        oss << "/home/michi/ML/SignLanguageRecognition/lab/data/absolute/live/Hallo/" << prediction << std::put_time(&tm, "%d-%m-%Y %H-%M-%S") << ".csv";
+        // oss << "/home/datagroup/Development/SignLanguageRecognition/lab/data/live/ich/" << prediction << std::put_time(&tm, "%d-%m-%Y %H-%M-%S") << ".csv";
+        const std::string filePath = oss.str();
+        LOG(INFO) << "Writing to file " << filePath << " ...";
+        csvFile.open(filePath, std::fstream::out);
+        if (use3D)
+        {
             csvFile << csvHeader3D << std::endl;
-        } else {
+        }
+        else
+        {
             csvFile << csvHeader2D << std::endl;
         }
-    for (size_t i = 0; i < frames.size(); i++)
-    {
-        auto frame = frames[i];
-        for (size_t j = 0; j < frame.size(); j++)
+        for (size_t i = 0; i < frames.size(); i++)
         {
-            csvFile << frame[j];
-            if (j < frame.size() - 1) {
-                csvFile << ";";
+            auto frame = frames[i];
+            for (size_t j = 0; j < frame.size(); j++)
+            {
+                csvFile << frame[j];
+                if (j < frame.size() - 1)
+                {
+                    csvFile << ";";
+                }
+            }
+            csvFile << std::endl;
+        }
+        csvFile.flush();
+        csvFile.close();
+    }
+
+    ::mediapipe::Status SignLangPredictionCalculator::LoadOptions(
+        CalculatorContext *cc)
+    {
+        const auto &options = cc->Options<SignLangPredictionCalculatorOptions>();
+        verboseLog = options.verbose();
+        maxFrames = options.maxframes();
+        thresholdFramesCount = options.thresholdframescount();
+        minFramesForInference = options.minframesforinference();
+        use3D = options.use3d();
+        probabilitityThreshold = options.probabilitythreshold();
+        tfLiteModelPath = options.tflitemodelpath();
+        return ::mediapipe::OkStatus();
+    }
+
+    void SignLangPredictionCalculator::DeleteFramesBuffer()
+    {
+        framesSinceLastPrediction = 0;
+        emptyFrames = 0;
+        frames.clear();
+    }
+
+    void SignLangPredictionCalculator::SetOutput(const std::string *str, ::mediapipe::CalculatorContext *cc)
+    {
+        cc->Outputs()
+            .Tag(kTextOutputTag)
+            .AddPacket(mediapipe::MakePacket<std::string>(*str)
+                           .At(cc->InputTimestamp()));
+    }
+
+    ::mediapipe::Status SignLangPredictionCalculator::FillInputTensor()
+    {
+        int input = interpreter->inputs()[0];
+        TfLiteIntArray *dims = interpreter->tensor(input)->dims;
+        LOG(INFO) << "Shape: {" << dims->data[0] << ", " << dims->data[1] << "}";
+        float *input_data_ptr = interpreter->typed_input_tensor<float>(0);
+        RET_CHECK(input_data_ptr != nullptr);
+        for (size_t i = 0; i < frames.size(); i++)
+        {
+            // LOG(INFO) << "Frame: " << i;
+            std::vector<float> frame = frames[i];
+            for (size_t j = 0; j < frame.size(); j++)
+            {
+                // LOG(INFO) << "Coordinate: " << j;
+                *(input_data_ptr) = frames[i][j];
+                input_data_ptr++;
             }
         }
-        csvFile << std::endl;
+        return ::mediapipe::OkStatus();
     }
-    csvFile.flush();
-    csvFile.close();
-    
-}
 
-::mediapipe::Status SignLangPredictionCalculator::LoadOptions(
-    CalculatorContext* cc) {
-    const auto& options = cc->Options<SignLangPredictionCalculatorOptions>();
-    verboseLog = options.verbose();
-    maxFrames = options.maxframes();
-    thresholdFramesCount = options.thresholdframescount();
-    minFramesForInference = options.minframesforinference();
-    use3D = options.use3d();
-    probabilitityThreshold = options.probabilitythreshold();
-    return ::mediapipe::OkStatus();
-}
-
-void SignLangPredictionCalculator::DeleteFramesBuffer() {
-    framesSinceLastPrediction = 0;
-    emptyFrames = 0;
-    frames.clear();
-}
-
-void SignLangPredictionCalculator::SetOutput(const std::string *str, ::mediapipe::CalculatorContext *cc) {
-    cc->Outputs()
-    .Tag(kTextOutputTag)
-    .AddPacket(mediapipe::MakePacket<std::string>(*str)
-    .At(cc->InputTimestamp()));
-}
-
-::mediapipe::Status SignLangPredictionCalculator::FillInputTensor() {
-    int input = interpreter->inputs()[0];
-    TfLiteIntArray* dims = interpreter->tensor(input)->dims;
-    LOG(INFO) << "Shape: {" << dims->data[0] << ", " << dims->data[1] << "}";
-    float* input_data_ptr = interpreter->typed_input_tensor<float>(0);
-    RET_CHECK(input_data_ptr != nullptr);
-    for (size_t i = 0; i < frames.size(); i++)
+    ::mediapipe::Status SignLangPredictionCalculator::UpdateFrames(CalculatorContext *cc)
     {
-        // LOG(INFO) << "Frame: " << i;
-        std::vector<float> frame = frames[i];
-        for (size_t j = 0; j < frame.size(); j++)
+        std::vector<float> coordinates = {};
+
+        if (usePoseLandmarks)
         {
-            // LOG(INFO) << "Coordinate: " << j;
-            *(input_data_ptr) = frames[i][j];
-            input_data_ptr++;
+            AddPoseLandmarks(coordinates, cc);
         }
-    }
-    return ::mediapipe::OkStatus();
-}
+        else
+        {
+            AddFaceDetectionsTo(coordinates, cc);
+            if (coordinates.size() == 0)
+            {                                        // No face detected.
+                coordinates.push_back(defaultPoint); // 0 face_x
+                coordinates.push_back(defaultPoint); // 0 face_y
+            }
+            AddMultiHandDetectionsTo(coordinates, cc);
 
-::mediapipe::Status SignLangPredictionCalculator::UpdateFrames(CalculatorContext *cc) {
-    std::vector<float> coordinates = {};
-    
-    AddFaceDetectionsTo(coordinates, cc);
-    if (coordinates.size() == 0) { // No face detected.        
-        coordinates.push_back(defaultPoint); // 0 face_x
-        coordinates.push_back(defaultPoint); // 0 face_y
-    }
-    AddMultiHandDetectionsTo(coordinates, cc);
+            if (coordinates.size() < 44)
+            { // No hands detected
+                emptyFrames++;
+                return ::mediapipe::OkStatus();
+            }
+        }
 
-    if (coordinates.size() < 44) { // No hands detected
-        emptyFrames++;
+        emptyFrames = 0;
+        int maxSize = use3D ? 128 : 86;
+        maxSize = usePoseLandmarks ? 25 * 3 : maxSize;
+        while (coordinates.size() < maxSize)
+        {
+            coordinates.push_back(defaultPoint);
+        }
+        if (coordinates.size() > maxSize)
+        {
+            LOG(ERROR) << "Coordinates size not equal " << maxSize << ". Actual size: " << coordinates.size();
+            return ::mediapipe::OkStatus();
+        }
+
+        if (frames.size() >= maxFrames)
+        {
+            frames.erase(frames.begin());
+        }
+
+        // Put actual frame into array.
+        frames.push_back(coordinates);
+        framesSinceLastPrediction++;
         return ::mediapipe::OkStatus();
     }
-    emptyFrames = 0;
-    int maxSize = use3D ? 128 : 86;
-    while (coordinates.size() < maxSize) {
-        coordinates.push_back(defaultPoint);
-    }
-    if (coordinates.size() > maxSize) {
-        LOG(ERROR) << "Coordinates size not equal " << maxSize << ". Actual size: " << coordinates.size();
-        return ::mediapipe::OkStatus();
-    }
-    
-    if (frames.size() >= maxFrames) {
-        frames.erase(frames.begin());
-    }
 
-    // Put actual frame into array.
-    frames.push_back(coordinates);
-    framesSinceLastPrediction++;
-    return ::mediapipe::OkStatus();
-}
-
-bool SignLangPredictionCalculator::ShouldPredict() {
-    // Minimum frames required for inference
-    if (framesSinceLastPrediction < minFramesForInference) {
+    bool SignLangPredictionCalculator::ShouldPredict()
+    {
+        // Minimum frames required for inference
+        if (framesSinceLastPrediction < minFramesForInference)
+        {
+            return false;
+        }
+        // Long enough without hands to predict.
+        if (emptyFrames >= thresholdFramesCount)
+        {
+            return true;
+        }
         return false;
     }
-    // Long enough without hands to predict.
-    if (emptyFrames >= thresholdFramesCount) {
-        return true;
-    }
-    return false;
-}
 
-void SignLangPredictionCalculator::AddFaceDetectionsTo(std::vector<float> &coordinates, CalculatorContext *cc)
-{
-    const std::vector<Detection> &faceDetections =
-        cc->Inputs().Tag(kFaceDetectionsTag).Get<std::vector<Detection>>();
-    
-    if (!faceDetections.size()) { return; }
-
-    const Detection &face = faceDetections[0];
-    LocationData locationData = face.location_data();
-    int kpSize = locationData.relative_keypoints_size();
-    
-    if (!kpSize) { return; }
-    
-    auto keypoint = face.location_data().relative_keypoints(0);
-    coordinates.push_back(keypoint.x());
-    coordinates.push_back(keypoint.y());
-}
-
-void SignLangPredictionCalculator::AddMultiHandDetectionsTo(std::vector<float> &coordinates, CalculatorContext *cc)
-{
-    const std::vector<NormalizedLandmarkList> multiHandLandmarks =
-        cc->Inputs().Tag(kLandmarksTag).Get<std::vector<NormalizedLandmarkList>>();
-    for (NormalizedLandmarkList landmarks : multiHandLandmarks)
+    void SignLangPredictionCalculator::AddFaceDetectionsTo(std::vector<float> &coordinates, CalculatorContext *cc)
     {
-        for (int i = 0; i < landmarks.landmark_size(); ++i)
+        const std::vector<Detection> &faceDetections =
+            cc->Inputs().Tag(kFaceDetectionsTag).Get<std::vector<Detection>>();
+
+        if (!faceDetections.size())
         {
-            const NormalizedLandmark &landmark = landmarks.landmark(i);
-            if (landmark.x() == 0 && landmark.y() == 0){
-                continue;
-            }
-            coordinates.push_back(landmark.x());
-            coordinates.push_back(landmark.y());
-            if (use3D && landmark.has_z()) {
-                coordinates.push_back(landmark.z());
+            return;
+        }
+
+        const Detection &face = faceDetections[0];
+        LocationData locationData = face.location_data();
+        int kpSize = locationData.relative_keypoints_size();
+
+        if (!kpSize)
+        {
+            return;
+        }
+
+        auto keypoint = face.location_data().relative_keypoints(0);
+        coordinates.push_back(keypoint.x());
+        coordinates.push_back(keypoint.y());
+    }
+
+    void SignLangPredictionCalculator::AddMultiHandDetectionsTo(std::vector<float> &coordinates, CalculatorContext *cc)
+    {
+        const std::vector<NormalizedLandmarkList> multiHandLandmarks =
+            cc->Inputs().Tag(kLandmarksTag).Get<std::vector<NormalizedLandmarkList>>();
+        for (NormalizedLandmarkList landmarks : multiHandLandmarks)
+        {
+            for (int i = 0; i < landmarks.landmark_size(); ++i)
+            {
+                const NormalizedLandmark &landmark = landmarks.landmark(i);
+                if (landmark.x() == 0 && landmark.y() == 0)
+                {
+                    continue;
+                }
+                coordinates.push_back(landmark.x());
+                coordinates.push_back(landmark.y());
+                if (use3D && landmark.has_z())
+                {
+                    coordinates.push_back(landmark.z());
+                }
             }
         }
     }
-}
 
-REGISTER_CALCULATOR(SignLangPredictionCalculator);
+    void SignLangPredictionCalculator::AddPoseLandmarks(std::vector<float> &coordinates, CalculatorContext *cc)
+    {
+        const NormalizedLandmarkList poseLandmarks = cc->Inputs().Tag(kPoseLandmarksTag).Get<NormalizedLandmarkList>();
+        for (int i = 0; i < 25; ++i)
+        {
+            const NormalizedLandmark &landmark = poseLandmarks.landmark(i);
+            coordinates.push_back(landmark.x());
+            coordinates.push_back(landmark.y());
+            coordinates.push_back(landmark.z());
+        }
+    }
+
+    REGISTER_CALCULATOR(SignLangPredictionCalculator);
 
 } // namespace signlang

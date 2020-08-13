@@ -1,0 +1,67 @@
+input_stream: "input_video"
+input_side_packet: "output_file"
+output_stream: "output_video"
+
+node {
+   calculator: "ConstantSidePacketCalculator"
+   output_side_packet: "PACKET:file_path"
+   options: {
+     [mediapipe.ConstantSidePacketCalculatorOptions.ext]: {
+       packet { string_value: "models/sign_lang_label_map.txt" }
+     }
+   }
+ }
+
+node {
+  calculator: "LocalFileContentsCalculator"
+  input_side_packet: "FILE_PATH:file_path"
+  output_side_packet: "CONTENTS:contents"
+}
+
+
+node {
+  calculator: "PoseTrackingGpuSubgraph"
+  input_stream: "input_video"
+  output_stream: "pose_rendered_video"
+  output_stream: "pose_landmarks"
+}
+
+node {
+  calculator: "SignLangPredictionCalculator"
+  input_side_packet: "LABELS:contents"
+  input_stream: "POSE_LANDMARKS:pose_landmarks"
+  output_stream: "TEXT:predicted_text"
+  options {
+      [signlang.SignLangPredictionCalculatorOptions.ext] {
+          verbose: true
+          maxFrames: 100
+          thresholdFramesCount: 60
+          minFramesForInference: 10
+          use3D: true          
+          probabilityThreshold: 0.75
+          tfLiteModelPath: "models/sign_lang_recognition_pose.tflite"
+      }
+   }
+}
+
+node {
+  calculator: "ImagePropertiesCalculator"
+  input_stream: "IMAGE_GPU:input_video"
+  output_stream: "SIZE:image_size"
+}
+
+node {
+   calculator: "TextToRenderDataCalculator"
+   input_stream: "TEXT:predicted_text"
+   input_stream: "SIZE:image_size"
+   output_stream: "RENDER_DATA:0:background_rect"
+   output_stream: "RENDER_DATA:1:text_render_data"
+}
+
+node {
+  calculator: "AnnotationOverlayCalculator"
+  input_stream: "IMAGE_GPU:pose_rendered_video"
+  input_stream: "background_rect"
+  input_stream: "text_render_data"
+  output_stream: "IMAGE_GPU:output_video"
+}

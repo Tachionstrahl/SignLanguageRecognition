@@ -5,9 +5,9 @@ output_stream: "output_video"
 
 node {
   calculator: "PoseTrackingGpuSubgraph"
-  input_stream: "IMAGE:input_video"
+  input_stream: "input_video"
+  output_stream: "output_video"
   output_stream: "pose_landmarks"
-  output_stream: "IMAGE:output_video"
 }
 
 node {

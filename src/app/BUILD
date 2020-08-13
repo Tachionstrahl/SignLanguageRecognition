@@ -53,6 +53,19 @@ cc_binary(
     ]
 )
 
+cc_binary(
+    name = "pose_prediction_gpu",
+    deps = [
+        "@mediapipe//mediapipe/examples/desktop:demo_run_graph_main_gpu",
+        "@mediapipe//mediapipe/calculators/util:annotation_overlay_calculator",
+        "@mediapipe//mediapipe/calculators/core:constant_side_packet_calculator",
+        "@mediapipe//mediapipe/calculators/util:local_file_contents_calculator",
+        "//calculators:text_to_render_data_calculator",
+        "//calculators:sign_lang_prediction_calculator",
+        "//graphs/subgraphs:pose_tracking_gpu"
+    ]
+)
+
 # Linux only.
 # Must have a GPU with EGL support:
 # ex: sudo apt-get install mesa-common-dev libegl1-mesa-dev libgles2-mesa-dev

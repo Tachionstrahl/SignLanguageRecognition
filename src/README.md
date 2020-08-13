@@ -70,3 +70,13 @@ Build the source files
 Run the application
 
 `GLOG_logtostderr=1 bazel-bin/app/prediction_cpu --calculator_graph_config_file=graphs/sign_lang_prediction_cpu.pbtxt`
+
+## Sign Language Prediction ('GPU')
+
+Build the source files 
+
+`bazel build -c opt --copt -DMESA_EGL_NO_X11_HEADERS app:pose_prediction_gpu`
+
+Run the application
+
+`GLOG_logtostderr=1 bazel-bin/app/pose_prediction_gpu --calculator_graph_config_file=graphs/sign_lang_prediction_pose_gpu.pbtxt`

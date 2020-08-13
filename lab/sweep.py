@@ -35,7 +35,7 @@ dirname = wandb.config.path
 # Load data and print summary, if desired
 repo = DataRepository(dirname)
 x_train, x_val, x_test, y_train, y_val, y_test, labels = repo.getForTraining()
-num_classes = repo.numClasses + 1
+num_classes = repo.numClasses
 wandb.config.update({'Size_Training_Set': len(x_train),'Size_Validation_Set': len(x_val), 'Size_Test_Set': len(x_test)})
 
 #load tokens

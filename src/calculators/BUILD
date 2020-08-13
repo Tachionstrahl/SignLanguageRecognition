@@ -33,6 +33,21 @@ cc_library(
 )
 
 cc_library(
+    name = "pose_landmarks_to_csv_calculator",
+    srcs = ["pose_landmarks_to_csv_calculator.cc"],
+    visibility = [
+        "//visibility:public",
+    ],
+    deps = [
+        "@mediapipe//mediapipe/framework:calculator_framework",
+        "@mediapipe//mediapipe/framework/port:ret_check",
+        "@mediapipe//mediapipe/framework/port:status",
+        "@mediapipe//mediapipe/framework/formats:landmark_cc_proto"
+    ],
+    alwayslink = 1,
+)
+
+cc_library(
     name = "text_to_render_data_calculator",
     srcs = ["text_to_render_data_calculator.cc"],
     visibility = ["//visibility:public"],
