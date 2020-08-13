@@ -2,8 +2,8 @@ workspace(name = "src")
 
 load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
 
-# Version 0.7.6
-_MEDIAPIPE_RELEASE_VERSION = "0.7.6"
+# MediaPipe Release
+_MEDIAPIPE_RELEASE_VERSION = "0.7.9"
 http_archive(
     name = "mediapipe",
     urls = [
@@ -69,10 +69,19 @@ http_archive(
 )
 
 # GoogleTest/GoogleMock framework. Used by most unit-tests.
+# Last updated 2020-06-30.
 http_archive(
-     name = "com_google_googletest",
-     urls = ["https://github.com/google/googletest/archive/master.zip"],
-     strip_prefix = "googletest-master",
+    name = "com_google_googletest",
+    urls = ["https://github.com/google/googletest/archive/aee0f9d9b5b87796ee8a0ab26b7587ec30e8858e.zip"],
+    patches = [
+        # fix for https://github.com/google/googletest/issues/2817
+        "@mediapipe//third_party:com_google_googletest_9d580ea80592189e6d44fa35bcf9cdea8bf620d6.diff"
+    ],
+    patch_args = [
+        "-p1",
+    ],
+    strip_prefix = "googletest-aee0f9d9b5b87796ee8a0ab26b7587ec30e8858e",
+    sha256 = "04a1751f94244307cebe695a69cc945f9387a80b0ef1af21394a490697c5c895",
 )
 
 # Google Benchmark library.
@@ -158,6 +167,25 @@ http_archive(
     name = "com_google_audio_tools",
     strip_prefix = "multichannel-audio-tools-master",
     urls = ["https://github.com/google/multichannel-audio-tools/archive/master.zip"],
+)
+
+# 2020-07-09
+http_archive(
+    name = "pybind11_bazel",
+    strip_prefix = "pybind11_bazel-203508e14aab7309892a1c5f7dd05debda22d9a5",
+    urls = ["https://github.com/pybind/pybind11_bazel/archive/203508e14aab7309892a1c5f7dd05debda22d9a5.zip"],
+    sha256 = "75922da3a1bdb417d820398eb03d4e9bd067c4905a4246d35a44c01d62154d91",
+)
+
+http_archive(
+    name = "pybind11",
+    urls = [
+        "https://storage.googleapis.com/mirror.tensorflow.org/github.com/pybind/pybind11/archive/v2.4.3.tar.gz",
+        "https://github.com/pybind/pybind11/archive/v2.4.3.tar.gz",
+    ],
+    sha256 = "1eed57bc6863190e35637290f97a20c81cfe4d9090ac0a24f3bbf08f265eb71d",
+    strip_prefix = "pybind11-2.4.3",
+    build_file = "@pybind11_bazel//:pybind11.BUILD",
 )
 
 http_archive(
