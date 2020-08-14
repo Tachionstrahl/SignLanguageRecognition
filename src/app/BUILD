@@ -36,6 +36,7 @@ cc_binary(
         "@mediapipe//mediapipe/calculators/util:local_file_contents_calculator",
         "//calculators:text_to_render_data_calculator",
         "//calculators:sign_lang_prediction_calculator",
+        "//calculators:sentenizer_calculator",
         "//graphs/subgraphs:detections_gpu"
     ]
 )

@@ -46,17 +46,23 @@ node {
   input_side_packet: "LABELS:contents"
   input_stream: "DETECTIONS:output_detections"
   input_stream: "NORM_LANDMARKS:multi_hand_landmarks"
-  output_stream: "TEXT:predicted_text"
+  output_stream: "prediction"
   options {
       [signlang.SignLangPredictionCalculatorOptions.ext] {
           verbose: true
-          framesWindowSize: 60
+          framesWindowSize: 30
           thresholdFramesCount: 60
           minFramesForInference: 30
           use3D: false
           probabilityThreshold: 0.75
       }
    }
+}
+
+node {
+  calculator: "SentenizerCalculator"
+  input_stream: "prediction"
+  output_stream: "sentence"
 }
 
 node {
@@ -67,7 +73,7 @@ node {
 
 node {
    calculator: "TextToRenderDataCalculator"
-   input_stream: "TEXT:predicted_text"
+   input_stream: "TEXT:sentence"
    input_stream: "SIZE:image_size"
    output_stream: "RENDER_DATA:0:background_rect"
    output_stream: "RENDER_DATA:1:text_render_data"

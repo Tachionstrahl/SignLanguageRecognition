@@ -79,3 +79,17 @@ cc_library(
     ],
     alwayslink = 1
 )
+
+cc_library(
+    name = "sentenizer_calculator",
+    srcs = ["sentenizer_calculator.cc"],
+    visibility = [
+        "//visibility:public",
+    ],
+    deps = [
+        "@mediapipe//mediapipe/framework:calculator_framework",
+        "@mediapipe//mediapipe/framework/port:ret_check",
+        "@mediapipe//mediapipe/framework/port:status"
+    ],
+    alwayslink = 1
+)

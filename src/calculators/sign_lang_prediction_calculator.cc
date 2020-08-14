@@ -58,7 +58,7 @@ namespace signlang
         std::vector<std::vector<float>> framesWindow = {};
         std::unique_ptr<tflite::FlatBufferModel> model;
         std::unique_ptr<tflite::Interpreter> interpreter;
-        std::string outputText = "Waiting...";
+        std::tuple<std::string, float> outputWordProb = std::make_tuple("Waiting...", 1.0);
         std::vector<std::string> labelMap = {};
         int framesSinceLastPrediction = 0;
         int emptyFrames = 0;
@@ -89,7 +89,7 @@ namespace signlang
             cc->Inputs().Tag(kLandmarksTag).Set<std::vector<NormalizedLandmarkList>>();
             cc->Inputs().Tag(kFaceDetectionsTag).Set<std::vector<Detection>>();
         }
-        cc->Outputs().Tag(kTextOutputTag).Set<std::string>();
+        cc->Outputs().Index(0).Set<std::tuple<std::string, float>>();
         return ::mediapipe::OkStatus();
     }
     ::mediapipe::Status SignLangPredictionCalculator::Open(CalculatorContext *cc)
@@ -123,7 +123,6 @@ namespace signlang
             LOG(INFO) << "outputs: " << interpreter->outputs().size() << "\n";
             LOG(INFO) << "input(0) name: " << interpreter->GetInputName(0) << "\n";
         }
-
         return ::mediapipe::OkStatus();
     }
 
@@ -132,8 +131,8 @@ namespace signlang
         RET_CHECK_OK(UpdateFrames(cc)) << "Updating frames failed.";
         if (!ShouldPredict())
         {
-            std::string text = outputText + " : " + std::to_string(framesSinceLastPrediction);
-            SetOutput(&text, cc);
+            cc->Outputs().Index(0)
+            .AddPacket(mediapipe::MakePacket<std::tuple<std::string, float>>().At(cc->InputTimestamp()));
             return ::mediapipe::OkStatus();
         }
         // Fill frames up to maximum
@@ -174,13 +173,17 @@ namespace signlang
         }
         if (highest_pred > probabilitityThreshold)
         {
-            std::string prediction = labelMap[highest_pred_idx] + ", " + std::to_string(highest_pred);
-            outputText = prediction;
+            std::string prediction = labelMap[highest_pred_idx];
+            outputWordProb = std::make_tuple(prediction, highest_pred);
+            cc->Outputs().Index(0)
+            .AddPacket(mediapipe::MakePacket<std::tuple<std::string, float>>(outputWordProb)
+                           .At(cc->InputTimestamp()));
+        } else {
+            cc->Outputs().Index(0)
+            .AddPacket(mediapipe::MakePacket<std::tuple<std::string, float>>(std::make_tuple("<unknown>", 1.0)).At(cc->InputTimestamp()));
         }
         //WriteFramesToFile(prediction);
         
-        LOG(INFO) << "Predicted: " << outputText;
-        SetOutput(&outputText, cc);
         framesSinceLastPrediction = 0;
         return ::mediapipe::OkStatus();
     }
