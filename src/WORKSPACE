@@ -18,6 +18,7 @@ http_archive(
     patch_args = [
         "-p1",
     ],
+    sha256 = "67f4b98f837ef74f72014d25d3ede23d06518104cd9160f6e5938df4f6adf906"
 )
 
 _RULES_BOOST_COMMIT = "9f9fb8b2f0213989247c9d5c0e814a8451d18d7f"

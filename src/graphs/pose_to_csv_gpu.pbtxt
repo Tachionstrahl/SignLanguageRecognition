@@ -2,10 +2,20 @@ input_stream: "input_video"
 input_side_packet: "output_file"
 output_stream: "output_video"
 
+node {
+  calculator: "ImageTransformationCalculator"
+  input_stream: "IMAGE_GPU:input_video"
+  output_stream: "IMAGE_GPU:flipped_video"
+  node_options: {
+    [type.googleapis.com/mediapipe.ImageTransformationCalculatorOptions]: {
+      flip_horizontally: true
+    }
+  }
+}
 
 node {
   calculator: "PoseTrackingGpuSubgraph"
-  input_stream: "input_video"
+  input_stream: "flipped_video"
   output_stream: "output_video"
   output_stream: "pose_landmarks"
 }

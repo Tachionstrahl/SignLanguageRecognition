@@ -62,7 +62,8 @@ cc_binary(
         "@mediapipe//mediapipe/calculators/util:local_file_contents_calculator",
         "//calculators:text_to_render_data_calculator",
         "//calculators:sign_lang_prediction_calculator",
-        "//graphs/subgraphs:pose_tracking_gpu"
+        "@mediapipe//mediapipe/modules/pose_landmark:pose_landmark_upper_body_gpu",
+        "@mediapipe//mediapipe/graphs/pose_tracking:upper_body_pose_tracking_gpu_deps"
     ]
 )
 

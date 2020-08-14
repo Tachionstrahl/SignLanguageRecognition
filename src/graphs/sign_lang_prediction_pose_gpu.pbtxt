@@ -20,10 +20,9 @@ node {
 
 
 node {
-  calculator: "PoseTrackingGpuSubgraph"
-  input_stream: "input_video"
-  output_stream: "pose_rendered_video"
-  output_stream: "pose_landmarks"
+  calculator: "PoseLandmarkUpperBodyGpu"
+  input_stream: "IMAGE:input_video"
+  output_stream: "LANDMARKS:pose_landmarks"
 }
 
 node {
@@ -33,10 +32,10 @@ node {
   output_stream: "TEXT:predicted_text"
   options {
       [signlang.SignLangPredictionCalculatorOptions.ext] {
-          verbose: true
-          maxFrames: 100
+          verbose: false
+          framesWindowSize: 60
           thresholdFramesCount: 60
-          minFramesForInference: 10
+          minFramesForInference: 30
           use3D: true          
           probabilityThreshold: 0.75
           tfLiteModelPath: "models/sign_lang_recognition_pose.tflite"
@@ -60,7 +59,7 @@ node {
 
 node {
   calculator: "AnnotationOverlayCalculator"
-  input_stream: "IMAGE_GPU:pose_rendered_video"
+  input_stream: "IMAGE_GPU:input_video"
   input_stream: "background_rect"
   input_stream: "text_render_data"
   output_stream: "IMAGE_GPU:output_video"

@@ -28,10 +28,8 @@ message SignLangPredictionCalculatorOptions {
   // If true, the log output will be more verbose.
   optional bool verbose = 1 [default = false];
 
-  // Defines how many frames are required for the given tflite model.
-  // This setting highly depends by which dimensions the model was trained.
-  // If less then [maxFrames] Frames are buffered, the corresponding array will be filled up to [maxFrames] with 0.0 floats.
-  optional int32 maxFrames = 2 [default = 100];
+  // Defines the frames window size to predict.
+  optional int32 framesWindowSize = 2 [default = 100];
 
   // To detect single signs, we seperate them by detecting no hands for a given number of frames.
   // Is the threshould reached, a prediction will be made. After that the frames will be deleted.

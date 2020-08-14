@@ -51,11 +51,11 @@ namespace signlang
         void AddPoseLandmarks(std::vector<float> &coordinates, CalculatorContext *cc);
         ::mediapipe::Status UpdateFrames(CalculatorContext *cc);
         bool ShouldPredict();
-        ::mediapipe::Status FillInputTensor();
+        ::mediapipe::Status FillInputTensor(std::vector<std::vector<float>> localFrames);
         void SetOutput(const std::string *str, ::mediapipe::CalculatorContext *cc);
         void DeleteFramesBuffer();
         void WriteFramesToFile(std::string prediction);
-        std::vector<std::vector<float>> frames = {};
+        std::vector<std::vector<float>> framesWindow = {};
         std::unique_ptr<tflite::FlatBufferModel> model;
         std::unique_ptr<tflite::Interpreter> interpreter;
         std::string outputText = "Waiting...";
@@ -64,7 +64,7 @@ namespace signlang
         int emptyFrames = 0;
         // Options
         bool verboseLog = false;
-        int maxFrames = 0;
+        int framesWindowSize = 0;
         int thresholdFramesCount = 0;
         int minFramesForInference = 0;
         bool use3D = false;
@@ -129,8 +129,6 @@ namespace signlang
 
     ::mediapipe::Status SignLangPredictionCalculator::Process(CalculatorContext *cc)
     {
-        LOG(INFO) << "Processing started!";
-
         RET_CHECK_OK(UpdateFrames(cc)) << "Updating frames failed.";
         if (!ShouldPredict())
         {
@@ -138,21 +136,22 @@ namespace signlang
             SetOutput(&text, cc);
             return ::mediapipe::OkStatus();
         }
-
         // Fill frames up to maximum
-        LOG(INFO) << "Frames: " << frames.size();
-
-        while (frames.size() < (maxFrames))
+        std::vector<std::vector<float>> localFrames = {};
+        while (localFrames.size() < 100)
         {
-            std::vector<float> frame = {};
-            for (size_t i = 0; i < 86; i++)
-            {
-                frame.push_back(defaultPoint);
+            if (framesWindow.size() > localFrames.size()) {
+                localFrames.push_back(framesWindow[localFrames.size()]);
+            } else {
+                std::vector<float> frame = {};
+                for (size_t i = 0; i < 86; i++)
+                {
+                    frame.push_back(defaultPoint);
+                }
+                framesWindow.push_back(frame);
             }
-            frames.push_back(frame);
         }
-        // LOG(INFO) << "Frames: " << frames.size();
-        RET_CHECK_OK(FillInputTensor());
+        RET_CHECK_OK(FillInputTensor(localFrames));
 
         interpreter->Invoke();
 
@@ -173,21 +172,16 @@ namespace signlang
             }
             *output++;
         }
-        std::string prediction;
         if (highest_pred > probabilitityThreshold)
         {
-            prediction = labelMap[highest_pred_idx] + ", " + std::to_string(highest_pred);
+            std::string prediction = labelMap[highest_pred_idx] + ", " + std::to_string(highest_pred);
+            outputText = prediction;
         }
-        else
-        {
-            prediction = "Unbekannt";
-        }
-
         //WriteFramesToFile(prediction);
-        outputText = prediction;
+        
         LOG(INFO) << "Predicted: " << outputText;
         SetOutput(&outputText, cc);
-        DeleteFramesBuffer();
+        framesSinceLastPrediction = 0;
         return ::mediapipe::OkStatus();
     }
 
@@ -211,9 +205,9 @@ namespace signlang
         {
             csvFile << csvHeader2D << std::endl;
         }
-        for (size_t i = 0; i < frames.size(); i++)
+        for (size_t i = 0; i < framesWindow.size(); i++)
         {
-            auto frame = frames[i];
+            auto frame = framesWindow[i];
             for (size_t j = 0; j < frame.size(); j++)
             {
                 csvFile << frame[j];
@@ -233,7 +227,7 @@ namespace signlang
     {
         const auto &options = cc->Options<SignLangPredictionCalculatorOptions>();
         verboseLog = options.verbose();
-        maxFrames = options.maxframes();
+        framesWindowSize = options.frameswindowsize();
         thresholdFramesCount = options.thresholdframescount();
         minFramesForInference = options.minframesforinference();
         use3D = options.use3d();
@@ -245,8 +239,10 @@ namespace signlang
     void SignLangPredictionCalculator::DeleteFramesBuffer()
     {
         framesSinceLastPrediction = 0;
-        emptyFrames = 0;
-        frames.clear();
+        if (!usePoseLandmarks) {
+            emptyFrames = 0;
+            framesWindow.clear();
+        }
     }
 
     void SignLangPredictionCalculator::SetOutput(const std::string *str, ::mediapipe::CalculatorContext *cc)
@@ -257,21 +253,19 @@ namespace signlang
                            .At(cc->InputTimestamp()));
     }
 
-    ::mediapipe::Status SignLangPredictionCalculator::FillInputTensor()
+    ::mediapipe::Status SignLangPredictionCalculator::FillInputTensor(std::vector<std::vector<float>> localFrames)
     {
         int input = interpreter->inputs()[0];
         TfLiteIntArray *dims = interpreter->tensor(input)->dims;
         LOG(INFO) << "Shape: {" << dims->data[0] << ", " << dims->data[1] << "}";
         float *input_data_ptr = interpreter->typed_input_tensor<float>(0);
         RET_CHECK(input_data_ptr != nullptr);
-        for (size_t i = 0; i < frames.size(); i++)
+        for (size_t i = 0; i < localFrames.size(); i++)
         {
-            // LOG(INFO) << "Frame: " << i;
-            std::vector<float> frame = frames[i];
+            std::vector<float> frame = localFrames[i];
             for (size_t j = 0; j < frame.size(); j++)
             {
-                // LOG(INFO) << "Coordinate: " << j;
-                *(input_data_ptr) = frames[i][j];
+                *(input_data_ptr) = frame[j];
                 input_data_ptr++;
             }
         }
@@ -284,6 +278,9 @@ namespace signlang
 
         if (usePoseLandmarks)
         {
+            if (cc->Inputs().Tag(kPoseLandmarksTag).IsEmpty()) {
+                return ::mediapipe::OkStatus();
+            }
             AddPoseLandmarks(coordinates, cc);
         }
         else
@@ -302,8 +299,6 @@ namespace signlang
                 return ::mediapipe::OkStatus();
             }
         }
-
-        emptyFrames = 0;
         int maxSize = use3D ? 128 : 86;
         maxSize = usePoseLandmarks ? 25 * 3 : maxSize;
         while (coordinates.size() < maxSize)
@@ -316,13 +311,13 @@ namespace signlang
             return ::mediapipe::OkStatus();
         }
 
-        if (frames.size() >= maxFrames)
+        while (framesWindow.size() >= framesWindowSize)
         {
-            frames.erase(frames.begin());
+            framesWindow.erase(framesWindow.begin());
         }
 
         // Put actual frame into array.
-        frames.push_back(coordinates);
+        framesWindow.push_back(coordinates);
         framesSinceLastPrediction++;
         return ::mediapipe::OkStatus();
     }
@@ -334,6 +329,10 @@ namespace signlang
         {
             return false;
         }
+        if (usePoseLandmarks) {
+            return true;
+        }
+        return true;
         // Long enough without hands to predict.
         if (emptyFrames >= thresholdFramesCount)
         {
