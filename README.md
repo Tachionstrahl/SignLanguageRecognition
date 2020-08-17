@@ -11,7 +11,7 @@ Therefore we use [MediaPipe](https://github.com/google/mediapipe), a framework f
 
 <figure class="video_container">
   <video controls="true" allowfullscreen="true">
-    <source src="docspdemo.mp4" type="video/mp4">
+    <source src="docs/demo.mp4" type="video/mp4">
   </video>
 </figure>
 
