@@ -10,10 +10,9 @@ Therefore we use [MediaPipe](https://github.com/google/mediapipe), a framework f
 <!-- blank line -->
 
 <figure class="video_container">
-  <video controls="true" allowfullscreen="true">
-    <source src="docs/demo.mp4" type="video/mp4">
-  </video>
+  <iframe src="https://drive.google.com/file/d/0B6m34D8cFdpMZndKTlBRU0tmczg/preview" frameborder="0" allowfullscreen="true"> </iframe>
 </figure>
+<!-- blank line -->
 
 
 ## Installation
