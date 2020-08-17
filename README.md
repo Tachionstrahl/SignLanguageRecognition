@@ -7,6 +7,8 @@ Therefore we use [MediaPipe](https://github.com/google/mediapipe), a framework f
 
 <span style="color:red">**Caution: We do many changes at the moment. The documentation is not up-to-date! Please consider this, when running the code.**</span>
 
+[![demo](docs/demo.gif)]
+
 
 ## Installation
 
