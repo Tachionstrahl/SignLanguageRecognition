@@ -47,7 +47,7 @@ namespace signlang
         const std::string &file_path =
             cc->InputSidePackets().Tag("CSV_OUTPUT_FILE_PATH").Get<std::string>();
         csvFile.open(file_path, fstream::out);
-        csvFile << csvHeader3D << endl;
+        csvFile << csvHeader2D << endl;
         return OkStatus();
     }
     Status PoseLandmarksToCSVCalculator::Process(CalculatorContext *cc)
@@ -63,9 +63,9 @@ namespace signlang
                 
                 coordinates.push_back(landmark.x());
                 coordinates.push_back(landmark.y());
-                coordinates.push_back(landmark.z());
+                //coordinates.push_back(landmark.z());
             }
-            if (coordinates.size() == 25*3) // 25 landmarks with x and y
+            if (coordinates.size() == 25*2) // 25 landmarks with x and y
             {
                 if (relative)
                 {
