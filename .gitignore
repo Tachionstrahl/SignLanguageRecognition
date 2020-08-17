@@ -54,3 +54,5 @@ lab/wandb/debug.log
 lab/models/*
 
 src/.vscode/
+
+wandb/debug.log

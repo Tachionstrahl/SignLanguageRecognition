@@ -80,13 +80,17 @@ wandb.config.optimizer_config = model.optimizer.get_config()
 history=model.fit(x_train,y_train,epochs=wandb.config.epochs ,batch_size=wandb.config.batch_size, validation_data=(x_val,y_val),shuffle=False,verbose=2, callbacks=[WandbCallback()])
 
 #Test accuracy
-y_eval = model.evaluate(x_test, y_test, verbose=2)
+print(wandb.run.dir)
+
+best_model= tf.keras.models.load_model(filepath=os.path.join(wandb.run.dir, "model-best.h5"))
+
+y_eval = best_model.evaluate(x_test, y_test, verbose=2)
 
 wandb.config.update({'test_loss': y_eval[0],'test_accuracy': y_eval[1], 'test_precision': y_eval[2], 'test_recall': y_eval[3]})
 
 
 #Confusion Matrix
-y_pred = model.predict(x_test)
+y_pred = best_model.predict(x_test)
 
 y_pred_integer = np.argmax(y_pred, axis=1)
 y_test_integer = np.argmax(y_test, axis=1)
@@ -98,11 +102,9 @@ wandb.sklearn.plot_confusion_matrix(y_test_name, y_pred_name)
 
 
 #Convert to TFLite
-print(wandb.run.dir)
 
-new_model= tf.keras.models.load_model(filepath=os.path.join(wandb.run.dir, "model-best.h5"))
 
-tflite_converter = tf.lite.TFLiteConverter.from_keras_model(new_model)
+tflite_converter = tf.lite.TFLiteConverter.from_keras_model(best_model)
 # Needed for some ops.
 tflite_converter.experimental_new_converter = True
 # tflite_converter.allow_custom_ops = True
