@@ -7,6 +7,15 @@ Therefore we use [MediaPipe](https://github.com/google/mediapipe), a framework f
 
 <span style="color:red">**Caution: We do many changes at the moment. The documentation is not up-to-date! Please consider this, when running the code.**</span>
 
+<!-- blank line -->
+
+<figure class="video_container">
+  <video controls="true" allowfullscreen="true">
+    <source src="docspdemo.mp4" type="video/mp4">
+  </video>
+</figure>
+
+
 ## Installation
 
 This repository is only tested under `Linux` (CPU and GPU) and `macOS` (CPU only).
