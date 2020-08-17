@@ -7,13 +7,6 @@ Therefore we use [MediaPipe](https://github.com/google/mediapipe), a framework f
 
 <span style="color:red">**Caution: We do many changes at the moment. The documentation is not up-to-date! Please consider this, when running the code.**</span>
 
-<!-- blank line -->
-
-<figure class="video_container">
-  <iframe src="https://drive.google.com/file/d/0B6m34D8cFdpMZndKTlBRU0tmczg/preview" frameborder="0" allowfullscreen="true"> </iframe>
-</figure>
-<!-- blank line -->
-
 
 ## Installation
 
