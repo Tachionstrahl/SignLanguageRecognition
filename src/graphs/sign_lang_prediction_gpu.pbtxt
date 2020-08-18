@@ -49,10 +49,10 @@ node {
   output_stream: "prediction"
   options {
       [signlang.SignLangPredictionCalculatorOptions.ext] {
-          verbose: true
-          framesWindowSize: 30
+          verbose: false
+          framesWindowSize: 40
           thresholdFramesCount: 60
-          minFramesForInference: 30
+          minFramesForInference: 20
           use3D: false
           probabilityThreshold: 0.75
           tfLiteModelPath: "models/sign_lang_recognition_2D.tflite"
