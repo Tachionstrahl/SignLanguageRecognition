@@ -38,7 +38,7 @@ node {
           minFramesForInference: 30
           use3D: true          
           probabilityThreshold: 0.75
-          tfLiteModelPath: "models/sign_lang_recognition_pose.tflite"
+          tfLiteModelPath: "models/sign_lang_recognition_pose2.tflite"
       }
    }
 }
