@@ -26,12 +26,12 @@ class DataRepository():
     
 
     def __loadData(self, dirname, updateClasses=False):
-        listfile = os.listdir(dirname)
-        listfile= sorted(listfile, key=str.casefold) 
+        self.listfile = os.listdir(dirname)
+        self.listfile = sorted(self.listfile, key=str.casefold) 
         if updateClasses:
-            self.numClasses = len(listfile)
-        print(listfile)
-        for word in listfile:
+            self.numClasses = len(self.listfile)
+        print(self.listfile)
+        for word in self.listfile:
             if word == ".DS_Store":
                 continue
             for csv in os.listdir(dirname + word):
@@ -58,10 +58,12 @@ class DataRepository():
         x_val, x_test, y_val, y_test = train_test_split(x_val, y_val, test_size=0.50, random_state=42, stratify=y_val)
         if self.__verbose:
             self.__summary()
+        lower_words = [x.lower() for x in self.listfile]
         encoder = LabelBinarizer()
-        y_train = encoder.fit_transform(y_train)
-        y_val = encoder.fit_transform(y_val)
-        y_test = encoder.fit_transform(y_test)
+        test = encoder.fit_transform(lower_words)
+        y_train = encoder.transform(y_train)
+        y_val = encoder.transform(y_val)
+        y_test = encoder.transform(y_test)
         # Making numpy arrays
         self.x_train=np.array(x_train)
         self.y_train=np.array(y_train)
