@@ -16,6 +16,7 @@
 #include <cstdio>
 #include <fstream>
 #include <math.h>
+#include <chrono>
 
 using namespace mediapipe;
 
@@ -150,6 +151,7 @@ namespace signlang
                 framesWindow.push_back(frame);
             }
         }
+        auto start = std::chrono::high_resolution_clock::now();
         RET_CHECK_OK(FillInputTensor(localFrames));
 
         interpreter->Invoke();
@@ -162,7 +164,7 @@ namespace signlang
         {
             if (verboseLog)
             {
-                LOG(INFO) << "OUTPUT (" << i << "): " << *output;
+                LOG(INFO) << labelMap[i] << ": " << *output;
             }
             if (*output > highest_pred)
             {
@@ -171,6 +173,9 @@ namespace signlang
             }
             *output++;
         }
+        auto finish = std::chrono::high_resolution_clock::now();
+        std::chrono::duration<double> elapsed = finish - start;
+        LOG(INFO) << "Inference time: " << elapsed.count();
         if (highest_pred > probabilitityThreshold)
         {
             std::string prediction = labelMap[highest_pred_idx];
@@ -180,7 +185,7 @@ namespace signlang
                            .At(cc->InputTimestamp()));
         } else {
             cc->Outputs().Index(0)
-            .AddPacket(mediapipe::MakePacket<std::tuple<std::string, float>>(std::make_tuple("<unknown>", 1.0)).At(cc->InputTimestamp()));
+            .AddPacket(mediapipe::MakePacket<std::tuple<std::string, float>>(std::make_tuple("<unknown>", -1.0)).At(cc->InputTimestamp()));
         }
         //WriteFramesToFile(prediction);
         
@@ -260,7 +265,9 @@ namespace signlang
     {
         int input = interpreter->inputs()[0];
         TfLiteIntArray *dims = interpreter->tensor(input)->dims;
-        LOG(INFO) << "Shape: {" << dims->data[0] << ", " << dims->data[1] << "}";
+        if (verboseLog) {
+            LOG(INFO) << "Shape: {" << dims->data[0] << ", " << dims->data[1] << "}";
+        }
         float *input_data_ptr = interpreter->typed_input_tensor<float>(0);
         RET_CHECK(input_data_ptr != nullptr);
         for (size_t i = 0; i < localFrames.size(); i++)

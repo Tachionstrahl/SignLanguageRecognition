@@ -77,15 +77,19 @@ model.summary()
 
 wandb.config.optimizer_config = model.optimizer.get_config()
 
-history=model.fit(x_train,y_train,epochs=wandb.config.epochs ,batch_size=wandb.config.batch_size, validation_data=(x_val,y_val),shuffle=False,verbose=2, callbacks=[WandbCallback()])
+history=model.fit(x_train,y_train,
+epochs=wandb.config.epochs,
+batch_size=wandb.config.batch_size,
+validation_data=(x_val,y_val),
+shuffle=False,
+verbose=2, 
+callbacks=[WandbCallback()])
 
+model_best_path = os.path.join(wandb.run.dir, "model-best.h5")
 #Test accuracy
-print(wandb.run.dir)
 
-best_model= tf.keras.models.load_model(filepath=os.path.join(wandb.run.dir, "model-best.h5"))
-
+best_model= tf.keras.models.load_model(filepath=model_best_path)
 y_eval = best_model.evaluate(x_test, y_test, verbose=2)
-
 wandb.config.update({'test_loss': y_eval[0],'test_accuracy': y_eval[1], 'test_precision': y_eval[2], 'test_recall': y_eval[3]})
 
 
@@ -108,7 +112,6 @@ tflite_converter = tf.lite.TFLiteConverter.from_keras_model(best_model)
 # Needed for some ops.
 tflite_converter.experimental_new_converter = True
 # tflite_converter.allow_custom_ops = True
-
 tflite_model = tflite_converter.convert()
-
 open(os.path.join(wandb.run.dir, "model-best.tflite"), "wb").write(tflite_model)
+os.remove(model_best_path)

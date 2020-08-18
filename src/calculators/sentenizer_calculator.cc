@@ -56,9 +56,9 @@ namespace signlang
         auto nextWord = cc->Inputs().Index(0).Get<std::tuple<std::string, float>>();
         auto word = std::get<0>(nextWord);
         auto score = std::get<1>(nextWord);
-
+        
         if (score == 0) {
-            auto lastWord = std::get<0>(lastNWords[lastNWords.size() - 1]);
+            auto lastWord = std::get<0>(lastNWords[lastNWords.size() - 1]) + std::to_string(std::get<1>(lastNWords[lastNWords.size() - 1]));
             cc->Outputs().Index(0).AddPacket(MakePacket<std::string>(lastWord).At(cc->InputTimestamp()));
             return OkStatus();
         }
@@ -68,8 +68,8 @@ namespace signlang
         {
             lastNWords.erase(lastNWords.begin());
         }
-        outputFile << std::get<0>(nextWord) << ";" << std::get<1>(nextWord) << std::endl;
-        auto lastWord = std::get<0>(lastNWords[lastNWords.size() - 1]);
+        outputFile << word << ";" << score << std::endl;
+        auto lastWord = std::get<0>(lastNWords[lastNWords.size() - 1]) + std::to_string(std::get<1>(lastNWords[lastNWords.size() - 1]));
         cc->Outputs().Index(0).AddPacket(MakePacket<std::string>(lastWord).At(cc->InputTimestamp()));
         return OkStatus();
     }
