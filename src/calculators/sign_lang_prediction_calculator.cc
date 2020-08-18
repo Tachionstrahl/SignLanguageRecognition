@@ -148,7 +148,7 @@ namespace signlang
                 {
                     frame.push_back(defaultPoint);
                 }
-                framesWindow.push_back(frame);
+                localFrames.push_back(frame);
             }
         }
         auto start = std::chrono::high_resolution_clock::now();
@@ -249,7 +249,7 @@ namespace signlang
         framesSinceLastPrediction = 0;
         if (!usePoseLandmarks) {
             emptyFrames = 0;
-            framesWindow.clear();
+            //framesWindow.clear();
         }
     }
 
