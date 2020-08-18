@@ -55,7 +55,7 @@ namespace signlang
         ::mediapipe::Status FillInputTensor(std::vector<std::vector<float>> localFrames);
         void SetOutput(const std::string *str, ::mediapipe::CalculatorContext *cc);
         void DeleteFramesBuffer();
-        void WriteFramesToFile(std::string prediction);
+        void WriteFramesToFile(std::vector<std::vector<float>> frames, std::string prediction);
         std::vector<std::vector<float>> framesWindow = {};
         std::unique_ptr<tflite::FlatBufferModel> model;
         std::unique_ptr<tflite::Interpreter> interpreter;
@@ -187,13 +187,13 @@ namespace signlang
             cc->Outputs().Index(0)
             .AddPacket(mediapipe::MakePacket<std::tuple<std::string, float>>(std::make_tuple("<unknown>", -1.0)).At(cc->InputTimestamp()));
         }
-        //WriteFramesToFile(prediction);
+        WriteFramesToFile(localFrames, std::get<0>(outputWordProb));
         
         framesSinceLastPrediction = 0;
         return ::mediapipe::OkStatus();
     }
 
-    void SignLangPredictionCalculator::WriteFramesToFile(std::string prediction)
+    void SignLangPredictionCalculator::WriteFramesToFile(std::vector<std::vector<float>> frames, std::string prediction)
     {
         std::fstream csvFile;
 
@@ -213,9 +213,9 @@ namespace signlang
         {
             csvFile << csvHeader2D << std::endl;
         }
-        for (size_t i = 0; i < framesWindow.size(); i++)
+        for (size_t i = 0; i < frames.size(); i++)
         {
-            auto frame = framesWindow[i];
+            auto frame = frames[i];
             for (size_t j = 0; j < frame.size(); j++)
             {
                 csvFile << frame[j];
