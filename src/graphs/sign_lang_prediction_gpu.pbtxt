@@ -55,6 +55,7 @@ node {
           minFramesForInference: 30
           use3D: false
           probabilityThreshold: 0.75
+          tfLiteModelPath: "models/sign_lang_recognition_2D.tflite"
       }
    }
 }
