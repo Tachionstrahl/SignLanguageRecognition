@@ -59,8 +59,18 @@ class DataRepository():
         if self.__verbose:
             self.__summary()
         lower_words = [x.lower() for x in self.listfile]
+
+        y_train = [y.lower() for y in y_train]
+        y_val = [y.lower() for y in y_val]
+        y_test = [y.lower() for y in y_test]
+
+
         encoder = LabelBinarizer()
+
         test = encoder.fit_transform(lower_words)
+
+
+
         y_train = encoder.transform(y_train)
         y_val = encoder.transform(y_val)
         y_test = encoder.transform(y_test)

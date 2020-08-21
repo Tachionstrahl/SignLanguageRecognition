@@ -187,7 +187,7 @@ namespace signlang
             cc->Outputs().Index(0)
             .AddPacket(mediapipe::MakePacket<std::tuple<std::string, float>>(std::make_tuple("<unknown>", -1.0)).At(cc->InputTimestamp()));
         }
-        WriteFramesToFile(localFrames, std::get<0>(outputWordProb));
+       // WriteFramesToFile(localFrames, std::get<0>(outputWordProb));
         
         framesSinceLastPrediction = 0;
         return ::mediapipe::OkStatus();
