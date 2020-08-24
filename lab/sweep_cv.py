@@ -2,6 +2,7 @@
 
 import wandb
 import os
+os.environ['TF_CPP_MIN_LOG_LEVEL'] = "2"
 import multiprocessing
 import collections
 import random
@@ -29,10 +30,9 @@ from data_repository import DataRepository
 from sklearn.model_selection import KFold, StratifiedKFold
 
 
-
 Worker = collections.namedtuple("Worker", ("queue", "process"))
 WorkerInitData = collections.namedtuple(
-    "WorkerInitData", ("num", "sweep_id", "sweep_run_name", "config","train","test","x","y","num_classes")
+    "WorkerInitData", ("num", "sweep_id", "sweep_run_name", "sweep_name","config","train","test","x","y","num_classes","token_labels")
 )
 WorkerDoneData = collections.namedtuple("WorkerDoneData", ("val_accuracy"))
 
@@ -51,8 +51,6 @@ def reset_wandb_env():
 def training(sweep_q, worker_q):
     # GPU-initialization
     physical_devices = tf.config.list_physical_devices('GPU') 
-    print("Num GPUs:", len(physical_devices)) 
-
     gpu_config = ConfigProto()
     gpu_config.gpu_options.per_process_gpu_memory_fraction = 0.3
     gpu_config.gpu_options.allow_growth = True
@@ -68,12 +66,12 @@ def training(sweep_q, worker_q):
     x=worker_data.x
     y=worker_data.y
     run = wandb.init(
-        group=worker_data.sweep_id,
+        group=worker_data.sweep_name,
         job_type=worker_data.sweep_run_name,
         name=run_name,
         config=config,
     )
-  ##########################################################  
+
     run.config.update({'Size_Training_Set': len(train), 'Size_Test_Set': len(test)})
         
     # Model
@@ -100,18 +98,40 @@ def training(sweep_q, worker_q):
 
     run.config.optimizer_config = model.optimizer.get_config()
 
-    history=model.fit(x[train],y[train],epochs=10 ,batch_size=run.config.batch_size, validation_data=(x[test],y[test]),shuffle=False,verbose=2, callbacks=[WandbCallback()])
-    scores = model.evaluate(x[test], y[test], verbose=0)
-    #print("%s: %.2f%%" % (model.metrics_names[1], scores[1]*100))
-    #cvscores.append(scores[1] * 100)
-    #print("Scores: ", scores)
-    #print("%.2f%% (+/- %.2f%%)" % (np.mean(cvscores), np.std(cvscores)))  
+    history=model.fit(x[train],y[train],
+    epochs=run.config.epochs,
+    batch_size=run.config.batch_size,
+    validation_data=(x[test],y[test]),
+    shuffle=False,verbose=2, 
+    callbacks=[WandbCallback()])
 
+    #Test accuracy
+    model_best_path = os.path.join(wandb.run.dir, "model-best.h5")
+    best_model= tf.keras.models.load_model(filepath=model_best_path)
+    y_eval = best_model.evaluate(x[test],y[test], verbose=0)
+    wandb.config.update({'test_loss': y_eval[0],'test_accuracy': y_eval[1], 'test_precision': y_eval[2], 'test_recall': y_eval[3]})
 
-    ############################################################
-    run.log(dict(val_accuracy=scores[1]))
+    #Confusion Matrix
+    y_pred = best_model.predict(x[test])
+
+    y_pred_integer = np.argmax(y_pred, axis=1)
+    y_test_integer = np.argmax(y[test], axis=1)
+
+    y_pred_name = ([worker_data.token_labels[p] for p in y_pred_integer])
+    y_test_name = ([worker_data.token_labels[p] for p in y_test_integer])
+
+    wandb.sklearn.plot_confusion_matrix(y_test_name, y_pred_name)
+
+    #Convert to TFLite
+    tflite_converter = tf.lite.TFLiteConverter.from_keras_model(best_model)
+    tflite_converter.experimental_new_converter = True
+    tflite_model = tflite_converter.convert()
+    open(os.path.join(wandb.run.dir, "model-best.tflite"), "wb").write(tflite_model)
+        
+    #Finish Run
+    run.log(dict(val_accuracy=y_eval[1]))
     wandb.join()
-    sweep_q.put(WorkerDoneData(val_accuracy=scores[1]))
+    sweep_q.put(WorkerDoneData(val_accuracy=y_eval[1]))
 
 
 def main():
@@ -120,8 +140,7 @@ def main():
     # Spin up workers before calling wandb.init()
     # Workers will be blocked on a queue waiting to start
     sweep_q = multiprocessing.Queue()
-    workers = []
-    print("WORKERS!!!")
+    workers = []  
     for num in range(num_folds):
         q = multiprocessing.Queue()
         p = multiprocessing.Process(
@@ -129,28 +148,26 @@ def main():
         )
         p.start()
         workers.append(Worker(queue=q, process=p))
-
-    print("INIT WANDB!!!!!")
+    
     sweep_run = wandb.init()
     sweep_id = sweep_run.sweep_id or "unknown"
+    sweep_name = sweep_run.config.sweep_name
     sweep_url = sweep_run.get_sweep_url()
     project_url = sweep_run.get_project_url()
-    sweep_group_url = "{}/groups/{}".format(project_url, sweep_id)
+    sweep_group_url = "{}/groups/{}".format(project_url, sweep_name)
     sweep_run.notes = sweep_group_url
     sweep_run.save()
     sweep_run_name = sweep_run.name or sweep_run.id or "unknown"
-
-    print("FINISH INIT!!!!!")
+    
+   
     warnings.simplefilter(action='ignore', category=FutureWarning)
     np.set_printoptions(threshold=sys.maxsize)    
     
     skfold = StratifiedKFold(n_splits=5, shuffle=True, random_state=7)
     # Load data and print summary, if desired
     dirname = sweep_run.config.path
-    print("Ordnername: ", dirname)
     repo = DataRepository(dirname)
     x, y = repo.getDataAndLabels()
-    print("Länge X: ", len(x), " Länge Y: ", len(y))
     
     #load tokens
     tokens = os.listdir(dirname)
@@ -161,7 +178,6 @@ def main():
     y_name = ([token_labels[p] for p in y_integer])
      
     num_classes = repo.numClasses
-    print("Anzahl Wörter : ", num_classes)
     metrics = []
     num=0
     for train, test in skfold.split(x, y_name):
@@ -172,12 +188,14 @@ def main():
                 sweep_id=sweep_id,
                 num=num,
                 sweep_run_name=sweep_run_name,
+                sweep_name=sweep_name,
                 config=dict(sweep_run.config),
                 train=train,
                 test=test,
                 x=x,
                 y=y,
-                num_classes=num_classes
+                num_classes=num_classes,
+                token_labels=token_labels
             )
         )
         # get metric from worker
