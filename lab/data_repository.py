@@ -50,6 +50,10 @@ class DataRepository():
         features = [n[1] for n in self.dataPerWord]
         x = [f.to_numpy() for f in features]
         lower_words = [x.lower() for x in self.listfile]
+
+        y = [xy.lower() for xy in y]
+
+
         encoder = LabelBinarizer()
         encoder.fit(lower_words)
         y = encoder.transform(self.labels)
