@@ -49,8 +49,10 @@ class DataRepository():
     def getDataAndLabels(self):
         features = [n[1] for n in self.dataPerWord]
         x = [f.to_numpy() for f in features]
+        lower_words = [x.lower() for x in self.listfile]
         encoder = LabelBinarizer()
-        y = encoder.fit_transform(self.labels)
+        encoder.fit(lower_words)
+        y = encoder.transform(self.labels)
         return np.array(x), np.array(y)
     
     def getForTraining(self):
@@ -64,12 +66,8 @@ class DataRepository():
         y_val = [y.lower() for y in y_val]
         y_test = [y.lower() for y in y_test]
 
-
         encoder = LabelBinarizer()
-
         test = encoder.fit_transform(lower_words)
-
-
 
         y_train = encoder.transform(y_train)
         y_val = encoder.transform(y_val)

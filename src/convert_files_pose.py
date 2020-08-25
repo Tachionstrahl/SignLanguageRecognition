@@ -8,7 +8,7 @@ from datetime import datetime
 def start():
     startTime = datetime.now()
     pool = mp.Pool(mp.cpu_count())
-    os.system("cd src/ && bazel build -c opt --copt -DMESA_EGL_NO_X11_HEADERS app:pose_to_csv_gpu")
+    os.system("bazel build -c opt --copt -DMESA_EGL_NO_X11_HEADERS app:pose_to_csv_gpu")
     input_dir = "/home/signlang/Videos/input/"
 
     filenames = []
@@ -22,7 +22,7 @@ def start():
             
 
 def doConversion(filename):
-    result = os.system("cd src/ && GLOG_logtostderr=0 bazel-bin/app/pose_to_csv_gpu \
+    result = os.system("GLOG_logtostderr=0 bazel-bin/app/pose_to_csv_gpu \
     --calculator_graph_config_file=graphs/pose_to_csv_gpu.pbtxt \
     --input_video_path="+ filename + " \
     --output_video_path=/home/signlang/Videos/output_pose/")
