@@ -106,7 +106,7 @@ def training(sweep_q, worker_q):
     callbacks=[WandbCallback()])
 
     #Test accuracy
-    model_best_path = os.path.join(wandb.run.dir, "model-best.h5")
+    model_best_path = os.path.join(run.dir, "model-best.h5")
     best_model= tf.keras.models.load_model(filepath=model_best_path)
     y_eval = best_model.evaluate(x[test],y[test], verbose=0)
     wandb.config.update({'test_loss': y_eval[0],'test_accuracy': y_eval[1], 'test_precision': y_eval[2], 'test_recall': y_eval[3]})

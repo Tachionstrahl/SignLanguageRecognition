@@ -56,3 +56,5 @@ lab/models/*
 src/.vscode/
 
 wandb/debug.log
+
+lab/analyze_Kfold.ipynb
