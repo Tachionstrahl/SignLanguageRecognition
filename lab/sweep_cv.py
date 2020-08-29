@@ -82,8 +82,7 @@ def training(sweep_q, worker_q):
     model.summary()
 
     model.fit(x[train],y[train],
-    #epochs=run.config.epochs,
-    epochs=30,
+    epochs=run.config.epochs,
     batch_size=run.config.batch_size,
     validation_data=(x[test],y[test]),
     shuffle=False,verbose=2, 
