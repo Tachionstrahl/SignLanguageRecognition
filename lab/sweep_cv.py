@@ -138,14 +138,16 @@ def main():
     sweep_run.notes = sweep_group_url
     sweep_run.save()
     sweep_run_name = sweep_run.name or sweep_run.id or "unknown"
-    
+    artifact =  sweep_run.use_artifact(sweep_run.config.artifact, type='dataset')
+    artifact_dir = artifact.download()
+    dirname= artifact_dir + '\\'
+    dirname= dirname.replace('\\','/') 
    
     warnings.simplefilter(action='ignore', category=FutureWarning)
     np.set_printoptions(threshold=sys.maxsize)    
     
     skfold = StratifiedKFold(n_splits=5, shuffle=True, random_state=7)
     # Load data and print summary, if desired
-    dirname = sweep_run.config.path
     repo = DataRepository(dirname)
     x, y = repo.getDataAndLabels()
     
