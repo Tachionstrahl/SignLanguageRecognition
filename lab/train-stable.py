@@ -142,7 +142,7 @@ def main():
     artifact_dir = artifact.download()
     dirname= artifact_dir + '\\'
     dirname= dirname.replace('\\','/') 
-   
+    
     warnings.simplefilter(action='ignore', category=FutureWarning)
     np.set_printoptions(threshold=sys.maxsize)    
     

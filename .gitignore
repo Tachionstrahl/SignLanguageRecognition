@@ -54,5 +54,5 @@ lab/wandb/debug.log
 lab/models/*
 
 src/.vscode/
-
-wandb/debug.log
+lab/analyze_Kfold.ipynb
+lab/artifacts/
