@@ -58,7 +58,7 @@ def training(sweep_q, worker_q):
         name=run_name,
         config=config,
     )
-        
+    wandb.config.update({'hostname':os.uname()[1]})     
     # Model
     dropout = run.config.dropout
     nodesizes = [run.config.node_size2, run.config.node_size3, run.config.node_size4]
@@ -187,7 +187,7 @@ def main():
         # log metric to sweep_run
         metrics.append(result.val_accuracy)
         num=num+1
-
+    wandb.config.update({'hostname':os.uname()[1]}) 
     sweep_run.log(dict(val_accuracy=sum(metrics) / len(metrics)))
     wandb.join()
 
