@@ -64,14 +64,14 @@ def training(sweep_q, worker_q):
     nodesizes = [run.config.node_size2, run.config.node_size3, run.config.node_size4]
 
     model = Sequential()
-    model.add(LSTM(run.config.node_size1, return_sequences=True), input_shape=(x.shape[1], x.shape[2]))
+    model.add(Bidirectional(LSTM(run.config.node_size1, return_sequences=True), input_shape=(x.shape[1], x.shape[2])))
     model.add(Dropout(rate=dropout))  
 
     for i in range(0,run.config.num_layers):    #number of layers ramdom between 1 an 3
-        model.add(LSTM(nodesizes[i],return_sequences=True))
+        model.add(Bidirectional(LSTM(nodesizes[i],return_sequences=True)))
         model.add(Dropout(rate=dropout))  
 
-    model.add(LSTM(run.config.node_size5))
+    model.add(Bidirectional(LSTM(run.config.node_size5)))
     model.add(Dropout(rate=dropout))
 
     model.add(Dense(num_classes, activation='softmax'))
