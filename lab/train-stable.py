@@ -64,7 +64,7 @@ def training(sweep_q, worker_q):
     nodesizes = [run.config.node_size2, run.config.node_size3, run.config.node_size4]
 
     model = Sequential()
-    model.add(LSTM(run.config.node_size1, return_sequences=True), input_shape=(x.shape[1], x.shape[2]))
+    model.add(LSTM(run.config.node_size1, return_sequences=True, input_shape=(x.shape[1], x.shape[2])))
     model.add(Dropout(rate=dropout))  
 
     for i in range(0,run.config.num_layers):    #number of layers ramdom between 1 an 3
@@ -187,6 +187,7 @@ def main():
         # log metric to sweep_run
         metrics.append(result.val_accuracy)
         num=num+1
+        
     wandb.config.update({'hostname':os.uname()[1]}) 
     sweep_run.log(dict(val_accuracy=sum(metrics) / len(metrics)))
     wandb.join()
