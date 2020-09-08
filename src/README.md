@@ -71,7 +71,7 @@ Run the application
 
 `GLOG_logtostderr=1 bazel-bin/app/prediction_cpu --calculator_graph_config_file=graphs/sign_lang_prediction_cpu.pbtxt`
 
-## Sign Language Prediction ('GPU')
+## Pose Tracking Sign Language Prediction ('GPU')
 
 Build the source files 
 

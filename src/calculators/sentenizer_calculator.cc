@@ -69,7 +69,7 @@ namespace signlang
             lastNWords.erase(lastNWords.begin());
         }
         outputFile << word << ";" << score << std::endl;
-        auto lastWord = std::get<0>(lastNWords[lastNWords.size() - 1]) + std::to_string(std::get<1>(lastNWords[lastNWords.size() - 1]));
+        auto lastWord = std::get<0>(lastNWords[lastNWords.size() - 1]) + ": " + std::to_string(std::get<1>(lastNWords[lastNWords.size() - 1]));
         cc->Outputs().Index(0).AddPacket(MakePacket<std::string>(lastWord).At(cc->InputTimestamp()));
         return OkStatus();
     }
