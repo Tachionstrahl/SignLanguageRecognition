@@ -265,7 +265,6 @@ namespace signlang
         if (!fluentPrediction)
         {
             framesWindow.clear();
-            LOG(INFO) << "Frameswindow size: " << framesWindow.size();
         }
     }
 
