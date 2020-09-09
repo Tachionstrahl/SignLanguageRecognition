@@ -17,6 +17,9 @@
 #include <fstream>
 #include <math.h>
 #include <chrono>
+#include <future>
+#include <chrono>
+#include <thread>
 
 using namespace mediapipe;
 
@@ -56,6 +59,7 @@ namespace signlang
         void SetOutput(const std::string *str, ::mediapipe::CalculatorContext *cc);
         void DoAfterInference();
         void WriteFramesToFile(std::vector<std::vector<float>> frames, std::string prediction);
+        bool DoInference();
         std::vector<std::vector<float>> framesWindow = {};
         std::unique_ptr<tflite::FlatBufferModel> model;
         std::unique_ptr<tflite::Interpreter> interpreter;
@@ -73,6 +77,7 @@ namespace signlang
         float probabilitityThreshold = 0.5;
         bool fluentPrediction = false;
         std::string tfLiteModelPath;
+        std::unique_ptr<std::future<bool>> inferenceFuture;
     };
 
     ::mediapipe::Status SignLangPredictionCalculator::GetContract(CalculatorContract *cc)
@@ -131,15 +136,51 @@ namespace signlang
     ::mediapipe::Status SignLangPredictionCalculator::Process(CalculatorContext *cc)
     {
         RET_CHECK_OK(UpdateFrames(cc)) << "Updating frames failed.";
+        if (inferenceFuture != nullptr && inferenceFuture->wait_for(std::chrono::milliseconds(10)) == std::future_status::ready)
+        {
+            inferenceFuture = nullptr;
+            int output_idx = interpreter->outputs()[0];
+            float *output = interpreter->typed_tensor<float>(output_idx);
+            int highest_pred_idx = -1;
+            float highest_pred = 0.0F;
+            for (size_t i = 0; i < labelMap.size(); i++)
+            {
+                if (verboseLog)
+                {
+                    LOG(INFO) << labelMap[i] << ": " << *output;
+                }
+                if (*output > highest_pred)
+                {
+                    highest_pred = *output;
+                    highest_pred_idx = i;
+                }
+                *output++;
+            }
+            if (highest_pred > probabilitityThreshold)
+            {
+                std::string prediction = labelMap[highest_pred_idx];
+                outputWordProb = std::make_tuple(prediction, highest_pred);
+                cc->Outputs().Index(0).AddPacket(mediapipe::MakePacket<std::tuple<std::string, float>>(outputWordProb)
+                                                     .At(cc->InputTimestamp()));
+            }
+            else
+            {
+                cc->Outputs().Index(0).AddPacket(mediapipe::MakePacket<std::tuple<std::string, float>>(std::make_tuple("<unknown>", -1.0)).At(cc->InputTimestamp()));
+            }
+            return mediapipe::OkStatus();
+        }
         if (!ShouldPredict())
         {
-            if (fluentPrediction) {
-            cc->Outputs().Index(0).AddPacket(mediapipe::MakePacket<std::tuple<std::string, float>>().At(cc->InputTimestamp()));
-            } else {
+            if (fluentPrediction)
+            {
+                cc->Outputs().Index(0).AddPacket(mediapipe::MakePacket<std::tuple<std::string, float>>().At(cc->InputTimestamp()));
+            }
+            else
+            {
                 cc->Outputs()
-                .Index(0)
-                .AddPacket(mediapipe::MakePacket<std::tuple<std::string, float>>(std::make_tuple("Buffer", float(framesWindow.size())))
-                .At(cc->InputTimestamp()));
+                    .Index(0)
+                    .AddPacket(mediapipe::MakePacket<std::tuple<std::string, float>>(std::make_tuple("Buffer", float(framesWindow.size())))
+                                   .At(cc->InputTimestamp()));
             }
 
             return ::mediapipe::OkStatus();
@@ -162,45 +203,26 @@ namespace signlang
                 localFrames.push_back(frame);
             }
         }
-        auto start = std::chrono::high_resolution_clock::now();
-        RET_CHECK_OK(FillInputTensor(localFrames));
-
-        interpreter->Invoke();
-
-        int output_idx = interpreter->outputs()[0];
-        float *output = interpreter->typed_tensor<float>(output_idx);
-        int highest_pred_idx = -1;
-        float highest_pred = 0.0F;
-        for (size_t i = 0; i < labelMap.size(); i++)
+        if (inferenceFuture == nullptr)
         {
-            if (verboseLog)
-            {
-                LOG(INFO) << labelMap[i] << ": " << *output;
-            }
-            if (*output > highest_pred)
-            {
-                highest_pred = *output;
-                highest_pred_idx = i;
-            }
-            *output++;
+            RET_CHECK_OK(FillInputTensor(localFrames));
+            inferenceFuture = std::make_unique<std::future<bool>>(std::async(std::launch::async, [this]() { return DoInference(); }));
+            DoAfterInference();
+             cc->Outputs().Index(0).AddPacket(mediapipe::MakePacket<std::tuple<std::string, float>>(std::make_tuple("Inference", -1.0)).At(cc->InputTimestamp()));
         }
+        // WriteFramesToFile(localFrames, std::get<0>(outputWordProb));
+        
+        return ::mediapipe::OkStatus();
+    }
+
+    bool SignLangPredictionCalculator::DoInference()
+    {
+        auto start = std::chrono::high_resolution_clock::now();
+        interpreter->Invoke();
         auto finish = std::chrono::high_resolution_clock::now();
         std::chrono::duration<double> elapsed = finish - start;
         LOG(INFO) << "Inference time: " << elapsed.count();
-        if (highest_pred > probabilitityThreshold)
-        {
-            std::string prediction = labelMap[highest_pred_idx];
-            outputWordProb = std::make_tuple(prediction, highest_pred);
-            cc->Outputs().Index(0).AddPacket(mediapipe::MakePacket<std::tuple<std::string, float>>(outputWordProb)
-                                                 .At(cc->InputTimestamp()));
-        }
-        else
-        {
-            cc->Outputs().Index(0).AddPacket(mediapipe::MakePacket<std::tuple<std::string, float>>(std::make_tuple("<unknown>", -1.0)).At(cc->InputTimestamp()));
-        }
-        // WriteFramesToFile(localFrames, std::get<0>(outputWordProb));
-        DoAfterInference();
-        return ::mediapipe::OkStatus();
+        return true;
     }
 
     void SignLangPredictionCalculator::WriteFramesToFile(std::vector<std::vector<float>> frames, std::string prediction)
