@@ -54,7 +54,7 @@ namespace signlang
         bool ShouldPredict();
         ::mediapipe::Status FillInputTensor(std::vector<std::vector<float>> localFrames);
         void SetOutput(const std::string *str, ::mediapipe::CalculatorContext *cc);
-        void DeleteFramesBuffer();
+        void DoAfterInference();
         void WriteFramesToFile(std::vector<std::vector<float>> frames, std::string prediction);
         std::vector<std::vector<float>> framesWindow = {};
         std::unique_ptr<tflite::FlatBufferModel> model;
@@ -71,6 +71,7 @@ namespace signlang
         bool use3D = false;
         bool usePoseLandmarks = false;
         float probabilitityThreshold = 0.5;
+        bool fluentPrediction = false;
         std::string tfLiteModelPath;
     };
 
@@ -132,17 +133,27 @@ namespace signlang
         RET_CHECK_OK(UpdateFrames(cc)) << "Updating frames failed.";
         if (!ShouldPredict())
         {
-            cc->Outputs().Index(0)
-            .AddPacket(mediapipe::MakePacket<std::tuple<std::string, float>>().At(cc->InputTimestamp()));
+            if (fluentPrediction) {
+            cc->Outputs().Index(0).AddPacket(mediapipe::MakePacket<std::tuple<std::string, float>>().At(cc->InputTimestamp()));
+            } else {
+                cc->Outputs()
+                .Index(0)
+                .AddPacket(mediapipe::MakePacket<std::tuple<std::string, float>>(std::make_tuple("Buffer", float(framesWindow.size())))
+                .At(cc->InputTimestamp()));
+            }
+
             return ::mediapipe::OkStatus();
         }
         // Fill frames up to maximum
         std::vector<std::vector<float>> localFrames = {};
         while (localFrames.size() < 100)
         {
-            if (framesWindow.size() > localFrames.size()) {
+            if (framesWindow.size() > localFrames.size())
+            {
                 localFrames.push_back(framesWindow[localFrames.size()]);
-            } else {
+            }
+            else
+            {
                 std::vector<float> frame = {};
                 for (size_t i = 0; i < 86; i++)
                 {
@@ -180,16 +191,15 @@ namespace signlang
         {
             std::string prediction = labelMap[highest_pred_idx];
             outputWordProb = std::make_tuple(prediction, highest_pred);
-            cc->Outputs().Index(0)
-            .AddPacket(mediapipe::MakePacket<std::tuple<std::string, float>>(outputWordProb)
-                           .At(cc->InputTimestamp()));
-        } else {
-            cc->Outputs().Index(0)
-            .AddPacket(mediapipe::MakePacket<std::tuple<std::string, float>>(std::make_tuple("<unknown>", -1.0)).At(cc->InputTimestamp()));
+            cc->Outputs().Index(0).AddPacket(mediapipe::MakePacket<std::tuple<std::string, float>>(outputWordProb)
+                                                 .At(cc->InputTimestamp()));
         }
-       // WriteFramesToFile(localFrames, std::get<0>(outputWordProb));
-        
-        framesSinceLastPrediction = 0;
+        else
+        {
+            cc->Outputs().Index(0).AddPacket(mediapipe::MakePacket<std::tuple<std::string, float>>(std::make_tuple("<unknown>", -1.0)).At(cc->InputTimestamp()));
+        }
+        // WriteFramesToFile(localFrames, std::get<0>(outputWordProb));
+        DoAfterInference();
         return ::mediapipe::OkStatus();
     }
 
@@ -241,15 +251,21 @@ namespace signlang
         use3D = options.use3d();
         probabilitityThreshold = options.probabilitythreshold();
         tfLiteModelPath = options.tflitemodelpath();
+        fluentPrediction = options.fluentprediction();
         return ::mediapipe::OkStatus();
     }
 
-    void SignLangPredictionCalculator::DeleteFramesBuffer()
+    void SignLangPredictionCalculator::DoAfterInference()
     {
         framesSinceLastPrediction = 0;
-        if (!usePoseLandmarks) {
+        if (!usePoseLandmarks)
+        {
             emptyFrames = 0;
-            //framesWindow.clear();
+        }
+        if (!fluentPrediction)
+        {
+            framesWindow.clear();
+            LOG(INFO) << "Frameswindow size: " << framesWindow.size();
         }
     }
 
@@ -265,7 +281,8 @@ namespace signlang
     {
         int input = interpreter->inputs()[0];
         TfLiteIntArray *dims = interpreter->tensor(input)->dims;
-        if (verboseLog) {
+        if (verboseLog)
+        {
             LOG(INFO) << "Shape: {" << dims->data[0] << ", " << dims->data[1] << "}";
         }
         float *input_data_ptr = interpreter->typed_input_tensor<float>(0);
@@ -288,7 +305,8 @@ namespace signlang
 
         if (usePoseLandmarks)
         {
-            if (cc->Inputs().Tag(kPoseLandmarksTag).IsEmpty()) {
+            if (cc->Inputs().Tag(kPoseLandmarksTag).IsEmpty())
+            {
                 return ::mediapipe::OkStatus();
             }
             AddPoseLandmarks(coordinates, cc);
@@ -305,7 +323,10 @@ namespace signlang
 
             if (coordinates.size() < 44)
             { // No hands detected
-                emptyFrames++;
+                if (framesWindow.size() > minFramesForInference)
+                {
+                    emptyFrames++;
+                }
                 return ::mediapipe::OkStatus();
             }
         }
@@ -339,10 +360,14 @@ namespace signlang
         {
             return false;
         }
-        if (usePoseLandmarks) {
+        if (usePoseLandmarks)
+        {
             return true;
         }
-        return true;
+        if (fluentPrediction)
+        {
+            return true;
+        }
         // Long enough without hands to predict.
         if (emptyFrames >= thresholdFramesCount)
         {
