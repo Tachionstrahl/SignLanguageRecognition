@@ -10,8 +10,7 @@ This means, the x, y and z which MediaPipe's Hand Tracking and Face Tracking out
 x and y coordinates of landmarks.
 
 ### ./2D_reduced
-Normally, MediaPipe outputs 21 landmarks each hand.
-Here, only 12 landmarks per hand were outputted.
+We reduced number of landmarks from 21 to 12.
 
 ### ./2D_unknown
 Contains CSV files from unseen examples. Only one video per class/word. Extracted from the SignDict.org videos.
