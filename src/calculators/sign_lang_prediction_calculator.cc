@@ -65,6 +65,8 @@ namespace signlang
         std::unique_ptr<tflite::Interpreter> interpreter;
         std::tuple<std::string, float> outputWordProb = std::make_tuple("Waiting...", 1.0);
         std::vector<std::string> labelMap = {};
+        std::vector<float> GetCoordinatesRelative(std::vector<float> coordinatesB);
+        std::vector<float> coordinatesA = {};
         int framesSinceLastPrediction = 0;
         int emptyFrames = 0;
         // Options
@@ -76,6 +78,7 @@ namespace signlang
         bool usePoseLandmarks = false;
         float probabilitityThreshold = 0.5;
         bool fluentPrediction = false;
+        bool useRelative = false;
         std::string tfLiteModelPath;
         std::unique_ptr<std::future<bool>> inferenceFuture;
     };
@@ -274,6 +277,7 @@ namespace signlang
         probabilitityThreshold = options.probabilitythreshold();
         tfLiteModelPath = options.tflitemodelpath();
         fluentPrediction = options.fluentprediction();
+        useRelative = options.userelative();
         return ::mediapipe::OkStatus();
     }
 
@@ -361,6 +365,9 @@ namespace signlang
         {
             LOG(ERROR) << "Coordinates size not equal " << maxSize << ". Actual size: " << coordinates.size();
             return ::mediapipe::OkStatus();
+        }
+        if (useRelative) {
+            coordinates = GetCoordinatesRelative(coordinates);
         }
 
         while (framesWindow.size() >= framesWindowSize)
@@ -455,6 +462,33 @@ namespace signlang
             coordinates.push_back(landmark.z());
         }
     }
+
+    std::vector<float> SignLangPredictionCalculator::GetCoordinatesRelative(std::vector<float> coordinatesB) {
+    if (coordinatesA.size() <= 0) {
+        coordinatesA = coordinatesB;
+        return {};
+    }
+    std::vector<float> relativeCoordinates = {};
+    for (size_t i = 0; i < coordinatesB.size(); i++)
+    {
+        if (coordinatesA.size() >= i+1) {
+            float delta = coordinatesB[i] - coordinatesA[i];
+            int change;
+            if (delta > 0.001) {
+                change = 1;
+            } else if (delta < -0.001)
+            {
+                change = -1;
+            } else {
+                change = 0;
+            }
+            
+            relativeCoordinates.push_back(change);
+        }
+    }
+    coordinatesA = coordinatesB;
+    return relativeCoordinates;
+}
 
     REGISTER_CALCULATOR(SignLangPredictionCalculator);
 
