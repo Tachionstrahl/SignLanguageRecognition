@@ -12,6 +12,7 @@ Therefore we use [MediaPipe](https://github.com/google/mediapipe), a framework f
 2. [Supported Words](#supported-words)
 3. [Requirements](#requirements)
 4. [Installation](#installation)
+5. [Build & Run Demo](#demo-build-and-run)
 5. [Workflow](#workflow)
 
 ## Demo Video
@@ -71,7 +72,7 @@ Make sure, you can build and run MediaPipe GPU examples, see <https://google.git
 1. To work with the `jupyter notebooks`, we recommend to install [Anaconda](https://www.anaconda.com/).
 2. Install `TensorFlow 2.2.0` with `conda`, see <https://anaconda.org/anaconda/tensorflow-gpu>
 
-## Build & Run the Demo
+## Demo: Build and Run
 1. Open a terminal within the repository and navigate to the src folder: `cd src/`
 2. Build the demo with `./build_prediction.sh`
 3. Run the demo with `./run_prediction.sh`
