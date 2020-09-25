@@ -54,6 +54,7 @@ node {
           thresholdFramesCount: 5
           minFramesForInference: 20
           use3D: false
+          useRelative: false
           probabilityThreshold: 0.5
           fluentPrediction: false
           tfLiteModelPath: "models/sign_lang_recognition_2D.tflite"

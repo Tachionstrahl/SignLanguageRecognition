@@ -48,4 +48,6 @@ message SignLangPredictionCalculatorOptions {
   optional string tfLiteModelPath = 7 [default = "models/sign_lang_recognition_2D.tflite"];
 
   optional bool fluentPrediction = 8 [default = false];
+
+  optional bool useRelative = 9 [default = false];
 }
