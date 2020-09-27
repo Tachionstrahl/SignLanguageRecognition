@@ -10,10 +10,11 @@ Therefore we use [MediaPipe](https://github.com/google/mediapipe), a framework f
 ## Table of contents
 1. [Demo Video](#demo-video)
 2. [Supported Words](#supported-words)
-3. [Requirements](#requirements)
-4. [Installation](#installation)
-5. [Build & Run Demo](#demo-build-and-run)
-5. [Workflow](#workflow)
+3. [Help us](#help-us)
+4. [Requirements](#requirements)
+5. [Installation](#installation)
+6. [Build & Run Demo](#demo-build-and-run)
+7. [Workflow](#workflow)
 
 ## Demo Video
 
@@ -39,7 +40,7 @@ The following table lists all supported words with a link to [SignDict](https://
 [heute](https://signdict.org/entry/1945-heute) | today
 [Hose](https://signdict.org/entry/1979-hose) | Pants
 [Hunger](https://signdict.org/entry/325-hunger) | Hunger
-[ich](https://signdict.org/entry/1993) | I
+[ich](https://signdict.org/entry/1993) | Me
 [Land](https://signdict.org/entry/2300) | Country
 [lernen](https://signdict.org/entry/2332-lernen) | (to) learn
 [lieben](https://signdict.org/entry/2347) | (to) love
@@ -55,6 +56,12 @@ The following table lists all supported words with a link to [SignDict](https://
 [Welt](https://signdict.org/entry/3672) | World
 [Wetter](https://signdict.org/entry/797) | Weather
 [zeigen](https://signdict.org/entry/3776) | (to) show
+
+## Help us
+If you want to help us, please check out our website for training videos, [Gebaerdenfutter.de](https://gebaerdenfutter.de).
+We'd love to see your video contributions, so recognizing more words would be possible!
+Sadly, the website is only available in german language.
+After registration, we have to activate your account. You'll get an email.
 
 ## Requirements 
 
