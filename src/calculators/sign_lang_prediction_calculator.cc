@@ -155,7 +155,7 @@ namespace signlang
             else
             {
                 std::vector<float> frame = {};
-                for (size_t i = 0; i < 86; i++)
+                for (size_t i = 0; i < use3D ? 128 : 86; i++)
                 {
                     frame.push_back(defaultPoint);
                 }
