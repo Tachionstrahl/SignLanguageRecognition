@@ -17,6 +17,9 @@
 #include <fstream>
 #include <math.h>
 #include <chrono>
+#include <future>
+#include <chrono>
+#include <thread>
 
 using namespace mediapipe;
 
@@ -56,11 +59,14 @@ namespace signlang
         void SetOutput(const std::string *str, ::mediapipe::CalculatorContext *cc);
         void DoAfterInference();
         void WriteFramesToFile(std::vector<std::vector<float>> frames, std::string prediction);
+        bool DoInference();
         std::vector<std::vector<float>> framesWindow = {};
         std::unique_ptr<tflite::FlatBufferModel> model;
         std::unique_ptr<tflite::Interpreter> interpreter;
         std::tuple<std::string, float> outputWordProb = std::make_tuple("Waiting...", 1.0);
         std::vector<std::string> labelMap = {};
+        std::vector<float> GetCoordinatesRelative(std::vector<float> coordinatesB);
+        std::vector<float> coordinatesA = {};
         int framesSinceLastPrediction = 0;
         int emptyFrames = 0;
         // Options
@@ -72,7 +78,9 @@ namespace signlang
         bool usePoseLandmarks = false;
         float probabilitityThreshold = 0.5;
         bool fluentPrediction = false;
+        bool useRelative = false;
         std::string tfLiteModelPath;
+        std::unique_ptr<std::future<bool>> inferenceFuture;
     };
 
     ::mediapipe::Status SignLangPredictionCalculator::GetContract(CalculatorContract *cc)
@@ -131,15 +139,51 @@ namespace signlang
     ::mediapipe::Status SignLangPredictionCalculator::Process(CalculatorContext *cc)
     {
         RET_CHECK_OK(UpdateFrames(cc)) << "Updating frames failed.";
+        if (inferenceFuture != nullptr && inferenceFuture->wait_for(std::chrono::milliseconds(10)) == std::future_status::ready)
+        {
+            inferenceFuture = nullptr;
+            int output_idx = interpreter->outputs()[0];
+            float *output = interpreter->typed_tensor<float>(output_idx);
+            int highest_pred_idx = -1;
+            float highest_pred = 0.0F;
+            for (size_t i = 0; i < labelMap.size(); i++)
+            {
+                if (verboseLog)
+                {
+                    LOG(INFO) << labelMap[i] << ": " << *output;
+                }
+                if (*output > highest_pred)
+                {
+                    highest_pred = *output;
+                    highest_pred_idx = i;
+                }
+                *output++;
+            }
+            if (highest_pred > probabilitityThreshold)
+            {
+                std::string prediction = labelMap[highest_pred_idx];
+                outputWordProb = std::make_tuple(prediction, highest_pred);
+                cc->Outputs().Index(0).AddPacket(mediapipe::MakePacket<std::tuple<std::string, float>>(outputWordProb)
+                                                     .At(cc->InputTimestamp()));
+            }
+            else
+            {
+                cc->Outputs().Index(0).AddPacket(mediapipe::MakePacket<std::tuple<std::string, float>>(std::make_tuple("<unknown>", -1.0)).At(cc->InputTimestamp()));
+            }
+            return mediapipe::OkStatus();
+        }
         if (!ShouldPredict())
         {
-            if (fluentPrediction) {
-            cc->Outputs().Index(0).AddPacket(mediapipe::MakePacket<std::tuple<std::string, float>>().At(cc->InputTimestamp()));
-            } else {
+            if (fluentPrediction)
+            {
+                cc->Outputs().Index(0).AddPacket(mediapipe::MakePacket<std::tuple<std::string, float>>().At(cc->InputTimestamp()));
+            }
+            else
+            {
                 cc->Outputs()
-                .Index(0)
-                .AddPacket(mediapipe::MakePacket<std::tuple<std::string, float>>(std::make_tuple("Buffer", float(framesWindow.size())))
-                .At(cc->InputTimestamp()));
+                    .Index(0)
+                    .AddPacket(mediapipe::MakePacket<std::tuple<std::string, float>>(std::make_tuple("Buffer", float(framesWindow.size())))
+                                   .At(cc->InputTimestamp()));
             }
 
             return ::mediapipe::OkStatus();
@@ -162,45 +206,26 @@ namespace signlang
                 localFrames.push_back(frame);
             }
         }
-        auto start = std::chrono::high_resolution_clock::now();
-        RET_CHECK_OK(FillInputTensor(localFrames));
-
-        interpreter->Invoke();
-
-        int output_idx = interpreter->outputs()[0];
-        float *output = interpreter->typed_tensor<float>(output_idx);
-        int highest_pred_idx = -1;
-        float highest_pred = 0.0F;
-        for (size_t i = 0; i < labelMap.size(); i++)
+        if (inferenceFuture == nullptr)
         {
-            if (verboseLog)
-            {
-                LOG(INFO) << labelMap[i] << ": " << *output;
-            }
-            if (*output > highest_pred)
-            {
-                highest_pred = *output;
-                highest_pred_idx = i;
-            }
-            *output++;
+            RET_CHECK_OK(FillInputTensor(localFrames));
+            inferenceFuture = std::make_unique<std::future<bool>>(std::async(std::launch::async, [this]() { return DoInference(); }));
+            DoAfterInference();
+             cc->Outputs().Index(0).AddPacket(mediapipe::MakePacket<std::tuple<std::string, float>>(std::make_tuple("Inference", -1.0)).At(cc->InputTimestamp()));
         }
+        // WriteFramesToFile(localFrames, std::get<0>(outputWordProb));
+        
+        return ::mediapipe::OkStatus();
+    }
+
+    bool SignLangPredictionCalculator::DoInference()
+    {
+        auto start = std::chrono::high_resolution_clock::now();
+        interpreter->Invoke();
         auto finish = std::chrono::high_resolution_clock::now();
         std::chrono::duration<double> elapsed = finish - start;
         LOG(INFO) << "Inference time: " << elapsed.count();
-        if (highest_pred > probabilitityThreshold)
-        {
-            std::string prediction = labelMap[highest_pred_idx];
-            outputWordProb = std::make_tuple(prediction, highest_pred);
-            cc->Outputs().Index(0).AddPacket(mediapipe::MakePacket<std::tuple<std::string, float>>(outputWordProb)
-                                                 .At(cc->InputTimestamp()));
-        }
-        else
-        {
-            cc->Outputs().Index(0).AddPacket(mediapipe::MakePacket<std::tuple<std::string, float>>(std::make_tuple("<unknown>", -1.0)).At(cc->InputTimestamp()));
-        }
-        // WriteFramesToFile(localFrames, std::get<0>(outputWordProb));
-        DoAfterInference();
-        return ::mediapipe::OkStatus();
+        return true;
     }
 
     void SignLangPredictionCalculator::WriteFramesToFile(std::vector<std::vector<float>> frames, std::string prediction)
@@ -252,6 +277,7 @@ namespace signlang
         probabilitityThreshold = options.probabilitythreshold();
         tfLiteModelPath = options.tflitemodelpath();
         fluentPrediction = options.fluentprediction();
+        useRelative = options.userelative();
         return ::mediapipe::OkStatus();
     }
 
@@ -265,7 +291,6 @@ namespace signlang
         if (!fluentPrediction)
         {
             framesWindow.clear();
-            LOG(INFO) << "Frameswindow size: " << framesWindow.size();
         }
     }
 
@@ -340,6 +365,9 @@ namespace signlang
         {
             LOG(ERROR) << "Coordinates size not equal " << maxSize << ". Actual size: " << coordinates.size();
             return ::mediapipe::OkStatus();
+        }
+        if (useRelative) {
+            coordinates = GetCoordinatesRelative(coordinates);
         }
 
         while (framesWindow.size() >= framesWindowSize)
@@ -434,6 +462,33 @@ namespace signlang
             coordinates.push_back(landmark.z());
         }
     }
+
+    std::vector<float> SignLangPredictionCalculator::GetCoordinatesRelative(std::vector<float> coordinatesB) {
+    if (coordinatesA.size() <= 0) {
+        coordinatesA = coordinatesB;
+        return {};
+    }
+    std::vector<float> relativeCoordinates = {};
+    for (size_t i = 0; i < coordinatesB.size(); i++)
+    {
+        if (coordinatesA.size() >= i+1) {
+            float delta = coordinatesB[i] - coordinatesA[i];
+            int change;
+            if (delta > 0.001) {
+                change = 1;
+            } else if (delta < -0.001)
+            {
+                change = -1;
+            } else {
+                change = 0;
+            }
+            
+            relativeCoordinates.push_back(change);
+        }
+    }
+    coordinatesA = coordinatesB;
+    return relativeCoordinates;
+}
 
     REGISTER_CALCULATOR(SignLangPredictionCalculator);
 
