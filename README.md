@@ -5,8 +5,6 @@ Our claim is an experimental attempt at live subtitling of gestures.
 For this we train a deep learning model (RNN) for predicting the actual signs made by a person filmed.
 Therefore we use [MediaPipe](https://github.com/google/mediapipe), a framework for building ML pipelines, to extract face and hand positions, including multiple coordinates for each finger.
 
-**Caution: We do many changes at the moment. The documentation is not up-to-date! Please consider this, when running the code.**
-
 ## Table of contents
 1. [Demo Video](#demo-video)
 2. [Supported Words](#supported-words)
