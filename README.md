@@ -1,5 +1,9 @@
 # SignLanguageRecognition
 
+**We are not developing this project further at the moment.**
+
+## Current
+
 This repository contains a variety of tools to build up a experimental ecosystem for recognizing signs of the german sign language (DGS).
 Our claim is an experimental attempt at live subtitling of gestures.
 For this we train a deep learning model (RNN) for predicting the actual signs made by a person filmed.
@@ -54,12 +58,6 @@ The following table lists all supported words with a link to [SignDict](https://
 [Welt](https://signdict.org/entry/3672) | World
 [Wetter](https://signdict.org/entry/797) | Weather
 [zeigen](https://signdict.org/entry/3776) | (to) show
-
-## Help us
-If you want to help us, please check out our website for training videos, [Gebaerdenfutter.de](https://gebaerdenfutter.de).
-We'd love to see your video contributions, so recognizing more words would be possible!
-Sadly, the website is only available in german language.
-After registration, we have to activate your account. You'll get an email.
 
 ## Requirements 
 
