@@ -12,11 +12,10 @@ Therefore we use [MediaPipe](https://github.com/google/mediapipe), a framework f
 ## Table of contents
 1. [Demo Video](#demo-video)
 2. [Supported Words](#supported-words)
-3. [Help us](#help-us)
-4. [Requirements](#requirements)
-5. [Installation](#installation)
-6. [Build & Run Demo](#demo-build-and-run)
-7. [Workflow](#workflow)
+3. [Requirements](#requirements)
+4. [Installation](#installation)
+5. [Build & Run Demo](#demo-build-and-run)
+6. [Workflow](#workflow)
 
 ## Demo Video
 
