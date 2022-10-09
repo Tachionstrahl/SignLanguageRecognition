@@ -1,6 +1,6 @@
 # SignLanguageRecognition
 
-**We are not developing this project further at the moment.**
+**No further work will be done on this project.**
 
 This repository contains a variety of tools to build up a experimental ecosystem for recognizing signs of the german sign language (DGS).
 Our claim is an experimental attempt at live subtitling of gestures.
